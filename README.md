@@ -35,3 +35,13 @@ Sans ces deux valeurs, la réservation fonctionne quand même, mais aucun email 
   Si plusieurs soirées du même type ont lieu le même jour, on lui demande son nom pour identifier la sienne. Aucune donnée personnelle n'est affichée.
 - **Monteur** : 3 clics rapides sur les **photos** de la page d'accueil (le cercle) → `/monteur` → mot de passe `MONTEUR_KEY` (à définir dans `backend/.env`, par ex. `MONTEUR_KEY=monteur-2026` — changez-le). Il ne voit que le suivi des flashs (bouton « Pas prêt » / « Prêt » par soirée).
 - **Admin** : 3 clics rapides sur le **logo** (en haut ou en bas de page) → `/admin` → clé `ADMIN_KEY` : tableau de bord des réservations (sans le suivi des flashs).
+
+## Sécurité
+- **Mots de passe** : `ADMIN_KEY` et `MONTEUR_KEY` (12 caractères minimum, différents l'un de l'autre). Le serveur refuse de démarrer s'ils sont trop faibles ou absents. Le fichier `.env` n'est jamais envoyé sur GitHub.
+- **Anti-force brute** : après 10 clés incorrectes en 15 minutes, l'adresse IP est bloquée un moment. Les clés sont comparées en temps constant.
+- **Anti-spam** : 8 réservations par heure et par IP, 30 vérifications « Mon flash » par 10 minutes, 300 requêtes par 15 minutes au total.
+- **CORS** : seuls les sites listés dans `ALLOWED_ORIGINS` peuvent appeler l'API depuis un navigateur.
+- **Données** : tous les champs sont vérifiés (type, longueur), le prix est recalculé par le serveur, les envois de plus de 20 Ko sont refusés, aucune erreur technique n'est montrée aux visiteurs.
+- **En-têtes HTTP** de sécurité sur toutes les réponses de l'API.
+- **En ligne** : utilisez HTTPS (automatique chez Netlify, Vercel, Render), `NODE_ENV=production`, `TRUST_PROXY=1`, et dans MongoDB Atlas limitez l'accès réseau à votre hébergeur.
+- Le CIN des clients est stocké en clair dans la base : limitez l'accès à Atlas et changez les mots de passe si besoin.
