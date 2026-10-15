@@ -139,6 +139,21 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       </div>
     </section>
 
+    <!-- ===== Galerie ===== -->
+    <section class="gallery">
+      <div class="container">
+        <div class="section-head" appReveal>
+          <span class="eyebrow">Nos réalisations</span>
+          <h2>Quelques instants <span class="it">capturés</span></h2>
+        </div>
+        <div class="mosaic" appReveal>
+          @for (ph of photos; track ph) {
+            <figure><img [src]="ph" alt="Photographie réalisée par Milano Studio" loading="lazy" /></figure>
+          }
+        </div>
+      </div>
+    </section>
+
     <!-- ===== Contact ===== -->
     <section class="cta">
       <div class="container">
@@ -208,6 +223,15 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     .pillars h3 { font: 700 1.1rem 'Cormorant Garamond', Georgia, serif; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 12px; }
     .pillars p { color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
 
+    /* ---------- galerie ---------- */
+    .gallery { padding: 100px 0; background: #fff; border-top: 1px solid var(--line); }
+    .mosaic { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .mosaic figure { overflow: hidden; border-radius: 4px; aspect-ratio: 1; background: #efe5d1; position: relative; }
+    .mosaic img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+    .mosaic figure::after { content: ''; position: absolute; inset: 10px; border: 1px solid rgba(255,255,255,.0); transition: .4s; pointer-events: none; }
+    .mosaic figure:hover img { transform: scale(1.07); }
+    .mosaic figure:hover::after { border-color: rgba(255,255,255,.75); }
+
     /* ---------- services ---------- */
     .services { padding: 100px 0; background: var(--bg); scroll-margin-top: 72px; }
     .cols { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); }
@@ -234,6 +258,7 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
 
     @media (max-width: 960px) {
       .pillars { grid-template-columns: 1fr; }
+      .mosaic { grid-template-columns: repeat(2, 1fr); }
       .cols { grid-template-columns: repeat(2, 1fr); }
       .col:nth-child(3) { border-left: 0; }
       .col:nth-child(n+3) { border-top: 1px solid var(--line); }

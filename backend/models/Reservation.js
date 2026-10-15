@@ -6,8 +6,8 @@ const reservationSchema = new mongoose.Schema(
     // Soirée
     eventType: { type: String, enum: ['mariage', 'soiree_homme', 'soiree_femme'] },
     // Mariage : prénoms du marié (homme) et de la mariée (femme), utilisés pour « Mon flash »
-    mariePrenomHomme: { type: String, trim: true, maxlength: 60 },
-    mariePrenomFemme: { type: String, trim: true, maxlength: 60 },
+    mariePrenomHomme: { type: String, trim: true },
+    mariePrenomFemme: { type: String, trim: true },
     pack: { type: String, enum: ['normale', 'medium', 'pro'] }, // anciennes réservations
     options: {
       cameras: { type: Number, enum: [1, 2, 3] },
@@ -20,14 +20,14 @@ const reservationSchema = new mongoose.Schema(
     shootingType: { type: String, enum: ['individuel', 'mariage'] },
     shootingOption: { type: String, enum: ['photo', 'photo_video', 'preparation', 'preparation_photo'] },
     // Coordonnées
-    nom: { type: String, required: true, trim: true, maxlength: 60 },
-    prenom: { type: String, required: true, trim: true, maxlength: 60 },
+    nom: { type: String, required: true, trim: true },
+    prenom: { type: String, required: true, trim: true },
     cin: { type: String, required: true, match: /^\d{8}$/ },
     telephone: { type: String, required: true, match: /^\d{8}$/ },
-    lieu: { type: String, required: true, trim: true, maxlength: 120 },
+    lieu: { type: String, required: true, trim: true },
     date: { type: Date, required: true },
     day: { type: String, required: true, index: true }, // "YYYY-MM-DD" (sert au calcul de disponibilité)
-    message: { type: String, trim: true, default: '', maxlength: 1000 },
+    message: { type: String, trim: true, default: '' },
     status: { type: String, enum: ['en_attente', 'confirmee', 'annulee'], default: 'en_attente' },
     // Flash de soirée (montage) : mis à jour par le monteur
     flashReady: { type: Boolean, default: false },

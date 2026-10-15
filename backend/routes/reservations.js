@@ -2,7 +2,6 @@ const express = require('express');
 const Reservation = require('../models/Reservation');
 const { sendReservationEmail } = require('../utils/mailer');
 const { sendConfirmationSms, sendReceivedSms } = require('../utils/sms');
-const { rateLimit, failLimiter, safeEqual, cleanStr, cleanText, wrap } = require('../utils/security');
 
 const router = express.Router();
 // Prix d'une soirée : base (1 caméra vidéo + 1 appareil photo) + options
@@ -27,18 +26,8 @@ const isValidDay = (d) => {
 const countSoirees = (day) =>
   Reservation.countDocuments({ category: 'soiree', day, status: { $ne: 'annulee' } });
 
-// Après 10 mauvaises clés en 15 minutes, l'adresse IP est bloquée un moment (protection contre les essais en série)
-const authGuard = failLimiter({ windowMs: 15 * 60 * 1000, max: 10 });
-// Au plus 8 réservations par heure et par IP (anti-spam)
-const createLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 8, message: 'Trop de réservations envoyées. Réessayez plus tard.' });
-// Vérification « Mon flash » : 30 essais par 10 minutes
-const flashLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 30, message: 'Trop de vérifications. Réessayez dans quelques minutes.' });
-
-const hasOwn = (o, k) => typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k);
-const isId = (id) => /^[a-f\d]{24}$/i.test(String(id));
-
 function adminOnly(req, res, next) {
-  if (!process.env.ADMIN_KEY || !safeEqual(req.header('x-admin-key') || '', process.env.ADMIN_KEY)) {
+  if (!process.env.ADMIN_KEY || req.header('x-admin-key') !== process.env.ADMIN_KEY) {
     return res.status(401).json({ message: 'Clé admin incorrecte' });
   }
   next();
@@ -48,8 +37,8 @@ function adminOnly(req, res, next) {
 function roleOf(req) {
   const k = req.header('x-admin-key');
   if (!k) return null;
-  if (process.env.ADMIN_KEY && safeEqual(k, process.env.ADMIN_KEY)) return 'admin';
-  if (process.env.MONTEUR_KEY && safeEqual(k, process.env.MONTEUR_KEY)) return 'monteur';
+  if (process.env.ADMIN_KEY && k === process.env.ADMIN_KEY) return 'admin';
+  if (process.env.MONTEUR_KEY && k === process.env.MONTEUR_KEY) return 'monteur';
   return null;
 }
 function editorOrAdmin(req, res, next) {
@@ -66,10 +55,10 @@ const norm = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,
 
 // Mon flash : le client indique le type (homme / femme / mariage) et la date de la soirée
 // Réponse : { found, ready } ou { found:true, multiple:true } si plusieurs soirées le même jour (il faut alors son nom)
-router.get('/flash/check', flashLimiter, async (req, res) => {
+router.get('/flash/check', async (req, res) => {
   try {
-    const eventType = hasOwn(FLASH_TYPES, req.query.type) ? FLASH_TYPES[req.query.type] : null;
-    const day = typeof req.query.day === 'string' ? req.query.day : '';
+    const eventType = FLASH_TYPES[req.query.type];
+    const day = req.query.day;
     if (!eventType) return res.status(400).json({ message: 'Type invalide' });
     if (!isValidDay(day)) return res.status(400).json({ message: 'Date invalide' });
 
@@ -145,28 +134,17 @@ router.get('/mine', async (req, res) => {
 });
 
 // Créer une réservation
-router.post('/', createLimiter, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const raw = req.body && typeof req.body === 'object' && !Array.isArray(req.body) ? req.body : {};
+    const b = req.body || {};
     const errors = [];
-    // Tous les champs texte doivent être du texte (pas d'objets) et de longueur raisonnable
-    const nom = cleanStr(raw.nom, 60), prenom = cleanStr(raw.prenom, 60), lieu = cleanStr(raw.lieu, 120);
-    const message = cleanText(raw.message, 1000);
-    const mH = raw.mariePrenomHomme === undefined ? '' : cleanStr(raw.mariePrenomHomme, 60);
-    const mF = raw.mariePrenomFemme === undefined ? '' : cleanStr(raw.mariePrenomFemme, 60);
-    const b = {
-      category: raw.category, eventType: raw.eventType, shootingType: raw.shootingType, shootingOption: raw.shootingOption,
-      cin: typeof raw.cin === 'string' ? raw.cin : '', telephone: typeof raw.telephone === 'string' ? raw.telephone : '',
-      date: typeof raw.date === 'string' ? raw.date : '', options: raw.options, nom, prenom, lieu, message, mariePrenomHomme: mH, mariePrenomFemme: mF,
-    };
 
     if (!['soiree', 'shooting'].includes(b.category)) errors.push('Catégorie invalide');
-    if (!b.nom) errors.push('Nom obligatoire (60 caractères maximum)');
-    if (!b.prenom) errors.push('Prénom obligatoire (60 caractères maximum)');
+    if (!b.nom?.trim()) errors.push('Nom obligatoire');
+    if (!b.prenom?.trim()) errors.push('Prénom obligatoire');
     if (!/^\d{8}$/.test(b.cin || '')) errors.push('CIN invalide (8 chiffres)');
     if (!/^\d{8}$/.test(b.telephone || '')) errors.push('Téléphone invalide (8 chiffres)');
-    if (!b.lieu) errors.push('Lieu obligatoire (120 caractères maximum)');
-    if (b.message === null) errors.push('Message trop long (1000 caractères maximum)');
+    if (!b.lieu?.trim()) errors.push('Lieu obligatoire');
     if (!isValidDay(b.date) || b.date < todayTunis()) errors.push('Date invalide');
 
     const data = {
@@ -177,14 +155,14 @@ router.post('/', createLimiter, async (req, res) => {
 
     if (b.category === 'soiree') {
       if (!EVENT_TYPES.includes(b.eventType)) errors.push('Type de soirée invalide');
-      const o = b.options && typeof b.options === 'object' && !Array.isArray(b.options) ? b.options : {};
+      const o = b.options || {};
       const cameras = Number(o.cameras), drone = Number(o.drone), girafe = Number(o.girafe), regie = Number(o.regie);
       if (![1, 2, 3].includes(cameras)) errors.push('Nombre de caméras invalide');
       if (![0, 1].includes(drone) || ![0, 1].includes(girafe) || ![0, 1].includes(regie)) errors.push('Options invalides');
       data.eventType = b.eventType;
       if (b.eventType === 'mariage') {
-        if (!b.mariePrenomHomme) errors.push('Prénom du marié obligatoire');
-        if (!b.mariePrenomFemme) errors.push('Prénom de la mariée obligatoire');
+        if (!b.mariePrenomHomme?.trim()) errors.push('Prénom du marié obligatoire');
+        if (!b.mariePrenomFemme?.trim()) errors.push('Prénom de la mariée obligatoire');
         data.mariePrenomHomme = b.mariePrenomHomme;
         data.mariePrenomFemme = b.mariePrenomFemme;
       }
@@ -193,7 +171,7 @@ router.post('/', createLimiter, async (req, res) => {
       data.price = SOIREE.base + (cameras - 1) * SOIREE.camera + drone * SOIREE.drone + girafe * SOIREE.girafe + regie * SOIREE.regie;
     } else if (b.category === 'shooting') {
       if (!SHOOTING_TYPES.includes(b.shootingType)) errors.push('Type de shooting invalide');
-      if (!hasOwn(SHOOTING_PRICES, b.shootingOption)) errors.push('Option shooting invalide');
+      if (!SHOOTING_PRICES[b.shootingOption]) errors.push('Option shooting invalide');
       data.shootingType = b.shootingType;
       data.shootingOption = b.shootingOption;
       data.price = SHOOTING_PRICES[b.shootingOption];
@@ -222,10 +200,10 @@ router.post('/', createLimiter, async (req, res) => {
 /* ---------- MONTEUR (et admin) : suivi des flashs ---------- */
 
 // Qui suis-je ? -> 'admin' ou 'monteur'
-router.get('/flash/whoami', authGuard, editorOrAdmin, (req, res) => res.json({ role: roleOf(req) }));
+router.get('/flash/whoami', editorOrAdmin, (req, res) => res.json({ role: roleOf(req) }));
 
 // Soirées (non annulées) avec l'état du flash
-router.get('/flash/list', authGuard, editorOrAdmin, async (_req, res) => {
+router.get('/flash/list', editorOrAdmin, async (_req, res) => {
   try {
     const items = await Reservation.find({ category: 'soiree', status: { $ne: 'annulee' } })
       .select('eventType nom prenom mariePrenomHomme mariePrenomFemme lieu day status flashReady flashReadyAt')
@@ -237,9 +215,8 @@ router.get('/flash/list', authGuard, editorOrAdmin, async (_req, res) => {
 });
 
 // Marquer le flash prêt / pas prêt
-router.patch('/:id/flash', authGuard, editorOrAdmin, async (req, res) => {
+router.patch('/:id/flash', editorOrAdmin, async (req, res) => {
   try {
-    if (!isId(req.params.id)) return res.status(400).json({ message: 'Identifiant invalide' });
     if (typeof req.body?.ready !== 'boolean') return res.status(400).json({ message: 'Valeur invalide' });
     const r = await Reservation.findOne({ _id: req.params.id, category: 'soiree' });
     if (!r) return res.status(404).json({ message: 'Introuvable' });
@@ -255,16 +232,15 @@ router.patch('/:id/flash', authGuard, editorOrAdmin, async (req, res) => {
 /* ---------- ADMIN ---------- */
 
 // Liste des réservations + limite par jour
-router.get('/', authGuard, adminOnly, wrap(async (_req, res) => {
+router.get('/', adminOnly, async (_req, res) => {
   const items = await Reservation.find().sort({ day: 1, createdAt: -1 });
   res.json({ max: maxPerDay(), items });
-}));
+});
 
 // Changer le statut
-router.patch('/:id/status', authGuard, adminOnly, async (req, res) => {
+router.patch('/:id/status', adminOnly, async (req, res) => {
   try {
-    if (!isId(req.params.id)) return res.status(400).json({ message: 'Identifiant invalide' });
-    const status = req.body?.status;
+    const { status } = req.body;
     if (!STATUSES.includes(status)) return res.status(400).json({ message: 'Statut invalide' });
 
     const r = await Reservation.findById(req.params.id);
@@ -288,10 +264,9 @@ router.patch('/:id/status', authGuard, adminOnly, async (req, res) => {
 });
 
 // Supprimer
-router.delete('/:id', authGuard, adminOnly, wrap(async (req, res) => {
-  if (!isId(req.params.id)) return res.status(400).json({ message: 'Identifiant invalide' });
+router.delete('/:id', adminOnly, async (req, res) => {
   await Reservation.findByIdAndDelete(req.params.id);
   res.json({ message: 'Supprimée' });
-}));
+});
 
 module.exports = router;

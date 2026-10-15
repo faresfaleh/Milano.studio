@@ -12,16 +12,15 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
   template: `
     <section class="section">
       <div class="container">
-        <div class="top" appReveal>
-          <div class="top-txt">
-            <span class="eyebrow-l">Nos formules</span>
-            <h2>Des souvenirs <em class="it">uniques</em></h2>
-            <p>Choisissez la formule qui correspond à vos envies et laissez-nous capturer les plus beaux moments de votre histoire. Composez-la, découvrez le prix en direct et réservez en quelques clics.</p>
-          </div>
-          <div class="parts">
-            <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
-            <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> Shooting</button>
-          </div>
+        <div class="section-head" appReveal>
+          <span class="eyebrow">Nos prestations</span>
+          <h2>Des souvenirs <em class="it">à la hauteur</em> de vos moments</h2>
+          <p>Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances. Composez votre formule, découvrez le prix en direct et réservez en quelques clics.</p>
+        </div>
+
+        <div class="parts">
+          <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
+          <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> Shooting</button>
         </div>
 
         @if (partie === 'mariage') {
@@ -32,34 +31,15 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
             <li><span>3</span> Réservez votre date</li>
           </ol>
 
-          <div class="cards" appReveal>
-            @for (t of eventTypes; track t.id; let i = $index) {
-              <article class="card-f" [class.sel]="eventType === t.id">
-                <div class="ph">
-                  <img [src]="cardPhotos[t.id]" [style.object-position]="cardPos[t.id]" alt="" loading="lazy" />
-                  <span class="num">0{{ i + 1 }}</span>
-                </div>
-                <div class="bd">
-                  <h3>{{ t.label }}</h3>
-                  <span class="ul"></span>
-                  <p class="td">{{ info[t.id] }}</p>
-                  <div class="mid">
-                    <ul class="chk">
-                      <li><app-icon name="check" size="1.15rem" /> 1 appareil photo</li>
-                      <li><app-icon name="check" size="1.15rem" /> 1 caméra vidéo</li>
-                      <li><app-icon name="check" size="1.15rem" /> {{ included.join(' & ') }}</li>
-                    </ul>
-                    <div class="pr">
-                      <small>À partir de</small>
-                      <strong>{{ pricing.base }} <em>DT</em></strong>
-                    </div>
-                  </div>
-                  <p class="meta"><app-icon name="camera" size="1.1rem" /> Photo + vidéo <span>·</span> <app-icon name="calendar" size="1.1rem" /> Date réservée à votre nom</p>
-                  <button type="button" class="pick" [class.dk]="eventType === t.id" (click)="selectType(t.id)">
-                    {{ eventType === t.id ? 'Formule choisie' : 'Choisir cette formule' }} <app-icon name="arrow" size="1.1rem" />
-                  </button>
-                </div>
-              </article>
+          <div class="grid grid-3 types" appReveal>
+            @for (t of eventTypes; track t.id) {
+              <button type="button" class="type" [class.sel]="eventType === t.id" (click)="selectType(t.id)">
+                <span class="tick"><app-icon name="check" size="1.5rem" /></span>
+                <span class="pic"><app-icon [name]="icons[t.id]" size="2rem" /></span>
+                <strong class="tl">{{ t.label }}</strong>
+                <span class="td">{{ info[t.id] }}</span>
+                <span class="from">À partir de <b>{{ pricing.base }} DT</b></span>
+              </button>
             }
           </div>
 
@@ -160,16 +140,10 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     </section>
   `,
   styles: [`
-    .top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 26px; margin-bottom: 34px; }
-    .top-txt { max-width: 700px; }
-    .eyebrow-l { display: flex; align-items: center; gap: 14px; font-size: .78rem; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 12px; }
-    .eyebrow-l::before { content: ''; width: 34px; height: 1px; background: var(--gold); }
-    .top h2 { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: 12px; }
-    .top p { color: var(--muted); font-size: 1.1rem; }
-    .parts { display: flex; gap: 4px; padding: 5px; background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow); }
-    .parts button { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 24px; background: transparent; color: var(--muted); border: 0; border-radius: 999px;
-      cursor: pointer; font: 700 1.05rem 'Cormorant Garamond', Georgia, serif; transition: .15s; white-space: nowrap; }
-    .parts button.on { background: linear-gradient(135deg, #c9a45c, #a67c2e); color: #fff; box-shadow: 0 6px 16px rgba(150,112,42,.35); }
+    .parts { display: flex; gap: 6px; padding: 5px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; max-width: 520px; margin: 0 auto 34px; }
+    .parts button { display: flex; align-items: center; justify-content: center; gap: 10px; flex: 1; padding: 13px; background: transparent; color: var(--muted); border: 0; border-radius: 10px;
+      cursor: pointer; font: 700 1.1rem 'Cormorant Garamond', Georgia, serif; transition: .15s; }
+    .parts button.on { background: var(--ink); color: #fff; }
 
     /* étapes */
     .steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 34px; list-style: none; margin-bottom: 34px; color: var(--muted); font-weight: 700; font-size: .95rem; }
@@ -179,36 +153,24 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .steps li.cur1 span, .steps li.cur span { border-color: var(--gold); background: var(--gold-soft); color: var(--gold-dark); }
     .steps li.done span { background: var(--gold); border-color: var(--gold); color: #fff; }
 
-    /* cartes de formule */
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 34px; }
-    .card-f { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: .25s; }
-    .card-f:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 18px 40px rgba(20,17,15,.12); }
-    .card-f.sel { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), 0 18px 40px rgba(150,112,42,.2); }
-    .ph { position: relative; height: 190px; overflow: hidden; background: #efe5d1; }
-    .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-    .card-f:hover .ph img { transform: scale(1.05); }
-    .num { position: absolute; top: 14px; left: 14px; padding: 6px 12px; border-radius: 8px; background: rgba(20,17,15,.82); color: #fff; font: 700 .95rem 'Playfair Display', Georgia, serif; }
-    .bd { display: flex; flex-direction: column; flex: 1; padding: 24px 26px 26px; }
-    .bd h3 { font: 600 1.7rem 'Cormorant Garamond', Georgia, serif; }
-    .ul { display: block; width: 44px; height: 2px; background: var(--gold); margin: 10px 0 14px; }
-    .td { color: var(--muted); font-size: 1.02rem; line-height: 1.5; margin-bottom: 18px; }
-    .mid { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-    .chk { list-style: none; display: grid; gap: 9px; font-size: 1rem; }
-    .chk li { display: flex; align-items: center; gap: 10px; }
-    .chk app-icon { color: var(--gold); }
-    .pr { text-align: center; padding-left: 18px; border-left: 1px solid var(--line); }
-    .pr small { display: block; font-size: .82rem; color: var(--muted); }
-    .pr strong { font: 700 2.3rem/1.1 'Playfair Display', Georgia, serif; color: var(--gold-dark); white-space: nowrap; }
-    .pr em { font: 600 .9rem sans-serif; font-style: normal; color: var(--muted); }
-    .meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); margin-bottom: 18px; font-size: .9rem; color: var(--muted); }
-    .meta app-icon { color: var(--gold-dark); } .meta span { opacity: .5; }
-    .pick { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: auto; padding: 14px; cursor: pointer; border-radius: 8px;
-      background: linear-gradient(135deg, #c9a45c, #a67c2e); color: #fff; border: 1px solid transparent;
-      font: 700 .85rem 'Cormorant Garamond', Georgia, serif; letter-spacing: .16em; text-transform: uppercase; transition: .2s; }
-    .pick:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(150,112,42,.35); }
-    .pick.dk { background: var(--ink); color: #fff; }
+    /* cartes de soirée */
+    .types { margin-bottom: 30px; }
+    .type { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 34px 26px 28px; cursor: pointer;
+      font: inherit; color: var(--text); background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); transition: .25s; }
+    .type:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 18px 40px rgba(20,17,15,.12); }
     .pic { width: 66px; height: 66px; border-radius: 50%; background: var(--gold-soft); color: var(--gold-dark); display: grid; place-items: center; flex: none; transition: .25s; }
     .pic.sm { width: 48px; height: 48px; display: inline-grid; }
+    .tl { font: 700 1.15rem 'Cormorant Garamond', Georgia, serif; letter-spacing: .16em; text-transform: uppercase; }
+    .td { color: var(--muted); font-size: 1rem; line-height: 1.5; }
+    .from { margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line); width: 100%; font-size: .9rem; color: var(--muted); }
+    .from b { color: var(--gold-dark); font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; }
+    .tick { position: absolute; top: 14px; right: 14px; color: var(--gold); opacity: 0; transform: scale(.6); transition: .2s; }
+    .type.sel { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .type.sel .pic { background: var(--gold); color: var(--ink); }
+    .type.sel .td, .type.sel .from { color: rgba(255,255,255,.72); }
+    .type.sel .from { border-top-color: rgba(255,255,255,.18); }
+    .type.sel .from b { color: var(--gold-light); }
+    .type.sel .tick { opacity: 1; transform: none; }
 
     /* composition de la formule */
     .conf { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: start; animation: up .45s ease both; scroll-margin-top: 90px; margin-top: 8px; }
@@ -279,7 +241,6 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .nm small { color: var(--muted); font-size: .88rem; line-height: 1.3; }
     .opt b { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; color: var(--gold-dark); white-space: nowrap; }
 
-    @media (max-width: 960px) { .cards { grid-template-columns: 1fr; } .ph { height: 220px; } .top { align-items: flex-start; } }
     @media (max-width: 900px) {
       .conf { grid-template-columns: 1fr; }
       .recap { position: static; }
@@ -306,8 +267,6 @@ export class ServicesComponent implements OnInit {
   shootingTypes = SHOOTING_TYPES;
   shootingOptions = SHOOTING_OPTIONS;
   extraIcons: Record<string, string> = { drone: 'drone', girafe: 'crane', regie: 'screen' };
-  cardPhotos: Record<string, string> = { soiree_homme: 'assets/photos/photo-8.jpg', soiree_femme: 'assets/photos/photo-1.jpg', mariage: 'assets/photos/photo-2.jpg' };
-  cardPos: Record<string, string> = { soiree_homme: 'center 30%', soiree_femme: 'center 22%', mariage: 'center 45%' };
   icons: Record<string, string> = { soiree_homme: 'man', soiree_femme: 'woman', mariage: 'rings' };
 
   partie: 'mariage' | 'shooting' = 'mariage';
