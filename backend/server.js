@@ -38,6 +38,7 @@ app.use('/api', async (_req, res, next) => {
   } catch (err) {
     console.error('Erreur MongoDB :', err.message);
     res.status(503).json({ message: 'Base de données indisponible : ' + err.message });
+  }
 });
 
 app.use('/api/reservations', require('./routes/reservations'));
