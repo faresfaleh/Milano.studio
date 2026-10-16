@@ -4,7 +4,7 @@ import { FlashManagerComponent } from '../../components/flash-manager/flash-mana
 import { ReservationService } from '../../services/reservation.service';
 
 // Espace monteur : uniquement le suivi des flashs (prêt / pas prêt)
-// Accès : 3 clics sur le cercle de la page d’accueil
+// Accès : 3 clics sur le petit titre de la page d’accueil
 @Component({
   selector: 'app-monteur',
   standalone: true,

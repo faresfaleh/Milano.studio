@@ -15,7 +15,7 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       <section class="stage" #stage>
         <div class="container hero">
           <div class="copy">
-            <span class="kicker fade">{{ s.name }} · {{ s.tagline }}</span>
+            <span class="kicker fade" (click)="photoClick()">{{ s.name }} · {{ s.tagline }}</span>
             <h1>Nous racontons vos plus beaux moments, <span class="it">à travers l'objectif.</span></h1>
             <div class="rule fade"></div>
             <p class="lead fade">
@@ -28,15 +28,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
             </div>
           </div>
 
-          <div class="badge fade" aria-hidden="true" (click)="photoClick()">
-            <div class="photo">
-              <img class="logo" src="assets/logo-icon.png" alt="" />
-            </div>
-            <svg viewBox="0 0 400 400" class="ring">
-              <defs><path id="circ" d="M200,200 m-160,0 a160,160 0 1,1 320,0 a160,160 0 1,1 -320,0" /></defs>
-              <text><textPath href="#circ" textLength="1000" lengthAdjust="spacing">MILANO STUDIO · PHOTOGRAPHY · MILANO STUDIO · PHOTOGRAPHY · </textPath></text>
-            </svg>
-          </div>
         </div>
         <div class="hint">Faites défiler<span>↓</span></div>
       </section>
@@ -156,24 +147,16 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     .stage { position: sticky; top: 72px; height: calc(100vh - 72px); display: flex; align-items: center; overflow: hidden;
       --p: 0; --grow: .32;
       background: radial-gradient(ellipse at 80% 42%, rgba(184,146,79,.20), transparent 55%), var(--bg); }
-    .hero { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: center; }
+    .hero { display: grid; grid-template-columns: 1fr; justify-items: center; text-align: center; }
     .kicker { display: block; font-size: .85rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); margin-bottom: 22px; }
     h1 { font-size: clamp(3rem, min(6.2vw, 10vh), 5.4rem); font-weight: 500; line-height: 1.02; margin-bottom: 26px;
-      transform-origin: left top; transform: scale(calc(1 + var(--p) * var(--grow))); will-change: transform; }
-    .rule { width: 56px; height: 2px; background: var(--gold); margin-bottom: 22px; }
-    .lead { color: var(--muted); font-size: 1.25rem; max-width: 520px; margin-bottom: 34px; }
-    .actions { display: flex; gap: 14px; flex-wrap: wrap; }
+      transform-origin: center top; transform: scale(calc(1 + var(--p) * var(--grow))); will-change: transform; }
+    .rule { width: 56px; height: 2px; background: var(--gold); margin: 0 auto 22px; }
+    .lead { color: var(--muted); font-size: 1.25rem; max-width: 620px; margin: 0 auto 34px; }
+    .actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
     .fade { opacity: calc(1 - var(--p) * 2.2); transform: translateY(calc(var(--p) * -36px)); }
     .stage.late .fade { pointer-events: none; }
 
-    .badge { position: relative; width: min(420px, 100%); aspect-ratio: 1; justify-self: center; }
-    .photo { position: absolute; inset: 14%; border-radius: 50%; overflow: hidden; background: #efe5d1;
-      box-shadow: 0 0 0 1px rgba(184,146,79,.7), 0 30px 60px rgba(150,112,42,.25); }
-    .logo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 14%; }
-    .ring { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 60s linear infinite; }
-    .ring text { font: 700 21px 'Cormorant Garamond', Georgia, serif; fill: var(--gold-dark); }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce) { .ring { animation: none; } }
 
     .hint { position: absolute; left: 0; right: 0; bottom: 28px; text-align: center; color: var(--gold-dark); font-size: .8rem;
       letter-spacing: .26em; text-transform: uppercase; font-weight: 700; opacity: calc(1 - var(--p) * 4); }
@@ -240,7 +223,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       .scroller { height: auto; }
       .stage { position: relative; top: auto; height: auto; min-height: calc(100svh - 72px); padding: 28px 0 56px; align-items: flex-start; }
       .hero { grid-template-columns: 1fr; gap: 18px; }
-      .badge { width: 230px; order: -1; }
       .fade { opacity: 1; transform: none; }
       h1 { transform: none; font-size: clamp(2.5rem, 11vw, 3.6rem); margin-bottom: 20px; }
       .kicker { font-size: .72rem; margin-bottom: 14px; }
@@ -266,7 +248,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private onScroll?: () => void;
   private ticking = false;
 
-  // 3 clics rapides sur le cercle = espace monteur
+  // 3 clics rapides sur le petit titre (MILANO STUDIO · PHOTOGRAPHY) = espace monteur
   photoClick() {
     this.photoClicks++;
     clearTimeout(this.photoTimer);

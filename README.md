@@ -33,5 +33,5 @@ Sans ces deux valeurs, la réservation fonctionne quand même, mais aucun email 
 ## Flash de soirée (prêt / pas prêt)
 - **Client** : page `/flash` (menu « Mon flash »). Il choisit *Homme*, *Femme* ou *Homme et femme* (mariage), saisit la date (et, pour un mariage, le prénom de l'homme et de la femme), et voit « prêt » ou « pas encore prêt ». Le formulaire de réservation d'un mariage demande maintenant ces deux prénoms.
   Si plusieurs soirées du même type ont lieu le même jour, on lui demande son nom pour identifier la sienne. Aucune donnée personnelle n'est affichée.
-- **Monteur** : 3 clics rapides sur le **cercle** de la page d’accueil → `/monteur` → mot de passe `MONTEUR_KEY` (à définir dans `backend/.env`, par ex. `MONTEUR_KEY=monteur-2026` — changez-le). Il ne voit que le suivi des flashs (bouton « Pas prêt » / « Prêt » par soirée).
+- **Monteur** : 3 clics rapides sur le petit titre **MILANO STUDIO · PHOTOGRAPHY** en haut de la page d’accueil → `/monteur` → mot de passe `MONTEUR_KEY` (à définir dans `backend/.env`, par ex. `MONTEUR_KEY=monteur-2026` — changez-le). Il ne voit que le suivi des flashs (bouton « Pas prêt » / « Prêt » par soirée).
 - **Admin** : 3 clics rapides sur le **logo** (en haut ou en bas de page) → `/admin` → clé `ADMIN_KEY` : tableau de bord des réservations (sans le suivi des flashs).
