@@ -150,7 +150,7 @@ export class FlashComponent {
       },
       error: (e) => {
         this.loading = false;
-        this.error = e.error?.message || 'Impossible de contacter le serveur';
+        this.error = e.error?.message || (e.status ? `Erreur serveur (${e.status})` : 'Impossible de contacter le serveur');
       },
     });
   }

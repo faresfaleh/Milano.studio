@@ -233,8 +233,13 @@ router.patch('/:id/flash', editorOrAdmin, async (req, res) => {
 
 // Liste des réservations + limite par jour
 router.get('/', adminOnly, async (_req, res) => {
-  const items = await Reservation.find().sort({ day: 1, createdAt: -1 });
-  res.json({ max: maxPerDay(), items });
+  try {
+    const items = await Reservation.find().sort({ day: 1, createdAt: -1 });
+    res.json({ max: maxPerDay(), items });
+  } catch (e) {
+    console.error('Erreur liste réservations :', e);
+    res.status(500).json({ message: 'Erreur lecture base : ' + e.message });
+  }
 });
 
 // Changer le statut

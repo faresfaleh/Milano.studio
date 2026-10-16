@@ -298,7 +298,7 @@ export class ReservationFormComponent implements OnDestroy {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.message || 'Impossible de contacter le serveur.';
+        this.error = err.error?.message || (err.status ? `Erreur serveur (${err.status})` : 'Impossible de contacter le serveur.');
         this.checkAvailability();
       },
     });

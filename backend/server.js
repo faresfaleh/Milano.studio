@@ -37,11 +37,17 @@ app.use('/api', async (_req, res, next) => {
     next();
   } catch (err) {
     console.error('Erreur MongoDB :', err.message);
-    res.status(500).json({ error: 'Base de données indisponible' });
+    res.status(503).json({ message: 'Base de données indisponible (vérifiez MONGO_URI et Network Access dans Atlas)' });
   }
 });
 
 app.use('/api/reservations', require('./routes/reservations'));
+
+// Toute erreur non gérée renvoie du JSON avec un "message" lisible par le site
+app.use((err, _req, res, _next) => {
+  console.error('Erreur serveur :', err);
+  res.status(500).json({ message: 'Erreur serveur : ' + (err.message || 'inconnue') });
+});
 
 // Local : on écoute sur un port. Sur Vercel : on exporte juste l'app.
 if (!process.env.VERCEL) {

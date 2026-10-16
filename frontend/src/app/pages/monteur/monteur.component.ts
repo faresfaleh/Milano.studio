@@ -55,7 +55,7 @@ export class MonteurComponent implements OnInit {
       error: (e) => {
         this.logged = false;
         sessionStorage.removeItem('monteurKey');
-        this.error = e.error?.message || 'Impossible de contacter le serveur';
+        this.error = e.error?.message || (e.status ? `Erreur serveur (${e.status})` : 'Impossible de contacter le serveur');
       },
     });
   }

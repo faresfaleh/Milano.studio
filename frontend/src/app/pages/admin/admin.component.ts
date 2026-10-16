@@ -216,7 +216,7 @@ export class AdminComponent implements OnInit {
       error: (e) => {
         this.logged = false;
         sessionStorage.removeItem('adminKey');
-        this.error = e.error?.message || 'Impossible de contacter le serveur';
+        this.error = e.error?.message || (e.status ? `Erreur serveur (${e.status})` : 'Impossible de contacter le serveur');
       },
     });
   }
