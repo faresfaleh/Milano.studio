@@ -4,6 +4,3 @@ dist
 .angular
 .vercel
 *.zip
-
-.vercel
-.env*

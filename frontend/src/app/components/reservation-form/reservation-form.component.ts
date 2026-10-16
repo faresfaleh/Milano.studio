@@ -17,10 +17,7 @@ import { Availability } from '../../models/reservation.model';
       <form class="modal" [formGroup]="form" (ngSubmit)="submit()" (click)="$event.stopPropagation()"
             role="dialog" aria-modal="true" aria-labelledby="rtitle">
 
-        <!-- Photo à gauche -->
-        <div class="pic" [style.background-image]="'url(' + picture + ')'" aria-hidden="true"></div>
-
-        <!-- Formulaire à droite -->
+        <!-- Formulaire -->
         <div class="panel">
           <button type="button" class="x" (click)="close()" aria-label="Fermer">✕</button>
 
@@ -120,12 +117,10 @@ import { Availability } from '../../models/reservation.model';
   styles: [`
     .backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.72); backdrop-filter: blur(6px);
       display: flex; align-items: center; justify-content: center; padding: 20px; animation: fade .2s ease; }
-    .modal { width: min(1060px, 100%); height: min(760px, calc(100vh - 40px)); display: grid; grid-template-columns: 5fr 6fr;
+    .modal { width: min(640px, 100%); height: min(760px, calc(100vh - 40px)); display: grid; grid-template-columns: 1fr;
       background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 40px 90px rgba(0,0,0,.7); animation: up .25s ease; }
     @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
     @keyframes up { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
-
-    .pic { background-size: cover; background-position: center; background-color: #efe5d1; }
 
     .panel { position: relative; overflow-y: auto; padding: 56px 52px 40px; color: var(--ink); }
     .x { position: absolute; top: 14px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: 0; cursor: pointer;
@@ -170,8 +165,7 @@ import { Availability } from '../../models/reservation.model';
 
     @media (max-width: 800px) {
       .backdrop { align-items: flex-end; padding: 0; }
-      .modal { grid-template-columns: 1fr; grid-template-rows: 130px 1fr; height: 96vh; border-radius: 14px 14px 0 0; }
-      .pic { background-position: center 25%; }
+      .modal { grid-template-columns: 1fr; height: 96vh; border-radius: 14px 14px 0 0; }
       .panel { padding: 28px 22px 28px; }
       .x { background: rgba(255,255,255,.85); }
       .row { grid-template-columns: 1fr; gap: 0; }
@@ -195,13 +189,6 @@ export class ReservationFormComponent implements OnDestroy {
   @Input() shootingType: string | null = null;
   @Input() shootingOption: string | null = null;
   @Output() closed = new EventEmitter<void>();
-
-  // Photo affichée à gauche selon la réservation
-  get picture() {
-    if (this.eventType === 'mariage' || this.shootingType === 'mariage') return 'assets/photos/photo-8.jpg';
-    if (this.category === 'shooting') return 'assets/photos/photo-1.jpg';
-    return 'assets/photos/photo-3.jpg';
-  }
 
   today = new Date().toLocaleDateString('en-CA');
   availability: Availability | null = null;

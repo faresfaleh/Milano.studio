@@ -97,5 +97,3 @@ export const LABELS: Record<string, string> = {
   soiree: 'Soirée', shooting: 'Shooting',
 };
 
-// Photos affichées une par une dans le cercle de l'accueil (dossier src/assets/photos)
-export const HERO_PHOTOS = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `assets/photos/photo-${n}.jpg`);
