@@ -58,34 +58,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       </div>
     </section>
 
-    <!-- ===== Pourquoi nous choisir ===== -->
-    <section class="why">
-      <div class="container">
-        <div class="section-head" appReveal>
-          <span class="eyebrow">Pourquoi nous choisir</span>
-          <h2>L'exigence <span class="it">au service</span> de vos souvenirs</h2>
-          <p>Trois engagements qui guident chacune de nos prestations.</p>
-        </div>
-        <div class="pillars" appReveal>
-          <article>
-            <span class="n">01</span>
-            <h3>Un regard artistique</h3>
-            <p>Nous saisissons l'émotion sur le vif : un regard, un rire, un geste. Vos images racontent votre journée telle que vous l'avez vécue.</p>
-          </article>
-          <article>
-            <span class="n">02</span>
-            <h3>Un équipement professionnel</h3>
-            <p>Caméras vidéo, appareil photo, drone, girafe, régie et écran : nous composons le dispositif qui correspond à votre événement.</p>
-          </article>
-          <article>
-            <span class="n">03</span>
-            <h3>Une réservation simple</h3>
-            <p>Choisissez votre formule, découvrez le prix en direct et réservez en ligne. Notre équipe vous confirme votre date rapidement.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== Services ===== -->
     <section class="services" id="services">
       <div class="container">
@@ -177,17 +149,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     .about p + p { margin-top: -12px; }
     .facts b { line-height: 1.25; }
 
-    /* ---------- pourquoi nous choisir ---------- */
-    .why { padding: 100px 0 90px; background: var(--bg); }
-    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-    .pillars article { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 44px 34px 38px; box-shadow: var(--shadow); transition: .3s; overflow: hidden; }
-    .pillars article::before { content: ''; position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
-    .pillars article:hover { transform: translateY(-4px); }
-    .pillars article:hover::before { transform: scaleX(1); }
-    .n { display: block; font: 500 3rem 'Cormorant Garamond', Georgia, serif; font-style: italic; color: var(--gold); line-height: 1; margin-bottom: 14px; }
-    .pillars h3 { font: 700 1.1rem 'Cormorant Garamond', Georgia, serif; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 12px; }
-    .pillars p { color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
-
     /* ---------- services ---------- */
     .services { padding: 100px 0; background: var(--bg); scroll-margin-top: 72px; }
     .cols { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); }
@@ -213,7 +174,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     .callrow a:hover { color: var(--gold-dark); }
 
     @media (max-width: 960px) {
-      .pillars { grid-template-columns: 1fr; }
       .cols { grid-template-columns: repeat(2, 1fr); }
       .col:nth-child(3) { border-left: 0; }
       .col:nth-child(n+3) { border-top: 1px solid var(--line); }
