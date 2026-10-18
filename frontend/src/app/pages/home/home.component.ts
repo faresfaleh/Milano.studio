@@ -42,31 +42,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       </div>
     </section>
 
-    <!-- ===== À propos ===== -->
-    <section class="about" id="apropos">
-      <div class="container about-grid">
-        <div appReveal>
-          <span class="label">À propos</span>
-          <h2>Bien plus que des photos, <span class="it">des histoires à vivre.</span></h2>
-          <p>
-            Chez {{ s.name }}, chaque événement est une histoire unique. Notre équipe, dirigée par
-            {{ s.president }}, met son regard et son savoir-faire au service de vos moments les plus précieux,
-            du premier préparatif à la dernière danse.
-          </p>
-          <p>
-            Nous associons sens de l'image, équipement professionnel et écoute attentive pour vous livrer
-            des souvenirs dont vous serez fiers, aujourd'hui comme dans vingt ans.
-          </p>
-          <a routerLink="/contact" class="btn btn-dark">Nous contacter</a>
-        </div>
-        <ul class="facts" appReveal>
-          <li><span>Président</span><b>{{ s.president }}</b></li>
-          <li><span>Prestations</span><b>Mariages, soirées & shootings</b></li>
-          <li><span>Équipement</span><b>Caméras, appareil photo, drone, girafe, régie & écran</b></li>
-        </ul>
-      </div>
-    </section>
-
     <!-- ===== Services ===== -->
     <section class="services" id="services">
       <div class="container">
@@ -143,17 +118,7 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
 
     /* ---------- à propos ---------- */
     .label { display: block; font-size: .8rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); margin-bottom: 18px; }
-    .about { padding: 110px 0; background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: center; }
-    .about h2 { font-size: clamp(2.4rem, 4.6vw, 3.6rem); font-weight: 500; margin-bottom: 22px; }
-    .about p { color: var(--muted); font-size: 1.2rem; margin-bottom: 32px; max-width: 540px; }
-    .facts { list-style: none; border-top: 1px solid var(--line); }
-    .facts li { display: flex; flex-direction: column; gap: 2px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-    .facts span { font-size: .78rem; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); }
-    .facts b { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; font-weight: 600; }
 
-    .about p + p { margin-top: -12px; }
-    .facts b { line-height: 1.25; }
 
     /* ---------- services ---------- */
     .services { padding: 100px 0; background: var(--bg); scroll-margin-top: 72px; }
@@ -191,8 +156,7 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       .home-cols { grid-template-columns: 1fr; gap: 20px; }
       .marquee { margin-top: 48px; padding-bottom: 48px; }
       .track img { height: 260px; width: 195px; }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    }
+      }
     @media (max-width: 560px) { .cols { grid-template-columns: 1fr; } .col { border-left: 0; border-top: 1px solid var(--line); } .col:first-child { border-top: 0; } }
   `],
 })
