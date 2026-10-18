@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SHOOTING_OPTIONS, SOIREE_PRICING, STUDIO } from '../../studio.config';
 import { IconComponent } from '../../components/icon/icon.component';
@@ -10,35 +10,12 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
   standalone: true,
   imports: [RouterLink, RevealDirective, ContactTrioComponent, IconComponent],
   template: `
-    <!-- ===== Accueil : au défilement, le titre grandit puis on passe aux services ===== -->
-    <div class="scroller" #scroller>
-      <section class="stage" #stage>
-        <div class="container hero">
-          <div class="copy">
-            <span class="kicker fade" (click)="photoClick()">{{ s.name }} · {{ s.tagline }}</span>
-            <h1>Nous racontons vos plus beaux moments, <span class="it">à travers l'objectif.</span></h1>
-            <div class="rule fade"></div>
-            <p class="lead fade">
-              Photographie et vidéo d'événements : {{ s.name }} accompagne vos mariages, vos soirées et vos
-              séances photo avec sensibilité, exigence et un souci constant du détail.
-            </p>
-            <div class="actions fade">
-              <a routerLink="/services" class="btn btn-dark">Réserver maintenant</a>
-              <a href="#services" class="btn btn-outline" (click)="go($event, 'services')">Nos services</a>
-            </div>
-          </div>
-
-        </div>
-        <div class="hint">Faites défiler<span>↓</span></div>
-      </section>
-    </div>
-
-    <!-- ===== Présentation ===== -->
-    <section class="intro">
-      <div class="container intro-in" appReveal>
-        <p class="intro-tag">Photographie &amp; vidéo d'événements, avec élégance</p>
-        <h2 class="intro-title">Capturer les moments<br />qui vous coupent<br />le souffle</h2>
-        <div class="intro-cols">
+    <!-- ===== Accueil ===== -->
+    <section class="home">
+      <div class="container home-in">
+        <p class="home-tag" (click)="photoClick()">Photographie &amp; vidéo d'événements, avec élégance</p>
+        <h1 class="home-title">Capturer les moments<br />qui vous coupent<br />le souffle</h1>
+        <div class="home-cols">
           <p>
             Le jour de votre mariage est fait de mille instants fugaces : un regard avant l'entrée,
             un rire entre amis, une main qui serre la vôtre. Ce sont ces détails, plus que tout,
@@ -48,6 +25,19 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
             Chez {{ s.name }}, nous les saisissons avec discrétion et sensibilité, pour vous livrer
             des souvenirs que vous aimerez retrouver, aujourd'hui comme dans vingt ans.
           </p>
+        </div>
+        <div class="home-actions">
+          <a routerLink="/services" class="btn btn-dark">Réserver maintenant</a>
+          <a href="#services" class="btn btn-outline" (click)="go($event, 'services')">Nos services</a>
+        </div>
+      </div>
+
+      <!-- Photos qui défilent en continu -->
+      <div class="marquee" aria-hidden="true">
+        <div class="track">
+          @for (ph of loop; track $index) {
+            <img [src]="ph" alt="" loading="lazy" />
+          }
         </div>
       </div>
     </section>
@@ -133,36 +123,26 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     </section>
   `,
   styles: [`
-    /* ---------- écran d'accueil ---------- */
-    .scroller { position: relative; height: 230vh; background: var(--bg); }
-    .stage { position: sticky; top: 72px; height: calc(100vh - 72px); display: flex; align-items: center; overflow: hidden;
-      --p: 0; --grow: .32;
-      background: radial-gradient(ellipse at 80% 42%, rgba(184,146,79,.20), transparent 55%), var(--bg); }
-    .hero { display: grid; grid-template-columns: 1fr; justify-items: center; text-align: center; }
-    .kicker { display: block; font-size: .85rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); margin-bottom: 22px; }
-    h1 { font-size: clamp(3rem, min(6.2vw, 10vh), 5.4rem); font-weight: 500; line-height: 1.02; margin-bottom: 26px;
-      transform-origin: center top; transform: scale(calc(1 + var(--p) * var(--grow))); will-change: transform; }
-    .rule { width: 56px; height: 2px; background: var(--gold); margin: 0 auto 22px; }
-    .lead { color: var(--muted); font-size: 1.25rem; max-width: 620px; margin: 0 auto 34px; }
-    .actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-    .fade { opacity: calc(1 - var(--p) * 2.2); transform: translateY(calc(var(--p) * -36px)); }
-    .stage.late .fade { pointer-events: none; }
-
-
-    .hint { position: absolute; left: 0; right: 0; bottom: 28px; text-align: center; color: var(--gold-dark); font-size: .8rem;
-      letter-spacing: .26em; text-transform: uppercase; font-weight: 700; opacity: calc(1 - var(--p) * 4); }
-    .hint span { display: block; font-size: 1.3rem; animation: bob 1.6s ease-in-out infinite; }
-    @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+    /* ---------- accueil ---------- */
+    .home { background: var(--bg); padding: 96px 0 0; text-align: center; overflow: hidden; }
+    .home-in { max-width: 920px; }
+    .home-tag { display: inline-block; font-style: italic; font-weight: 400; font-size: 1.45rem; color: var(--gold-dark); margin-bottom: 26px; cursor: default; }
+    .home-title { font-weight: 300; text-transform: uppercase; letter-spacing: .035em; line-height: 1.12;
+      font-size: clamp(2.3rem, 6vw, 4.4rem); color: var(--ink); margin-bottom: 52px; }
+    .home-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; max-width: 700px; margin: 0 auto 40px; text-align: left; }
+    .home-cols p { font-size: 1.02rem; font-weight: 500; line-height: 1.8; color: var(--muted); margin: 0; }
+    .home-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .marquee { margin-top: 72px; padding-bottom: 72px; overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .track { display: flex; gap: 16px; width: max-content; animation: roll 60s linear infinite; }
+    .marquee:hover .track { animation-play-state: paused; }
+    .track img { height: 360px; width: 270px; object-fit: cover; border-radius: 6px; flex: none; }
+    @keyframes roll { to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .track { animation: none; } }
 
     /* ---------- à propos ---------- */
     .label { display: block; font-size: .8rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); margin-bottom: 18px; }
-    .intro { padding: 120px 0 110px; background: var(--bg); text-align: center; }
-    .intro-in { max-width: 920px; }
-    .intro-tag { font-style: italic; font-weight: 400; font-size: 1.45rem; color: var(--gold-dark); margin-bottom: 26px; }
-    .intro-title { font-weight: 300; text-transform: uppercase; letter-spacing: .035em; line-height: 1.12;
-      font-size: clamp(2.3rem, 6vw, 4.4rem); color: var(--ink); margin-bottom: 52px; }
-    .intro-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; max-width: 700px; margin: 0 auto; text-align: left; }
-    .intro-cols p { font-size: 1.02rem; font-weight: 500; line-height: 1.8; color: var(--muted); margin: 0; }
     .about { padding: 110px 0; background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: center; }
     .about h2 { font-size: clamp(2.4rem, 4.6vw, 3.6rem); font-weight: 500; margin-bottom: 22px; }
@@ -205,24 +185,18 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       .col:nth-child(n+3) { border-top: 1px solid var(--line); }
     }
     @media (max-width: 860px) {
-      /* téléphone : accueil en simple page (pas d'effet de défilement), tout est visible */
-      .scroller { height: auto; }
-      .stage { position: relative; top: auto; height: auto; min-height: calc(100svh - 72px); padding: 28px 0 56px; align-items: flex-start; }
-      .hero { grid-template-columns: 1fr; gap: 18px; }
-      .fade { opacity: 1; transform: none; }
-      h1 { transform: none; font-size: clamp(2.5rem, 11vw, 3.6rem); margin-bottom: 20px; }
-      .kicker { font-size: .72rem; margin-bottom: 14px; }
-      .lead { font-size: 1.08rem; margin-bottom: 26px; }
-      .hint { display: none; }
+      .home { padding-top: 56px; }
+      .home-tag { font-size: 1.2rem; }
+      .home-title { margin-bottom: 32px; }
+      .home-cols { grid-template-columns: 1fr; gap: 20px; }
+      .marquee { margin-top: 48px; padding-bottom: 48px; }
+      .track img { height: 260px; width: 195px; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .intro { padding: 80px 0; }
-      .intro-cols { grid-template-columns: 1fr; gap: 20px; }
     }
     @media (max-width: 560px) { .cols { grid-template-columns: 1fr; } .col { border-left: 0; border-top: 1px solid var(--line); } .col:first-child { border-top: 0; } }
   `],
 })
-export class HomeComponent implements AfterViewInit, OnDestroy {
-  private zone = inject(NgZone);
+export class HomeComponent implements OnDestroy {
   private router = inject(Router);
   private photoClicks = 0;
   private photoTimer?: ReturnType<typeof setTimeout>;
@@ -230,13 +204,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   fromSoiree = SOIREE_PRICING.base;
   fromShooting = Math.min(...SHOOTING_OPTIONS.map((o) => o.price));
 
-  @ViewChild('scroller') scroller!: ElementRef<HTMLElement>;
-  @ViewChild('stage') stage!: ElementRef<HTMLElement>;
+  // 8 photos, répétées deux fois pour un défilement sans coupure
+  private photos = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `assets/photos/photo-${n}.jpg`);
+  loop = [...this.photos, ...this.photos];
 
-  private onScroll?: () => void;
-  private ticking = false;
-
-  // 3 clics rapides sur le petit titre (MILANO STUDIO · PHOTOGRAPHY) = espace monteur
+  // 3 clics rapides sur le phrase dorée en italique en haut de l’accueil = espace monteur
   photoClick() {
     this.photoClicks++;
     clearTimeout(this.photoTimer);
@@ -253,35 +225,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  ngAfterViewInit() {
-    const scroller = this.scroller.nativeElement;
-    const stage = this.stage.nativeElement;
-
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || matchMedia('(max-width: 860px)').matches) {
-      scroller.style.height = 'auto';
-      stage.style.position = 'relative';
-      return;
-    }
-
-    this.zone.runOutsideAngular(() => {
-      this.onScroll = () => {
-        if (this.ticking) return;
-        this.ticking = true;
-        requestAnimationFrame(() => {
-          this.ticking = false;
-          const total = scroller.offsetHeight - stage.offsetHeight;
-          const p = Math.min(1, Math.max(0, (72 - scroller.getBoundingClientRect().top) / total));
-          stage.style.setProperty('--p', p.toFixed(3));
-          stage.classList.toggle('late', p > 0.4);
-        });
-      };
-      window.addEventListener('scroll', this.onScroll, { passive: true });
-      this.onScroll();
-    });
-  }
-
   ngOnDestroy() {
     clearTimeout(this.photoTimer);
-    if (this.onScroll) window.removeEventListener('scroll', this.onScroll);
   }
 }
