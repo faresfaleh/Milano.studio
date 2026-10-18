@@ -33,6 +33,25 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       </section>
     </div>
 
+    <!-- ===== Présentation ===== -->
+    <section class="intro">
+      <div class="container intro-in" appReveal>
+        <p class="intro-tag">Photographie &amp; vidéo d'événements, avec élégance</p>
+        <h2 class="intro-title">Capturer les moments<br />qui vous coupent<br />le souffle</h2>
+        <div class="intro-cols">
+          <p>
+            Le jour de votre mariage est fait de mille instants fugaces : un regard avant l'entrée,
+            un rire entre amis, une main qui serre la vôtre. Ce sont ces détails, plus que tout,
+            qui racontent votre histoire.
+          </p>
+          <p>
+            Chez {{ s.name }}, nous les saisissons avec discrétion et sensibilité, pour vous livrer
+            des souvenirs que vous aimerez retrouver, aujourd'hui comme dans vingt ans.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== À propos ===== -->
     <section class="about" id="apropos">
       <div class="container about-grid">
@@ -137,6 +156,13 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
 
     /* ---------- à propos ---------- */
     .label { display: block; font-size: .8rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); margin-bottom: 18px; }
+    .intro { padding: 120px 0 110px; background: var(--bg); text-align: center; }
+    .intro-in { max-width: 920px; }
+    .intro-tag { font-style: italic; font-weight: 400; font-size: 1.45rem; color: var(--gold-dark); margin-bottom: 26px; }
+    .intro-title { font-weight: 300; text-transform: uppercase; letter-spacing: .035em; line-height: 1.12;
+      font-size: clamp(2.3rem, 6vw, 4.4rem); color: var(--ink); margin-bottom: 52px; }
+    .intro-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; max-width: 700px; margin: 0 auto; text-align: left; }
+    .intro-cols p { font-size: 1.02rem; font-weight: 500; line-height: 1.8; color: var(--muted); margin: 0; }
     .about { padding: 110px 0; background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: center; }
     .about h2 { font-size: clamp(2.4rem, 4.6vw, 3.6rem); font-weight: 500; margin-bottom: 22px; }
@@ -189,6 +215,8 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       .lead { font-size: 1.08rem; margin-bottom: 26px; }
       .hint { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .intro { padding: 80px 0; }
+      .intro-cols { grid-template-columns: 1fr; gap: 20px; }
     }
     @media (max-width: 560px) { .cols { grid-template-columns: 1fr; } .col { border-left: 0; border-top: 1px solid var(--line); } .col:first-child { border-top: 0; } }
   `],
