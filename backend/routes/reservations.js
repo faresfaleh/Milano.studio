@@ -26,8 +26,12 @@ const isValidDay = (d) => {
 const countSoirees = (day) =>
   Reservation.countDocuments({ category: 'soiree', day, status: { $ne: 'annulee' } });
 
+// Nettoie les clés : retire espaces, retours à la ligne et guillemets accidentels
+const clean = (v) => String(v || '').trim().replace(/^["']|["']$/g, '').trim();
+
 function adminOnly(req, res, next) {
-  if (!process.env.ADMIN_KEY || req.header('x-admin-key') !== process.env.ADMIN_KEY) {
+  const adminKey = clean(process.env.ADMIN_KEY);
+  if (!adminKey || clean(req.header('x-admin-key')) !== adminKey) {
     return res.status(401).json({ message: 'Clé admin incorrecte' });
   }
   next();
@@ -35,10 +39,10 @@ function adminOnly(req, res, next) {
 
 // Accès « monteur » : la clé admin OU la clé monteur (MONTEUR_KEY) donnent accès au suivi des flashs
 function roleOf(req) {
-  const k = req.header('x-admin-key');
+  const k = clean(req.header('x-admin-key'));
   if (!k) return null;
-  if (process.env.ADMIN_KEY && k === process.env.ADMIN_KEY) return 'admin';
-  if (process.env.MONTEUR_KEY && k === process.env.MONTEUR_KEY) return 'monteur';
+  if (clean(process.env.ADMIN_KEY) && k === clean(process.env.ADMIN_KEY)) return 'admin';
+  if (clean(process.env.MONTEUR_KEY) && k === clean(process.env.MONTEUR_KEY)) return 'monteur';
   return null;
 }
 function editorOrAdmin(req, res, next) {
