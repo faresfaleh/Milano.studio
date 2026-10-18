@@ -125,10 +125,10 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
   styles: [`
     /* ---------- accueil ---------- */
     .home { background: var(--bg); padding: 96px 0 0; text-align: center; overflow: hidden; }
-    .home-in { max-width: 920px; }
+    .home-in { max-width: 1140px; }
     .home-tag { display: inline-block; font-style: italic; font-weight: 400; font-size: 1.45rem; color: var(--gold-dark); margin-bottom: 26px; cursor: default; }
     .home-title { font-weight: 300; text-transform: uppercase; letter-spacing: .035em; line-height: 1.12;
-      font-size: clamp(2.3rem, 6vw, 4.4rem); color: var(--ink); margin-bottom: 52px; }
+      font-size: clamp(1.9rem, 5vw, 3.7rem); color: var(--ink); margin-bottom: 52px; }
     .home-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; max-width: 700px; margin: 0 auto 40px; text-align: left; }
     .home-cols p { font-size: 1.02rem; font-weight: 500; line-height: 1.8; color: var(--muted); margin: 0; }
     .home-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
