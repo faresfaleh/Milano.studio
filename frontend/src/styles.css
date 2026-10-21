@@ -86,3 +86,12 @@ select option { background: #fff; color: #14110f; }
 /* Boutons rectangulaires, lettres espacées */
 .btn { border-radius: 3px; text-transform: uppercase; letter-spacing: .14em; font-size: .8rem; padding: 14px 30px; }
 .btn-sm { padding: 9px 18px; font-size: .72rem; }
+
+/* Bandeau d'en-tête des pages (Services, Mon flash, Contact) */
+.page-hero { background: radial-gradient(ellipse at 50% 0%, #4a3b27, #14110f 78%); color: #fff; text-align: center; padding: 72px 0 66px; }
+.page-hero .eyebrow { color: var(--gold-light); letter-spacing: .3em; margin-bottom: 16px; }
+.page-hero h2 { font-size: clamp(2.3rem, 5vw, 3.5rem); color: #fff; margin-bottom: 16px; }
+.page-hero h2 .it { color: var(--gold-light); font-style: italic; }
+.page-hero p { color: rgba(255,255,255,.78); max-width: 640px; margin: 0 auto; }
+.page-hero::after { content: ''; display: block; width: 64px; height: 2px; background: var(--gold); margin: 28px auto 0; }
+.page-hero + .section { padding-top: 56px; }

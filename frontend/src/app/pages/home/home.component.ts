@@ -47,39 +47,22 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       <div class="container">
         <div class="section-head" appReveal>
           <span class="eyebrow">Nos services</span>
-          <h2>Ce que nous faisons <span class="it">pour vous</span></h2>
-          <p>Des formules sur mesure, avec des options à composer selon vos envies et votre budget.</p>
+          <h2>Une formule pour <span class="it">chaque instant</span></h2>
+          <p>Choisissez votre prestation, ajoutez les options qui vous plaisent et réservez en ligne en quelques minutes.</p>
         </div>
 
-        <div class="cols" appReveal>
-          <a class="col" routerLink="/services" [queryParams]="{ partie: 'mariage' }">
-            <app-icon name="man" class="ico" />
-            <h3>Soirée homme</h3>
-            <p>Une couverture complète de votre soirée, en photo et en vidéo, pour en garder chaque instant.</p>
-            <span class="from">À partir de <b>{{ fromSoiree }} DT</b></span>
-            <span class="more">Découvrir →</span>
-          </a>
-          <a class="col" routerLink="/services" [queryParams]="{ partie: 'mariage' }">
-            <app-icon name="woman" class="ico" />
-            <h3>Soirée femme</h3>
-            <p>Une couverture raffinée et attentive au moindre détail, des tenues aux plus beaux sourires.</p>
-            <span class="from">À partir de <b>{{ fromSoiree }} DT</b></span>
-            <span class="more">Découvrir →</span>
-          </a>
-          <a class="col" routerLink="/services" [queryParams]="{ partie: 'mariage' }">
-            <app-icon name="rings" class="ico" />
-            <h3>Mariage</h3>
-            <p>Le plus beau jour de votre vie, raconté avec émotion et élégance, de l'arrivée des mariés à la dernière danse.</p>
-            <span class="from">À partir de <b>{{ fromSoiree }} DT</b></span>
-            <span class="more">Découvrir →</span>
-          </a>
-          <a class="col" routerLink="/services" [queryParams]="{ partie: 'shooting' }">
-            <app-icon name="camera" class="ico" />
-            <h3>Shooting</h3>
-            <p>Une séance rien que pour vous : portrait, couple, famille ou séance de mariage, avec ou sans vidéo.</p>
-            <span class="from">À partir de <b>{{ fromShooting }} DT</b></span>
-            <span class="more">Découvrir →</span>
-          </a>
+        <div class="cards" appReveal>
+          @for (c of cards; track c.title) {
+            <a class="card" routerLink="/services" [queryParams]="{ partie: c.partie }">
+              <app-icon [name]="c.icon" class="card-ico" />
+              <span class="card-body">
+                <h3>{{ c.title }}</h3>
+                <p>{{ c.text }}</p>
+                <span class="from">À partir de <b>{{ c.price }} DT</b></span>
+                <span class="more">Découvrir →</span>
+              </span>
+            </a>
+          }
         </div>
       </div>
     </section>
@@ -122,16 +105,18 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
 
     /* ---------- services ---------- */
     .services { padding: 100px 0; background: var(--bg); scroll-margin-top: 72px; }
-    .cols { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); }
-    .col { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 44px 26px; border-left: 1px solid var(--line); transition: background .3s; }
-    .col:first-child { border-left: 0; }
-    .col:hover { background: var(--bg); }
-    .ico { display: block; width: 52px; height: 52px; color: var(--gold-dark); margin: 0 auto 22px; }
-    .col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 14px; }
-    .col p { color: var(--muted); font-size: .98rem; line-height: 1.55; margin-bottom: 18px; flex: 1; }
-    .from { font-size: .9rem; color: var(--muted); margin-bottom: 14px; padding-top: 14px; border-top: 1px solid var(--line); width: 100%; }
-    .from b { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; color: var(--gold-dark); }
-    .more { color: var(--gold-dark); font-weight: 700; font-size: .85rem; letter-spacing: .16em; text-transform: uppercase; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .card { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 3 / 4.3; border-radius: 6px;
+      overflow: hidden; color: #fff; box-shadow: var(--shadow);
+      background: radial-gradient(ellipse at 50% 30%, #4a3b27, #14110f 75%); }
+    .card-ico { display: block; position: absolute; top: 28%; left: 50%; width: 72px; height: 72px; margin-left: -36px; color: var(--gold); opacity: .55; }
+    .card-body { position: relative; padding: 0 26px 26px; display: flex; flex-direction: column; }
+    .card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 10px; color: #fff; }
+    .card p { color: rgba(255,255,255,.82); font-size: .98rem; line-height: 1.5; margin-bottom: 16px; }
+    .from { font-size: .9rem; color: rgba(255,255,255,.75); padding-top: 14px; border-top: 1px solid rgba(255,255,255,.28); margin-bottom: 10px; }
+    .from b { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; color: var(--gold-light); }
+    .more { color: var(--gold-light); font-weight: 700; font-size: .82rem; letter-spacing: .16em; text-transform: uppercase; transition: letter-spacing .3s; }
+    .card:hover .more { letter-spacing: .24em; }
 
     /* ---------- contact ---------- */
     .cta { padding: 100px 0; background: radial-gradient(ellipse at 50% 0%, rgba(184,146,79,.22), transparent 60%), var(--ink); text-align: center; color: #fff; }
@@ -145,9 +130,7 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     .callrow a:hover { color: var(--gold-dark); }
 
     @media (max-width: 960px) {
-      .cols { grid-template-columns: repeat(2, 1fr); }
-      .col:nth-child(3) { border-left: 0; }
-      .col:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .cards { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 860px) {
       .home { padding-top: 56px; }
@@ -157,7 +140,7 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       .marquee { margin-top: 48px; padding-bottom: 48px; }
       .track img { height: 260px; width: 195px; }
       }
-    @media (max-width: 560px) { .cols { grid-template-columns: 1fr; } .col { border-left: 0; border-top: 1px solid var(--line); } .col:first-child { border-top: 0; } }
+    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .card { aspect-ratio: 4 / 5; } }
   `],
 })
 export class HomeComponent implements OnDestroy {
@@ -167,6 +150,18 @@ export class HomeComponent implements OnDestroy {
   s = STUDIO;
   fromSoiree = SOIREE_PRICING.base;
   fromShooting = Math.min(...SHOOTING_OPTIONS.map((o) => o.price));
+
+  // Cartes des services. Cartes sans photo : fond sombre + icône
+  cards = [
+    { title: 'Soirée homme', icon: 'man', partie: 'mariage', price: SOIREE_PRICING.base,
+      text: 'Une couverture complète de votre soirée, en photo et en vidéo, pour en garder chaque instant.' },
+    { title: 'Soirée femme', icon: 'woman', partie: 'mariage', price: SOIREE_PRICING.base,
+      text: 'Une couverture raffinée et attentive au moindre détail, des tenues aux plus beaux sourires.' },
+    { title: 'Mariage', icon: 'rings', partie: 'mariage', price: SOIREE_PRICING.base,
+      text: "Le plus beau jour de votre vie, raconté avec émotion et élégance, de l'arrivée des mariés à la dernière danse." },
+    { title: 'Shooting', icon: 'camera', partie: 'shooting', price: Math.min(...SHOOTING_OPTIONS.map((o) => o.price)),
+      text: 'Une séance rien que pour vous : portrait, couple, famille ou séance de mariage, avec ou sans vidéo.' },
+  ];
 
   // 8 photos, répétées deux fois pour un défilement sans coupure
   private photos = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `assets/photos/photo-${n}.jpg`);

@@ -17,13 +17,16 @@ const CHOICES = [
   standalone: true,
   imports: [FormsModule, RouterLink],
   template: `
+    <header class="page-hero">
+      <div class="container">
+        <span class="eyebrow">Flash de soirée</span>
+        <h2>Mon <em class="it">flash</em> est-il prêt ?</h2>
+        <p>Indiquez le type de votre soirée et sa date : nous vous disons si votre flash est monté.</p>
+      </div>
+    </header>
+
     <section class="section soft">
       <div class="container narrow">
-        <div class="section-head">
-          <span class="eyebrow">Flash de soirée</span>
-          <h2>Mon <em class="it">flash</em> est-il prêt ?</h2>
-          <p>Indiquez le type de votre soirée et sa date : nous vous disons si votre flash est monté.</p>
-        </div>
 
         <div class="card">
           <div class="field">
@@ -100,7 +103,9 @@ const CHOICES = [
       font: inherit; color: var(--text); display: flex; flex-direction: column; gap: 2px; transition: .2s; }
     .choice small { color: var(--muted); font-size: .8rem; }
     .choice:hover { border-color: var(--gold); }
-    .choice.on { border-color: var(--gold); background: var(--gold-soft); box-shadow: 0 0 0 3px var(--gold-soft); }
+    .choice.on { border-color: var(--ink); background: linear-gradient(180deg, #2a241d, #0e0c0a); color: #fff; box-shadow: 0 6px 16px rgba(20,17,15,.25); }
+    .choice.on small { color: var(--gold-light); }
+    .card { border-top: 3px solid var(--gold); }
     .full { width: 100%; }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     @media (max-width: 480px) { .row { grid-template-columns: 1fr; gap: 0; } }

@@ -10,13 +10,16 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
   standalone: true,
   imports: [ReservationFormComponent, RevealDirective, IconComponent],
   template: `
+    <header class="page-hero" appReveal>
+      <div class="container">
+        <span class="eyebrow">Nos services</span>
+        <h2>Des souvenirs <em class="it">à la hauteur</em> de vos moments</h2>
+        <p>Photographie et vidéo pour vos mariages, vos soirées et vos séances. Composez votre formule, voyez le prix en direct et réservez en quelques clics.</p>
+      </div>
+    </header>
+
     <section class="section">
       <div class="container">
-        <div class="section-head" appReveal>
-          <span class="eyebrow">Nos prestations</span>
-          <h2>Des souvenirs <em class="it">à la hauteur</em> de vos moments</h2>
-          <p>Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances. Composez votre formule, découvrez le prix en direct et réservez en quelques clics.</p>
-        </div>
 
         <div class="parts">
           <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
@@ -77,6 +80,11 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
                 }
               </div>
 
+              <div class="mbar">
+                <div class="mt"><span>Total</span><strong>{{ total }} <small>DT</small></strong></div>
+                <button type="button" (click)="modal = 'soiree'">Réserver <app-icon name="arrow" size="1.1rem" /></button>
+              </div>
+
               <aside class="recap">
                 <span class="kick">Votre formule</span>
                 <h4>{{ typeLabel }}</h4>
@@ -105,9 +113,9 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
               </aside>
             </div>
           } @else {
-            <p class="hint">Sélectionnez un type de soirée pour composer votre formule.</p>
+            <p class="hint">Choisissez un type de soirée ci-dessus pour composer votre formule.</p>
           }
-          <p class="note"><app-icon name="calendar" size="1.1em" /> Un nombre maximum de soirées est accepté par jour : une date complète n'est plus disponible.</p>
+          <p class="note"><app-icon name="calendar" size="1.1em" /> Le nombre de soirées est limité chaque jour : une date complète n'est plus disponible à la réservation.</p>
 
           @if (modal === 'soiree') {
             <app-reservation-form [category]="'soiree'" [eventType]="eventType" [options]="options" (closed)="modal = null" />
@@ -143,7 +151,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .parts { display: flex; gap: 6px; padding: 5px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; max-width: 520px; margin: 0 auto 34px; }
     .parts button { display: flex; align-items: center; justify-content: center; gap: 10px; flex: 1; padding: 13px; background: transparent; color: var(--muted); border: 0; border-radius: 10px;
       cursor: pointer; font: 700 1.1rem 'Cormorant Garamond', Georgia, serif; transition: .15s; }
-    .parts button.on { background: var(--ink); color: #fff; }
+    .parts button.on { background: linear-gradient(180deg, #2a241d, #0e0c0a); color: var(--gold-light); box-shadow: 0 4px 12px rgba(20,17,15,.28); }
 
     /* étapes */
     .steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 34px; list-style: none; margin-bottom: 34px; color: var(--muted); font-weight: 700; font-size: .95rem; }
@@ -241,16 +249,43 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .nm small { color: var(--muted); font-size: .88rem; line-height: 1.3; }
     .opt b { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; color: var(--gold-dark); white-space: nowrap; }
 
+    .mbar { display: none; }
     @media (max-width: 900px) {
-      .conf { grid-template-columns: 1fr; }
+      .conf { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+      .conf > * { min-width: 0; }
       .recap { position: static; }
+      .mbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; position: sticky; z-index: 30;
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px)); padding: 10px 10px 10px 20px; border-radius: 16px; color: #fff;
+        background: linear-gradient(135deg, #1e1913, #0e0c0a); border: 1px solid rgba(184,146,79,.6); box-shadow: 0 14px 34px rgba(20,17,15,.38); }
+      .mbar .mt { display: flex; flex-direction: column; line-height: 1.1; }
+      .mbar .mt span { font-size: .66rem; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 3px; }
+      .mbar .mt strong { font: 500 2rem/1 'Cormorant Garamond', Georgia, serif; }
+      .mbar .mt small { font-size: .95rem; color: var(--gold-light); letter-spacing: .06em; }
+      .mbar button { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border: 0; border-radius: 11px; cursor: pointer;
+        font: 700 .86rem 'Cormorant Garamond', Georgia, serif; letter-spacing: .18em; text-transform: uppercase; color: #fff;
+        background: linear-gradient(135deg, #c9a45c, #a67c2e); box-shadow: 0 6px 16px rgba(150,112,42,.45); }
     }
     @media (max-width: 560px) {
-      .grp { grid-template-columns: 40px 1fr; }
-      .grp .seg { grid-column: 1 / -1; justify-self: start; }
-      .opts { padding: 28px 20px 14px; }
-      .recap { padding: 30px 22px 22px; } .recap h4 { font-size: 2.1rem; }
       .steps { gap: 8px 16px; font-size: .85rem; }
+      .opts { padding: 26px 18px 6px; border-radius: 16px; }
+      .opts h3 { font-size: 2.15rem; padding-top: 18px; }
+      .sub { font-size: 1rem; margin-bottom: 14px; }
+      .grp { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 20px 0; align-items: start; }
+      .gi { padding-top: 2px; }
+      .gh strong { font-size: 1.02rem; letter-spacing: .14em; }
+      .gh strong small { display: block; margin: 3px 0 0; font-size: .92rem; }
+      .gh span { font-size: .96rem; max-width: none; }
+      .grp .seg { grid-column: 1 / -1; width: 100%; justify-self: stretch; }
+      .seg button { flex: 1; min-width: 0; padding: 13px 8px; font-size: 1rem; }
+      .recap { padding: 30px 22px 24px; border-radius: 16px; }
+      .recap h4 { font-size: 2.2rem; margin-bottom: 20px; }
+      .incl-list { gap: 13px; margin-bottom: 20px; }
+      .incl-list li { font-size: 1.02rem; gap: 14px; }
+      .lines { font-size: .98rem; }
+      .tot strong { font-size: 2.8rem; }
+      .go { gap: 10px; padding: 16px 14px; }
+      .go app-icon:first-child { display: none; }
+      .go span { letter-spacing: .06em; font-size: .84rem; }
     }
   `],
 })
