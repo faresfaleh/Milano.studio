@@ -22,7 +22,7 @@ const CHOICES = [
         <div class="section-head">
           <span class="eyebrow">Flash de soirée</span>
           <h2>Mon <em class="it">flash</em> est-il prêt ?</h2>
-          <p>Indiquez le type de votre soirée et sa date : nous vous disons si votre flash est monté.</p>
+          <p>Indiquez le type de votre soirée, sa date et votre nom : nous vous disons si votre flash est monté.</p>
         </div>
 
         <div class="card">
@@ -55,10 +55,10 @@ const CHOICES = [
             </div>
           }
 
-          @if (askName) {
+          @if (type === 'homme' || type === 'femme') {
             <div class="field">
-              <label for="nom">Plusieurs soirées ce jour-là : entrez votre nom</label>
-              <input id="nom" [(ngModel)]="nom" placeholder="Votre nom ou prénom" (keyup.enter)="check()" />
+              <label for="nom">{{ type === 'homme' ? 'Nom du client (homme)' : 'Nom de la cliente (femme)' }}</label>
+              <input id="nom" [(ngModel)]="nom" (ngModelChange)="reset(false)" placeholder="Nom ou prénom utilisé pour la réservation" (keyup.enter)="check()" />
             </div>
           }
 
@@ -74,7 +74,7 @@ const CHOICES = [
             <div class="res none">
               <div class="ico">?</div>
               <h3>Aucune soirée trouvée</h3>
-              <p>Vérifiez le type et la date, ou contactez-nous : {{ s.phones[0] }}.</p>
+              <p>Vérifiez le type, la date et le nom, ou contactez-nous : {{ s.phones[0] }}.</p>
             </div>
           } @else if (result.ready) {
             <div class="res ok">
@@ -135,7 +135,8 @@ export class FlashComponent {
 
   get canCheck() {
     if (!this.type || !this.day) return false;
-    return this.type !== 'mariage' || (!!this.prenomHomme.trim() && !!this.prenomFemme.trim());
+    if (this.type === 'mariage') return !!this.prenomHomme.trim() && !!this.prenomFemme.trim();
+    return !!this.nom.trim(); // homme / femme : le nom du client est obligatoire
   }
 
   check() {

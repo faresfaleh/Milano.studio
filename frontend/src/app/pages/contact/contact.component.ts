@@ -38,9 +38,18 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       <div class="wrap" appReveal>
         <h2 class="stitle light"><span>Suivez-nous</span></h2>
         <div class="social">
-          <a [href]="s.instagram" target="_blank" rel="noopener">Instagram <b>{{ s.instagramHandle }}</b></a>
-          <a [href]="s.facebook" target="_blank" rel="noopener">Facebook <b>{{ s.facebookName }}</b></a>
-          <a [href]="s.tiktok" target="_blank" rel="noopener">TikTok <b>{{ s.tiktokHandle }}</b></a>
+          <a [href]="s.instagram" target="_blank" rel="noopener">
+            <span class="si"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="9" /><circle cx="24" cy="24" r="8" /><circle cx="34" cy="14" r="1.2" /></svg></span>
+            <span class="st"><small>Instagram</small><b>{{ s.instagramHandle }}</b></span>
+          </a>
+          <a [href]="s.facebook" target="_blank" rel="noopener">
+            <span class="si"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M28 42V26h5l1-6h-6v-4c0-2 1-3 3-3h3V8h-5c-5 0-8 3-8 8v4h-5v6h5v16z" /></svg></span>
+            <span class="st"><small>Facebook</small><b>{{ s.facebookName }}</b></span>
+          </a>
+          <a [href]="s.tiktok" target="_blank" rel="noopener">
+            <span class="si"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 6v22a8 8 0 1 1-8-8" /><path d="M30 6c0 5 4 9 10 9" /></svg></span>
+            <span class="st"><small>TikTok</small><b>{{ s.tiktokHandle }}</b></span>
+          </a>
         </div>
       </div>
     </section>
@@ -110,10 +119,16 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
 
     /* ---------- bandeau bordeaux : réseaux ---------- */
     .band { background: var(--wine); background-image: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.06), transparent 65%); padding: 46px 0 52px; }
-    .social { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
-    .social a { padding: 14px 28px; border: 1px solid var(--rose-soft); border-radius: 999px; color: var(--cream); font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; transition: .25s; }
-    .social a b { font-weight: 400; color: var(--rose-2); margin-left: 8px; letter-spacing: .08em; text-transform: none; font-size: .95rem; }
-    .social a:hover { background: var(--cream); border-color: var(--cream); color: var(--wine); }
+    .social { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .social a { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; padding: 34px 24px 32px; border: 1px solid var(--rose-soft); border-radius: 26px; color: var(--cream); transition: .25s; }
+    .si { display: grid; place-items: center; flex: none; width: 72px; height: 72px; border: 1px solid var(--rose-soft); border-radius: 50%; color: var(--rose-2); transition: .25s; }
+    .si svg { width: 34px; height: 34px; display: block; }
+    .st { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+    .st small { font-size: .8rem; letter-spacing: .3em; text-transform: uppercase; color: var(--cream); }
+    .st b { font: 400 1.3rem/1.25 'Jost', sans-serif; letter-spacing: .01em; color: var(--rose-2); overflow-wrap: anywhere; }
+    .social a:hover { background: var(--cream); border-color: var(--cream); color: var(--wine); transform: translateY(-3px); }
+    .social a:hover .si { border-color: var(--rose); color: var(--rose); }
+    .social a:hover small { color: var(--wine); }
     .social a:hover b { color: var(--rose); }
 
     /* ---------- carte ---------- */
@@ -144,6 +159,9 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       .stitle { letter-spacing: .24em; gap: 12px; }
       .book-in { flex-direction: column; align-items: flex-start; }
     }
+    @media (max-width: 900px) { .social { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin: 0 auto; }
+      .social a { flex-direction: row; text-align: left; gap: 18px; padding: 22px 24px; }
+      .st { align-items: flex-start; } .st b { font-size: 1.1rem; } .si { width: 58px; height: 58px; } .si svg { width: 28px; height: 28px; } }
     @media (max-width: 560px) { iframe { height: 340px; } .place { position: static; max-width: none; border-radius: 0; border-width: 1px 0 0; box-shadow: none; } }
   `],
 })

@@ -84,11 +84,12 @@ router.get('/flash/check', async (req, res) => {
       return res.json({ found: true, ready: rows.every((r) => r.flashReady) });
     }
 
-    if (rows.length > 1) {
-      const nom = norm(req.query.nom);
-      if (!nom) return res.json({ found: true, multiple: true });
+    // Homme / femme : le client donne son nom (obligatoire sur le site) ; sans nom et avec plusieurs soirées, on le demande
+    const nom = norm(req.query.nom);
+    if (rows.length > 1 && !nom) return res.json({ found: true, multiple: true });
+    if (nom) {
       rows = rows.filter((r) => norm(r.nom) === nom || norm(r.prenom) === nom || norm(r.nom + ' ' + r.prenom) === nom || norm(r.prenom + ' ' + r.nom) === nom);
-      if (!rows.length) return res.json({ found: false, multiple: true });
+      if (!rows.length) return res.json({ found: false });
     }
     // Plusieurs soirées avec le même nom ce jour-là : « prête » seulement si toutes le sont
     res.json({ found: true, ready: rows.every((r) => r.flashReady) });

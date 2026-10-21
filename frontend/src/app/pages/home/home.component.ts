@@ -37,7 +37,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
           </div>
 
           <div class="hero-photo">
-            <div class="arch">
+            <div class="arch" (click)="openMonteur()">
               <img src="assets/photos/photo-1.jpg" alt="Mariée souriante tenant son bouquet" />
             </div>
           </div>
@@ -123,6 +123,14 @@ import { RevealDirective } from '../../directives/reveal.directive';
                 </svg>
               </span>
               <a [href]="s.instagram" target="_blank" rel="noopener">{{ s.instagramHandle }}</a>
+            </li>
+            <li>
+              <span class="ico">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M28 42V26h5l1-6h-6v-4c0-2 1-3 3-3h3V8h-5c-5 0-8 3-8 8v4h-5v6h5v16z" />
+                </svg>
+              </span>
+              <a [href]="s.facebook" target="_blank" rel="noopener">{{ s.facebookName }}</a>
             </li>
           </ul>
 
@@ -322,6 +330,11 @@ export class HomeComponent implements OnDestroy {
       return;
     }
     this.photoTimer = setTimeout(() => (this.photoClicks = 0), 1000);
+  }
+
+  // un clic sur la photo de la mariée (haut de l'accueil) = espace monteur
+  openMonteur() {
+    this.router.navigateByUrl('/monteur');
   }
 
   go(event: Event, id: string) {
