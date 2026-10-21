@@ -3,150 +3,259 @@ import { Router, RouterLink } from '@angular/router';
 import { SHOOTING_OPTIONS, SOIREE_PRICING, STUDIO } from '../../studio.config';
 import { IconComponent } from '../../components/icon/icon.component';
 import { RevealDirective } from '../../directives/reveal.directive';
-import { ContactTrioComponent } from '../../components/contact-trio/contact-trio.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, RevealDirective, ContactTrioComponent, IconComponent],
+  imports: [RouterLink, RevealDirective, IconComponent],
   template: `
-    <!-- ===== Accueil ===== -->
-    <section class="home">
-      <div class="container home-in">
-        <p class="home-tag" (click)="photoClick()">Photographie &amp; vidéo d'événements, avec élégance</p>
-        <h1 class="home-title">Capturer les moments<br />qui vous coupent<br />le souffle</h1>
-        <div class="home-cols">
-          <p>
-            Le jour de votre mariage est fait de mille instants fugaces : un regard avant l'entrée,
-            un rire entre amis, une main qui serre la vôtre. Ce sont ces détails, plus que tout,
-            qui racontent votre histoire.
-          </p>
-          <p>
-            Chez {{ s.name }}, nous les saisissons avec discrétion et sensibilité, pour vous livrer
-            des souvenirs que vous aimerez retrouver, aujourd'hui comme dans vingt ans.
-          </p>
+    <!-- ===== Haut de page ===== -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-top">
+          <span class="tl">Photographie &amp; vidéo</span>
+          <span class="line"></span>
+          <span class="star">✦</span>
+          <span class="tr">Mariages<br />Soirées<br />Shootings</span>
         </div>
-        <div class="home-actions">
-          <a routerLink="/services" class="btn btn-dark">Réserver maintenant</a>
-          <a href="#services" class="btn btn-outline" (click)="go($event, 'services')">Nos services</a>
+
+        <h1 class="giant"><span>Milano</span> <span>Studio</span></h1>
+        <div class="rule"><i></i><b>◆</b><i></i></div>
+
+        <div class="hero-grid">
+          <div class="hero-text">
+            <p class="role" (click)="photoClick()">Photographes &amp; vidéastes d'événements</p>
+            <blockquote class="pitch">
+              Nous capturons les moments qui vous coupent le souffle, avec discrétion, élégance et sensibilité.
+            </blockquote>
+            <p class="sign">{{ s.name }}</p>
+            <p class="based">Basé en Tunisie</p>
+            <div class="hero-actions">
+              <a routerLink="/services" class="pill pill-fill">Réserver maintenant</a>
+              <a href="#services" class="pill" (click)="go($event, 'services')">Nos services</a>
+            </div>
+          </div>
+
+          <div class="hero-photo">
+            <div class="arch">
+              <img src="assets/photos/photo-1.jpg" alt="Mariée souriante tenant son bouquet" />
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Photos qui défilent en continu -->
+    <!-- ===== Photos qui défilent ===== -->
+    <section class="work">
+      <h2 class="stitle light"><span>Nos réalisations</span></h2>
       <div class="marquee" aria-hidden="true">
         <div class="track">
           @for (ph of loop; track $index) {
-            <img [src]="ph" alt="" loading="lazy" />
+            <figure><img [src]="ph" alt="" loading="lazy" /></figure>
           }
         </div>
       </div>
     </section>
 
-    <!-- ===== Services ===== -->
-    <section class="services" id="services">
-      <div class="container">
-        <div class="section-head" appReveal>
-          <span class="eyebrow">Nos services</span>
-          <h2>Une formule pour <span class="it">chaque instant</span></h2>
-          <p>Choisissez votre prestation, ajoutez les options qui vous plaisent et réservez en ligne en quelques minutes.</p>
+    <!-- ===== Services : Mariage | Shooting ===== -->
+    <section class="offer" id="services">
+      <div class="wrap offer-grid">
+        <div class="col" appReveal>
+          <h2 class="stitle"><span>Soirée &amp; mariage</span></h2>
+          <ul>
+            @for (it of weddingItems; track it.title) {
+              <li>
+                <a routerLink="/services" [queryParams]="{ partie: 'mariage' }">
+                  <span class="ico"><app-icon [name]="it.icon" /></span>
+                  <span class="txt">
+                    <b>{{ it.title }}</b>
+                    <small>{{ it.text }}</small>
+                  </span>
+                  <span class="price">{{ it.price }} DT</span>
+                </a>
+              </li>
+            }
+          </ul>
         </div>
 
-        <div class="cards" appReveal>
-          @for (c of cards; track c.title) {
-            <a class="card" routerLink="/services" [queryParams]="{ partie: c.partie }">
-              <app-icon [name]="c.icon" class="card-ico" />
-              <img class="card-img" [src]="c.img" [alt]="c.title" loading="lazy"
-                   (error)="$any($event.target).style.display = 'none'" />
-              <span class="shade"></span>
-              <span class="card-body">
-                <h3>{{ c.title }}</h3>
-                <p>{{ c.text }}</p>
-                <span class="from">À partir de <b>{{ c.price }} DT</b></span>
-                <span class="more">Découvrir →</span>
-              </span>
-            </a>
-          }
+        <div class="divider" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+
+        <div class="col" appReveal>
+          <h2 class="stitle"><span>Shooting</span></h2>
+          <ul>
+            @for (it of shootingItems; track it.title) {
+              <li>
+                <a routerLink="/services" [queryParams]="{ partie: 'shooting' }">
+                  <span class="ico"><app-icon [name]="it.icon" /></span>
+                  <span class="txt">
+                    <b>{{ it.title }}</b>
+                    <small>{{ it.text }}</small>
+                  </span>
+                  <span class="price">{{ it.price }} DT</span>
+                </a>
+              </li>
+            }
+          </ul>
         </div>
       </div>
     </section>
 
     <!-- ===== Contact ===== -->
-    <section class="cta">
-      <div class="container">
-        <div class="head" appReveal>
-          <span class="label">Contact</span>
-          <h2>Créons ensemble <span class="it">quelque chose de beau.</span></h2>
-          <p>Une date en tête, une question, un projet particulier ? Parlez-nous de votre événement : nous vous répondons rapidement.</p>
+    <section class="contact">
+      <div class="wrap">
+        <h2 class="stitle light big"><span>Créons ensemble quelque chose de beau</span></h2>
+        <div class="c-grid">
+          <div class="c-photo">
+            <div class="arch small"><img src="assets/photos/photo-4.jpg" alt="Couple de mariés" /></div>
+            <span class="script">Contactez-nous</span>
+          </div>
+
+          <ul class="c-list">
+            <li><span class="ico"><app-icon name="mail" /></span><a [href]="'mailto:' + s.email">{{ s.email }}</a></li>
+            @for (p of s.phones; track p) {
+              <li><span class="ico"><app-icon name="phone" /></span><a [href]="'tel:' + p.replaceAll(' ', '')">{{ p }}</a></li>
+            }
+            <li><span class="ico"><app-icon name="pin" /></span><a [href]="s.maps" target="_blank" rel="noopener">Voir sur Google Maps</a></li>
+            <li>
+              <span class="ico">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="7" y="7" width="34" height="34" rx="9" /><circle cx="24" cy="24" r="8" /><circle cx="34" cy="14" r="1.2" />
+                </svg>
+              </span>
+              <a [href]="s.instagram" target="_blank" rel="noopener">{{ s.instagramHandle }}</a>
+            </li>
+          </ul>
+
+          <div class="c-quote">
+            <span class="qm">“</span>
+            <p>Chaque instant mérite d'être gardé.</p>
+            <a routerLink="/services" class="pill pill-fill">Réserver maintenant</a>
+          </div>
         </div>
-        <app-contact-trio />
-        <div class="go-res"><a routerLink="/services" class="btn btn-red">Réserver maintenant</a></div>
       </div>
+      <p class="motto">Élégance &nbsp;·&nbsp; Émotion &nbsp;·&nbsp; Souvenirs</p>
     </section>
   `,
   styles: [`
-    /* ---------- accueil ---------- */
-    .home { background: var(--bg); padding: 96px 0 0; text-align: center; overflow: hidden; }
-    .home-in { max-width: 1140px; }
-    .home-tag { display: inline-block; font-style: italic; font-weight: 400; font-size: 1.45rem; color: var(--gold-dark); margin-bottom: 26px; cursor: default; }
-    .home-title { font-weight: 300; text-transform: uppercase; letter-spacing: .035em; line-height: 1.12;
-      font-size: clamp(1.9rem, 5vw, 3.7rem); color: var(--ink); margin-bottom: 52px; }
-    .home-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; max-width: 700px; margin: 0 auto 40px; text-align: left; }
-    .home-cols p { font-size: 1.02rem; font-weight: 500; line-height: 1.8; color: var(--muted); margin: 0; }
-    .home-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-    .marquee { margin-top: 72px; padding-bottom: 72px; overflow: hidden;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-    .track { display: flex; gap: 16px; width: max-content; animation: roll 60s linear infinite; }
+    :host {
+      --wine: #4a1622; --wine-2: #3a0f19; --wine-3: #5a1f2c;
+      --cream: #f7ebe3; --cream-2: #f1e0d5;
+      --rose: #b9795f; --rose-2: #d9a48c; --rose-soft: #c99a86;
+      display: block; overflow-x: clip; font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif; font-weight: 400;
+      background: var(--cream); color: var(--wine); line-height: 1.6;
+    }
+    .wrap { width: min(1180px, 92%); margin: 0 auto; }
+    ul { list-style: none; }
+
+    /* ---------- haut de page ---------- */
+    .hero { background: var(--cream); padding: 34px 0 0; position: relative; }
+    .hero-top { display: flex; align-items: flex-start; gap: 18px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
+    .hero-top .line { flex: 1; height: 1px; background: var(--rose); opacity: .6; margin-top: .7em; }
+    .hero-top .star { color: var(--rose); margin-top: -.1em; }
+    .hero-top .tr { text-align: right; line-height: 1.55; letter-spacing: .22em; }
+
+    .giant { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase; color: var(--wine);
+      font-size: clamp(3.1rem, 10.4vw, 9.4rem); line-height: .98; letter-spacing: .02em; white-space: nowrap; margin: 22px 0 6px;
+      position: relative; z-index: 1; }
+    .rule { display: flex; align-items: center; gap: 10px; width: min(46%, 520px); color: var(--rose); font-size: .6rem; margin-bottom: 26px; }
+    .rule i { flex: 1; height: 1px; background: var(--rose); opacity: .7; }
+
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 30px; align-items: end; }
+    .hero-text { padding-bottom: 54px; align-self: center; }
+    .role { display: inline-block; font-size: .86rem; letter-spacing: .3em; text-transform: uppercase; color: var(--rose); margin-bottom: 30px; cursor: default; }
+    .pitch { border-left: 1px solid var(--rose); padding-left: 22px; max-width: 360px; font-size: 1.28rem; line-height: 1.5; font-weight: 300; color: var(--wine); }
+    .sign { font-family: 'Pinyon Script', 'Snell Roundhand', cursive; font-size: 3.1rem; color: var(--rose-soft); line-height: 1; margin: 34px 0 14px; }
+    .based { font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; color: var(--wine); opacity: .8; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+    .pill { display: inline-flex; align-items: center; justify-content: center; padding: 12px 26px; border: 1px solid var(--rose); color: var(--wine);
+      font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; border-radius: 999px; transition: background .25s, color .25s; }
+    .pill:hover { background: var(--wine); color: var(--cream); border-color: var(--wine); }
+    .pill-fill { background: var(--wine); color: var(--cream); border-color: var(--wine); }
+    .pill-fill:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .pill:focus-visible, a:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+    .hero-photo { display: flex; justify-content: flex-end; margin-top: -120px; position: relative; }
+    .arch { position: relative; width: min(100%, 560px); aspect-ratio: 1 / 1.08; border-radius: 999px 999px 0 0; background: var(--wine-3);
+      border: 3px solid var(--rose); border-bottom: 0; overflow: hidden; }
+    .arch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+    .arch.small { width: 100%; max-width: 250px; aspect-ratio: 1 / 1.1; border-width: 2px; }
+
+    /* ---------- bandeau bordeaux + photos ---------- */
+    .stitle { display: flex; align-items: center; gap: 18px; font-family: 'Jost', sans-serif; font-weight: 400; font-size: .86rem;
+      letter-spacing: .36em; text-transform: uppercase; color: var(--wine); margin-bottom: 30px; line-height: 1.5; }
+    .stitle::before, .stitle::after { content: ''; flex: 1; height: 1px; background: var(--rose); opacity: .6; }
+    .stitle span { text-align: center; }
+    .stitle.light { color: var(--rose-2); }
+    .stitle.big { font-size: 1rem; letter-spacing: .32em; }
+
+    .work { background: var(--wine); padding: 42px 0 46px; background-image: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.06), transparent 65%); }
+    .work .stitle { width: min(1180px, 92%); margin: 0 auto 30px; }
+    .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+    .track { display: flex; gap: 22px; width: max-content; animation: roll 70s linear infinite; }
     .marquee:hover .track { animation-play-state: paused; }
-    .track img { height: 360px; width: 270px; object-fit: cover; border-radius: 6px; flex: none; }
+    .track figure { flex: none; padding: 6px; border: 1px solid var(--rose); }
+    .track img { height: 340px; width: 272px; object-fit: cover; display: block; }
     @keyframes roll { to { transform: translateX(-50%); } }
-    @media (prefers-reduced-motion: reduce) { .track { animation: none; } }
-
-    /* ---------- à propos ---------- */
-    .label { display: block; font-size: .8rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 700; color: var(--gold-dark); margin-bottom: 18px; }
-
 
     /* ---------- services ---------- */
-    .services { padding: 100px 0; background: var(--bg); scroll-margin-top: 72px; }
-    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-    .card { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 3 / 4.3; border-radius: 6px;
-      overflow: hidden; color: #fff; box-shadow: var(--shadow);
-      background: radial-gradient(ellipse at 50% 30%, #4a3b27, #14110f 75%); }
-    .card-ico { display: block; position: absolute; top: 28%; left: 50%; width: 72px; height: 72px; margin-left: -36px; color: var(--gold); opacity: .55; }
-    .card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .9s ease; }
-    .card:hover .card-img { transform: scale(1.06); }
-    .shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(12,9,6,.92) 0%, rgba(12,9,6,.55) 42%, rgba(12,9,6,0) 72%); }
-    .card-body { position: relative; padding: 0 26px 26px; display: flex; flex-direction: column; }
-    .card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 10px; color: #fff; }
-    .card p { color: rgba(255,255,255,.82); font-size: .98rem; line-height: 1.5; margin-bottom: 16px; }
-    .from { font-size: .9rem; color: rgba(255,255,255,.75); padding-top: 14px; border-top: 1px solid rgba(255,255,255,.28); margin-bottom: 10px; }
-    .from b { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; color: var(--gold-light); }
-    .more { color: var(--gold-light); font-weight: 700; font-size: .82rem; letter-spacing: .16em; text-transform: uppercase; transition: letter-spacing .3s; }
-    .card:hover .more { letter-spacing: .24em; }
+    .offer { background: var(--cream); padding: 64px 0 70px; scroll-margin-top: 72px; }
+    .offer-grid { display: grid; grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); gap: 30px; }
+    .divider { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--rose); font-size: .6rem; }
+    .divider i { flex: 1; width: 1px; background: var(--rose); opacity: .6; }
+    .col li + li { margin-top: 6px; }
+    .col li a { display: flex; align-items: center; gap: 18px; padding: 14px 10px; border-radius: 10px; transition: background .25s; }
+    .col li a:hover { background: var(--cream-2); }
+    .ico { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border: 1px solid var(--rose); border-radius: 50%; color: var(--rose); font-size: 1.35rem; }
+    .ico svg { width: 55%; height: 55%; display: block; }
+    .txt { flex: 1; min-width: 0; }
+    .txt b { display: block; font-weight: 500; font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
+    .txt small { display: block; font-size: .92rem; line-height: 1.45; color: #6d4a4d; margin-top: 3px; }
+    .price { flex: none; font-family: 'Italiana', Georgia, serif; font-size: 1.3rem; color: var(--rose); white-space: nowrap; }
 
     /* ---------- contact ---------- */
-    .cta { padding: 100px 0; background: radial-gradient(ellipse at 50% 0%, rgba(184,146,79,.22), transparent 60%), var(--ink); text-align: center; color: #fff; }
-    .cta .label { color: var(--gold-light); }
-    .cta h2 .it { color: var(--gold-light); }
-    .head { margin-bottom: 44px; }
-    .go-res { margin-top: 44px; }
-    .cta h2 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 500; margin-bottom: 14px; }
-    .cta p { color: rgba(255,255,255,.72); font-size: 1.2rem; max-width: 620px; margin: 0 auto; }
-    .callrow { display: flex; flex-wrap: wrap; gap: 10px 32px; justify-content: center; margin-bottom: 32px; font-weight: 700; }
-    .callrow a:hover { color: var(--gold-dark); }
+    .contact { background: var(--wine-2); background-image: radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.07), transparent 60%); color: var(--cream); padding: 52px 0 0; }
+    .c-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px; align-items: center; padding-bottom: 46px; }
+    .c-photo { position: relative; display: flex; justify-content: center; align-items: flex-end; }
+    .c-photo .script { position: absolute; left: -2%; bottom: 8%; font-family: 'Pinyon Script', cursive; font-size: 3rem; line-height: 1; color: var(--rose-2); transform: rotate(-6deg); text-shadow: 0 2px 14px rgba(0,0,0,.45); }
+    .c-list { padding-left: 34px; border-left: 1px solid rgba(217,164,140,.35); }
+    .c-list li { display: flex; align-items: center; gap: 16px; padding: 9px 0; font-size: 1.02rem; }
+    .c-list .ico { width: 38px; height: 38px; font-size: 1.1rem; color: var(--rose-2); border-color: var(--rose-soft); }
+    .c-list a { color: var(--cream); word-break: break-word; }
+    .c-list a:hover { color: var(--rose-2); }
+    .c-quote { padding-left: 34px; border-left: 1px solid rgba(217,164,140,.35); }
+    .qm { display: block; font-family: 'Italiana', serif; font-size: 3.4rem; line-height: .7; color: var(--rose-2); }
+    .c-quote p { font-family: 'Italiana', 'Cormorant Garamond', serif; font-size: 1.7rem; line-height: 1.3; color: var(--cream); margin: 6px 0 22px; }
+    .contact .pill { border-color: var(--rose-soft); color: var(--cream); }
+    .contact .pill:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .contact .pill-fill { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .contact .pill-fill:hover { background: var(--cream); border-color: var(--cream); color: var(--wine); }
+    .motto { border-top: 1px solid rgba(217,164,140,.3); text-align: center; padding: 14px 4%; font-size: .72rem; letter-spacing: .32em; text-transform: uppercase; color: var(--rose-2); }
 
-    @media (max-width: 960px) {
-      .cards { grid-template-columns: repeat(2, 1fr); }
+    /* ---------- tablette / mobile ---------- */
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: minmax(0, 1fr); }
+      .hero-photo { margin-top: 0; justify-content: center; }
+      .hero-text { padding-bottom: 12px; }
+      .c-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+      .c-photo { order: -1; }
+      .c-list, .c-quote { padding-left: 0; border-left: 0; }
+      .c-quote { text-align: center; }
     }
-    @media (max-width: 860px) {
-      .home { padding-top: 56px; }
-      .home-tag { font-size: 1.2rem; }
-      .home-title { margin-bottom: 32px; }
-      .home-cols { grid-template-columns: 1fr; gap: 20px; }
-      .marquee { margin-top: 48px; padding-bottom: 48px; }
-      .track img { height: 260px; width: 195px; }
-      }
-    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .card { aspect-ratio: 4 / 5; } }
+    @media (max-width: 780px) {
+      .giant { white-space: normal; font-size: clamp(3.4rem, 19vw, 6rem); line-height: 1; }
+      .giant span { display: block; }
+      .hero-top .tr, .hero-top .star { display: none; }
+      .rule { width: 70%; }
+      .offer-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+      .divider { flex-direction: row; }
+      .divider i { height: 1px; width: auto; }
+      .track img { height: 260px; width: 208px; }
+      .stitle { letter-spacing: .24em; gap: 12px; }
+      .stitle span { white-space: normal; }
+      .c-photo .script { left: 4%; }
+    }
+    @media (prefers-reduced-motion: reduce) { .track { animation: none; } }
   `],
 })
 export class HomeComponent implements OnDestroy {
@@ -154,26 +263,24 @@ export class HomeComponent implements OnDestroy {
   private photoClicks = 0;
   private photoTimer?: ReturnType<typeof setTimeout>;
   s = STUDIO;
-  fromSoiree = SOIREE_PRICING.base;
-  fromShooting = Math.min(...SHOOTING_OPTIONS.map((o) => o.price));
 
-  // Cartes des services. Les photos sont dans src/assets/services (même nom de fichier = remplacement)
-  cards = [
-    { title: 'Soirée homme', icon: 'man', partie: 'mariage', price: SOIREE_PRICING.base, img: 'assets/services/soiree-homme.jpg',
-      text: 'Une couverture complète de votre soirée, en photo et en vidéo, pour en garder chaque instant.' },
-    { title: 'Soirée femme', icon: 'woman', partie: 'mariage', price: SOIREE_PRICING.base, img: 'assets/services/soiree-femme.jpg',
-      text: 'Une couverture raffinée et attentive au moindre détail, des tenues aux plus beaux sourires.' },
-    { title: 'Mariage', icon: 'rings', partie: 'mariage', price: SOIREE_PRICING.base, img: 'assets/services/mariage.jpg',
-      text: "Le plus beau jour de votre vie, raconté avec émotion et élégance, de l'arrivée des mariés à la dernière danse." },
-    { title: 'Shooting', icon: 'camera', partie: 'shooting', price: Math.min(...SHOOTING_OPTIONS.map((o) => o.price)), img: 'assets/services/shooting.jpg',
-      text: 'Une séance rien que pour vous : portrait, couple, famille ou séance de mariage, avec ou sans vidéo.' },
+  weddingItems = [
+    { title: 'Soirée homme', icon: 'man', price: SOIREE_PRICING.base,
+      text: "Une couverture complète de votre soirée, en photo et en vidéo." },
+    { title: 'Soirée femme', icon: 'woman', price: SOIREE_PRICING.base,
+      text: 'Une couverture raffinée, des tenues aux plus beaux sourires.' },
+    { title: 'Mariage', icon: 'rings', price: SOIREE_PRICING.base,
+      text: "De l'arrivée des mariés à la dernière danse." },
   ];
 
+  private shootingIcons: Record<string, string> = { photo: 'camera', photo_video: 'video', preparation: 'sun', preparation_photo: 'camera' };
+  shootingItems = SHOOTING_OPTIONS.map((o) => ({ title: o.name, icon: this.shootingIcons[o.id] ?? 'camera', price: o.price, text: o.desc }));
+
   // 8 photos, répétées deux fois pour un défilement sans coupure
-  private photos = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `assets/photos/photo-${n}.jpg`);
+  private photos = [2, 3, 4, 6, 7, 8, 1, 5].map((n) => `assets/photos/photo-${n}.jpg`);
   loop = [...this.photos, ...this.photos];
 
-  // 3 clics rapides sur le phrase dorée en italique en haut de l’accueil = espace monteur
+  // 3 clics rapides sur la ligne « Photographes & vidéastes » = espace monteur
   photoClick() {
     this.photoClicks++;
     clearTimeout(this.photoTimer);
