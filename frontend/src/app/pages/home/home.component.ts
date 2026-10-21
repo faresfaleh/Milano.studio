@@ -220,9 +220,19 @@ import { RevealDirective } from '../../directives/reveal.directive';
     .offer-grid { display: grid; grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); gap: 30px; }
     .divider { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--rose); font-size: .6rem; }
     .divider i { flex: 1; width: 1px; background: var(--rose); opacity: .6; }
-    .col li + li { margin-top: 6px; }
-    .col li a { display: flex; align-items: center; gap: 18px; padding: 14px 10px; border-radius: 10px; transition: background .25s; }
-    .col li a:hover { background: var(--cream-2); }
+    /* Chaque service = une carte « pilule » arrondie, empilée avec une ombre douce */
+    .col li { position: relative; }
+    .col li + li { margin-top: 18px; }
+    .col li::before { content: ''; position: absolute; left: 7%; right: 7%; top: -7px; height: 60%; border-radius: 999px;
+      background: var(--rose-soft); opacity: .28; z-index: 0; }
+    .col li a { position: relative; z-index: 1; display: flex; align-items: center; gap: 18px; padding: 16px 34px 16px 16px; border-radius: 999px;
+      background: linear-gradient(180deg, #fcf3ec, #f2e1d6); border: 1px solid rgba(185,121,95,.35);
+      box-shadow: 0 10px 22px rgba(74,22,34,.10), inset 0 1px 0 rgba(255,255,255,.8); transition: background .3s, box-shadow .3s, transform .3s; }
+    .col li a:hover { background: var(--wine); border-color: var(--wine); transform: translateY(-3px); box-shadow: 0 16px 30px rgba(74,22,34,.28); }
+    .col li a:hover .txt b { color: var(--cream); }
+    .col li a:hover .txt small { color: #ead3c8; }
+    .col li a:hover .price { color: var(--rose-2); }
+    .col li a:hover .ico { border-color: var(--rose-soft); color: var(--rose-2); }
     .ico { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border: 1px solid var(--rose); border-radius: 50%; color: var(--rose); font-size: 1.35rem; }
     .ico svg { width: 55%; height: 55%; display: block; }
     .txt { flex: 1; min-width: 0; }
@@ -287,13 +297,14 @@ import { RevealDirective } from '../../directives/reveal.directive';
       .offer-grid { grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1fr); gap: 10px; }
       .divider { flex-direction: column; }
       .divider i { width: 1px; height: auto; }
-      .col li + li { margin-top: 2px; }
-      .col li a { flex-wrap: wrap; gap: 4px 8px; padding: 8px 2px; }
+      .col li + li { margin-top: 12px; }
+      .col li::before { top: -5px; }
+      .col li a { flex-wrap: wrap; gap: 4px 8px; padding: 10px 12px 10px 8px; border-radius: 30px; }
       .ico { width: 26px; height: 26px; }
       .txt { flex: 1 1 60%; }
       .txt b { font-size: 8px; letter-spacing: .12em; }
       .txt small { font-size: 9.5px; line-height: 1.35; }
-      .price { flex-basis: 100%; padding-left: 34px; font-size: 13px; }
+      .price { flex-basis: 100%; padding-left: 34px; padding-bottom: 2px; font-size: 13px; }
 
       .contact { padding-top: 30px; }
       .c-grid { padding-bottom: 28px; }
