@@ -20,9 +20,13 @@ import { CartService } from './services/cart.service';
           <a routerLink="/services" routerLinkActive="active">Services</a>
           <a routerLink="/flash" routerLinkActive="active">Mon flash</a>
           <a routerLink="/contact" routerLinkActive="active">Contact</a>
-          <a routerLink="/panier" class="btn btn-red btn-sm"><app-icon name="cart" size="1.2em" /> Panier @if (cart.count() > 0) { <span class="count">{{ cart.count() }}</span> }</a>
+          <a routerLink="/panier" class="cart"><app-icon name="cart" size="1.25em" /> Panier @if (cart.count() > 0) { <span class="count">{{ cart.count() }}</span> }</a>
         </nav>
-        <button class="burger" (click)="open = !open" aria-label="Menu">☰</button>
+        <button class="burger" (click)="open = !open" aria-label="Menu" [attr.aria-expanded]="open">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            @if (open) { <path d="M5 5l14 14M19 5L5 19" /> } @else { <path d="M4 7h16M4 12h16M4 17h16" /> }
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -56,20 +60,26 @@ import { CartService } from './services/cart.service';
     </footer>
   `,
   styles: [`
-    .header { position: sticky; top: 0; z-index: 50; background: rgba(251,249,245,.92); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line); }
-    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand img { height: 40px; width: auto; border-radius: 8px; }
+    /* ===== En-tête : même style que l'accueil (crème, bordeaux, rose) ===== */
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(247,235,227,.93); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(185,121,95,.4); box-shadow: 0 6px 22px rgba(74,22,34,.06); }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 78px; }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { height: 42px; width: auto; border-radius: 8px; }
     .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-    .brand-text strong { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
-    .brand-text small { font-size: .62rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-dark); font-weight: 700; margin-top: 3px; }
-    nav { display: flex; align-items: center; gap: 30px; }
-    nav a:not(.btn) { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); transition: .2s; position: relative; }
-    nav a:not(.btn):hover, nav a.active { color: var(--gold-dark); }
-    nav a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; background: var(--gold); border-radius: 2px; }
-    .count { background: var(--ink); color: var(--gold-light); border-radius: 99px; padding: 0 7px; font-size: .75rem; font-weight: 700; margin-left: 6px; }
-    .burger { display: none; background: none; border: 0; font-size: 1.7rem; cursor: pointer; color: var(--text); }
+    .brand-text strong { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; color: #4a1622; }
+    .brand-text small { font-family: 'Jost', sans-serif; font-size: .58rem; letter-spacing: .38em; text-transform: uppercase; color: #b9795f; font-weight: 400; margin-top: 4px; }
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a:not(.cart) { font-family: 'Jost', sans-serif; font-size: .74rem; font-weight: 400; text-transform: uppercase; letter-spacing: .24em; color: #4a1622; transition: color .2s; position: relative; padding: 6px 0; }
+    nav a:not(.cart):hover, nav a.active { color: #b9795f; }
+    nav a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: #b9795f; }
+    .cart { display: inline-flex; align-items: center; gap: 9px; padding: 11px 24px; border-radius: 999px; background: #4a1622; color: #f7ebe3; border: 1px solid #4a1622;
+      font-family: 'Jost', sans-serif; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; transition: background .25s, border-color .25s; }
+    .cart:hover { background: #b9795f; border-color: #b9795f; }
+    .count { background: #b9795f; color: #fff; border-radius: 99px; min-width: 20px; padding: 0 6px; font-size: .72rem; line-height: 20px; text-align: center; letter-spacing: 0; }
+    .cart:hover .count { background: #4a1622; }
+    .burger { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; background: none; border: 1px solid rgba(185,121,95,.55); border-radius: 50%; cursor: pointer; color: #4a1622; }
+    .burger svg { width: 22px; height: 22px; }
 
     .footer { background: #070605; color: #cdc6ba; padding-top: 64px; border-top: 1px solid var(--line); }
     .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 40px; align-items: start; }
@@ -84,9 +94,18 @@ import { CartService } from './services/cart.service';
       border-top: 1px solid #2c2823; font-size: .82rem; color: #9a9286; }
     @media (max-width: 800px) {
       .footer-grid { grid-template-columns: 1fr; }
-      .burger { display: block; }
-      nav { display: none; position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; align-items: flex-start;
-        background: var(--bg-soft); padding: 22px 4%; gap: 18px; border-bottom: 1px solid var(--line); box-shadow: var(--shadow); }
+      /* Téléphone : menu à gauche, « Milano Studio » au centre */
+      .nav { display: grid; grid-template-columns: 44px 1fr 44px; height: 68px; gap: 8px; }
+      .burger { display: inline-flex; grid-column: 1; grid-row: 1; }
+      .brand { grid-column: 2; grid-row: 1; justify-self: center; gap: 10px; }
+      .brand img { height: 34px; }
+      .brand-text { align-items: center; }
+      .brand-text strong { font-size: 1.12rem; letter-spacing: .16em; }
+      .brand-text small { font-size: .5rem; letter-spacing: .34em; margin-top: 3px; }
+      nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; text-align: center;
+        background: #f7ebe3; padding: 8px 6% 20px; border-bottom: 1px solid rgba(185,121,95,.4); box-shadow: 0 18px 30px rgba(74,22,34,.12); }
+      nav a:not(.cart) { padding: 16px 0; border-bottom: 1px solid rgba(185,121,95,.25); font-size: .78rem; }
+      .cart { justify-content: center; margin-top: 16px; }
       nav.open { display: flex; }
       nav a.active::after { display: none; }
     }
