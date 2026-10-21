@@ -10,16 +10,13 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
   standalone: true,
   imports: [ReservationFormComponent, RevealDirective, IconComponent],
   template: `
-    <header class="page-hero" appReveal>
-      <div class="container">
-        <span class="eyebrow">Nos services</span>
-        <h2>Des souvenirs <em class="it">à la hauteur</em> de vos moments</h2>
-        <p>Photographie et vidéo pour vos mariages, vos soirées et vos séances. Composez votre formule, voyez le prix en direct et réservez en quelques clics.</p>
-      </div>
-    </header>
-
     <section class="section">
       <div class="container">
+        <div class="section-head" appReveal>
+          <span class="eyebrow">Nos prestations</span>
+          <h2>Des souvenirs <em class="it">à la hauteur</em> de vos moments</h2>
+          <p>Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances. Composez votre formule, découvrez le prix en direct et réservez en quelques clics.</p>
+        </div>
 
         <div class="parts">
           <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
@@ -113,9 +110,9 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
               </aside>
             </div>
           } @else {
-            <p class="hint">Choisissez un type de soirée ci-dessus pour composer votre formule.</p>
+            <p class="hint">Sélectionnez un type de soirée pour composer votre formule.</p>
           }
-          <p class="note"><app-icon name="calendar" size="1.1em" /> Le nombre de soirées est limité chaque jour : une date complète n'est plus disponible à la réservation.</p>
+          <p class="note"><app-icon name="calendar" size="1.1em" /> Un nombre maximum de soirées est accepté par jour : une date complète n'est plus disponible.</p>
 
           @if (modal === 'soiree') {
             <app-reservation-form [category]="'soiree'" [eventType]="eventType" [options]="options" (closed)="modal = null" />
@@ -151,7 +148,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .parts { display: flex; gap: 6px; padding: 5px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; max-width: 520px; margin: 0 auto 34px; }
     .parts button { display: flex; align-items: center; justify-content: center; gap: 10px; flex: 1; padding: 13px; background: transparent; color: var(--muted); border: 0; border-radius: 10px;
       cursor: pointer; font: 700 1.1rem 'Cormorant Garamond', Georgia, serif; transition: .15s; }
-    .parts button.on { background: linear-gradient(180deg, #2a241d, #0e0c0a); color: var(--gold-light); box-shadow: 0 4px 12px rgba(20,17,15,.28); }
+    .parts button.on { background: var(--ink); color: #fff; }
 
     /* étapes */
     .steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 34px; list-style: none; margin-bottom: 34px; color: var(--muted); font-weight: 700; font-size: .95rem; }
