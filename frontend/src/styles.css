@@ -86,3 +86,6 @@ select option { background: #fff; color: #14110f; }
 /* Boutons rectangulaires, lettres espacées */
 .btn { border-radius: 3px; text-transform: uppercase; letter-spacing: .14em; font-size: .8rem; padding: 14px 30px; }
 .btn-sm { padding: 9px 18px; font-size: .72rem; }
+
+/* Téléphone : écriture plus petite, pour se rapprocher de l'affichage sur ordinateur */
+@media (max-width: 780px) { html { font-size: 15px; } }

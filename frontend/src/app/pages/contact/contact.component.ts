@@ -135,10 +135,11 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
     .motto { border-top: 1px solid rgba(217,164,140,.3); text-align: center; padding: 14px 4%; font-size: .72rem; letter-spacing: .32em; text-transform: uppercase; color: var(--rose-2); }
 
     @media (max-width: 780px) {
-      .giant { font-size: clamp(3.4rem, 19vw, 6rem); line-height: 1; }
-      .htr, .htop .star { display: none; }
-      .rule { width: 70%; }
-      .lede { font-size: 1.08rem; }
+      .htop { font-size: 9px; letter-spacing: .14em; gap: 10px; }
+      .htr { letter-spacing: .14em; line-height: 1.5; }
+      .giant { font-size: 12vw; margin: 14px 0 4px; }
+      .rule { width: 46%; margin-bottom: 18px; }
+      .lede { font-size: .95rem; padding-left: 14px; }
       .trio-sec { padding: 40px 0 52px; }
       .stitle { letter-spacing: .24em; gap: 12px; }
       .book-in { flex-direction: column; align-items: flex-start; }

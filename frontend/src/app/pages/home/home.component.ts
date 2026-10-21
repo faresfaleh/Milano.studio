@@ -157,6 +157,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
     .giant { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase; color: var(--wine);
       font-size: clamp(3.1rem, 10.4vw, 9.4rem); line-height: .98; letter-spacing: .02em; white-space: nowrap; margin: 22px 0 6px;
       position: relative; z-index: 1; }
+    .giant span + span { margin-left: .26em; }
     .rule { display: flex; align-items: center; gap: 10px; width: min(46%, 520px); color: var(--rose); font-size: .6rem; margin-bottom: 26px; }
     .rule i { flex: 1; height: 1px; background: var(--rose); opacity: .7; }
 
@@ -232,28 +233,59 @@ import { RevealDirective } from '../../directives/reveal.directive';
     .contact .pill-fill:hover { background: var(--cream); border-color: var(--cream); color: var(--wine); }
     .motto { border-top: 1px solid rgba(217,164,140,.3); text-align: center; padding: 14px 4%; font-size: .72rem; letter-spacing: .32em; text-transform: uppercase; color: var(--rose-2); }
 
-    /* ---------- tablette / mobile ---------- */
+    /* ---------- tablette / mobile : même composition que sur ordinateur, en plus petit ---------- */
     @media (max-width: 980px) {
-      .hero-grid { grid-template-columns: minmax(0, 1fr); }
-      .hero-photo { margin-top: 0; justify-content: center; }
-      .hero-text { padding-bottom: 12px; }
+      .hero-photo { margin-top: -70px; }
       .c-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
       .c-photo { order: -1; }
       .c-list, .c-quote { padding-left: 0; border-left: 0; }
       .c-quote { text-align: center; }
     }
     @media (max-width: 780px) {
-      .giant { white-space: normal; font-size: clamp(3.4rem, 19vw, 6rem); line-height: 1; }
-      .giant span { display: block; }
-      .hero-top .tr, .hero-top .star { display: none; }
-      .rule { width: 70%; }
-      .offer-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-      .divider { flex-direction: row; }
-      .divider i { height: 1px; width: auto; }
-      .track img { height: 260px; width: 208px; }
-      .stitle { letter-spacing: .24em; gap: 12px; }
-      .stitle span { white-space: normal; }
-      .c-photo .script { left: 4%; }
+      .hero { padding-top: 16px; }
+      .hero-top { font-size: 9px; letter-spacing: .14em; gap: 10px; }
+      .hero-top .tr { letter-spacing: .14em; line-height: 1.5; }
+      .giant { font-size: 9vw; margin: 14px 0 4px; letter-spacing: .015em; }
+      .rule { margin-bottom: 16px; }
+      .hero-grid { gap: 12px; }
+      .hero-photo { margin-top: -34px; }
+      .arch { border-width: 2px; }
+      .hero-text { padding-bottom: 20px; }
+      .role { font-size: 8.5px; letter-spacing: .16em; margin-bottom: 12px; }
+      .pitch { font-size: 12.5px; padding-left: 10px; line-height: 1.45; }
+      .sign { font-size: 26px; margin: 14px 0 6px; }
+      .based { font-size: 8.5px; letter-spacing: .14em; }
+      .hero-actions { flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 14px; }
+      .pill { padding: 8px 14px; font-size: 8.5px; letter-spacing: .14em; }
+
+      .stitle { font-size: 9px; letter-spacing: .22em; gap: 10px; margin-bottom: 16px; }
+      .stitle.big { font-size: 10px; }
+      .work { padding: 24px 0 26px; }
+      .track { gap: 10px; }
+      .track figure { padding: 3px; }
+      .track img { height: 150px; width: 120px; }
+
+      .offer { padding: 34px 0 38px; }
+      .offer-grid { grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1fr); gap: 10px; }
+      .divider { flex-direction: column; }
+      .divider i { width: 1px; height: auto; }
+      .col li + li { margin-top: 2px; }
+      .col li a { flex-wrap: wrap; gap: 4px 8px; padding: 8px 2px; }
+      .ico { width: 26px; height: 26px; }
+      .txt { flex: 1 1 60%; }
+      .txt b { font-size: 8px; letter-spacing: .12em; }
+      .txt small { font-size: 9.5px; line-height: 1.35; }
+      .price { flex-basis: 100%; padding-left: 34px; font-size: 13px; }
+
+      .contact { padding-top: 30px; }
+      .c-grid { gap: 18px; padding-bottom: 28px; }
+      .arch.small { max-width: 150px; }
+      .c-photo .script { font-size: 1.9rem; left: 14%; }
+      .c-list li { font-size: .85rem; padding: 6px 0; gap: 10px; }
+      .c-list .ico { width: 28px; height: 28px; }
+      .qm { font-size: 2.2rem; }
+      .c-quote p { font-size: 1.15rem; margin-bottom: 14px; }
+      .motto { font-size: 8px; letter-spacing: .2em; padding: 10px 4%; }
     }
     @media (prefers-reduced-motion: reduce) { .track { animation: none; } }
   `],

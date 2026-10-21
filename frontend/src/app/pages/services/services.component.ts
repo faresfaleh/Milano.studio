@@ -300,10 +300,11 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
         font: 400 .72rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: var(--rose); }
     }
     @media (max-width: 780px) {
-      .giant { font-size: clamp(3.4rem, 19vw, 6rem); line-height: 1; }
-      .htr, .htop .star { display: none; }
-      .rule { width: 70%; }
-      .lede { font-size: 1.08rem; }
+      .htop { font-size: 9px; letter-spacing: .14em; gap: 10px; }
+      .htr { letter-spacing: .14em; line-height: 1.5; }
+      .giant { font-size: 12vw; margin: 14px 0 4px; }
+      .rule { width: 46%; margin-bottom: 18px; }
+      .lede { font-size: .95rem; padding-left: 14px; }
       .main { padding: 30px 0 70px; }
     }
     @media (max-width: 560px) {
