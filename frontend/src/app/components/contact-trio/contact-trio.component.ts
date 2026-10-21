@@ -40,23 +40,19 @@ import { RevealDirective } from '../../directives/reveal.directive';
     </div>
   `,
   styles: [`
-    .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; text-align: center; }
-    .item { position: relative; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 8px;
-      padding: 42px 26px 36px; box-shadow: var(--shadow); transition: transform .3s, box-shadow .3s; }
-    .item::before { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 3px; background: var(--gold);
-      transform: scaleX(0); transform-origin: left; transition: transform .4s; }
-    .item:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(20,17,15,.14); }
-    .item:hover::before { transform: scaleX(1); }
-    .ring { display: grid; place-items: center; width: 78px; height: 78px; border-radius: 50%; margin: 0 auto 22px;
-      background: var(--gold-soft); color: var(--gold-dark); transition: .3s; }
-    .item:hover .ring { background: var(--gold); color: #fff; }
-    .ico { width: 36px; height: 36px; display: block; }
-    h4 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 700; letter-spacing: .18em;
-      text-transform: uppercase; margin-bottom: 12px; color: var(--text); }
-    p { color: var(--muted); font-size: 1rem; line-height: 1.55; margin-bottom: 18px; }
-    .val { display: block; font-weight: 700; color: var(--gold-dark); font-size: 1.1rem; padding: 3px 0; word-break: break-word; }
-    .val:hover { text-decoration: underline; }
-    @media (max-width: 860px) { .trio { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+    .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; text-align: center; }
+    .item { position: relative; overflow: hidden; background: var(--card, #fffaf6); border: 1px solid var(--line, rgba(185,121,95,.4)); border-radius: 22px;
+      padding: 44px 26px 38px; box-shadow: var(--shadow, 0 12px 30px rgba(74,22,34,.08)); transition: transform .3s, box-shadow .3s, border-color .3s; }
+    .item:hover { transform: translateY(-5px); border-color: #b9795f; box-shadow: 0 22px 46px rgba(74,22,34,.14); }
+    .ring { display: grid; place-items: center; width: 74px; height: 74px; border-radius: 50%; margin: 0 auto 24px;
+      border: 1px solid #b9795f; color: #b9795f; transition: .3s; }
+    .item:hover .ring { background: #4a1622; border-color: #4a1622; color: #f7ebe3; }
+    .ico { width: 34px; height: 34px; display: block; }
+    h4 { font-family: 'Jost', sans-serif; font-size: .84rem; font-weight: 500; letter-spacing: .28em; text-transform: uppercase; margin-bottom: 14px; color: #4a1622; }
+    p { color: #6d4a4d; font-size: .98rem; line-height: 1.55; margin-bottom: 20px; }
+    .val { display: block; font-family: 'Italiana', Georgia, serif; font-weight: 400; color: #b9795f; font-size: 1.45rem; padding: 3px 0; word-break: break-word; }
+    .val:hover { color: #4a1622; }
+    @media (max-width: 860px) { .trio { grid-template-columns: minmax(0, 1fr); max-width: 460px; margin: 0 auto; } }
   `],
 })
 export class ContactTrioComponent {
