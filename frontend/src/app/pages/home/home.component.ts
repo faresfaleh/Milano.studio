@@ -65,7 +65,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
           <ul>
             @for (it of weddingItems; track it.title) {
               <li>
-                <a routerLink="/services" [queryParams]="{ partie: 'mariage' }">
+                <a routerLink="/services" [queryParams]="{ partie: 'mariage', type: it.type }">
                   <span class="ico"><app-icon [name]="it.icon" /></span>
                   <span class="txt">
                     <b>{{ it.title }}</b>
@@ -85,7 +85,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
           <ul>
             @for (it of shootingItems; track it.title) {
               <li>
-                <a routerLink="/services" [queryParams]="{ partie: 'shooting' }">
+                <a routerLink="/services" [queryParams]="{ partie: 'shooting', go: 1 }">
                   <span class="ico"><app-icon [name]="it.icon" /></span>
                   <span class="txt">
                     <b>{{ it.title }}</b>
@@ -326,11 +326,11 @@ export class HomeComponent implements OnDestroy {
   s = STUDIO;
 
   weddingItems = [
-    { title: 'Soirée homme', icon: 'man', price: SOIREE_PRICING.base,
+    { title: 'Soirée homme', type: 'soiree_homme', icon: 'man', price: SOIREE_PRICING.base,
       text: "Une couverture complète de votre soirée, en photo et en vidéo." },
-    { title: 'Soirée femme', icon: 'woman', price: SOIREE_PRICING.base,
+    { title: 'Soirée femme', type: 'soiree_femme', icon: 'woman', price: SOIREE_PRICING.base,
       text: 'Une couverture raffinée, des tenues aux plus beaux sourires.' },
-    { title: 'Mariage', icon: 'rings', price: SOIREE_PRICING.base,
+    { title: 'Mariage', type: 'mariage', icon: 'rings', price: SOIREE_PRICING.base,
       text: "De l'arrivée des mariés à la dernière danse." },
   ];
 

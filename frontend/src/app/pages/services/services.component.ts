@@ -30,7 +30,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
 
     <section class="main">
       <div class="wrap">
-        <div class="parts">
+        <div class="parts" id="choix">
           <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
           <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> Shooting</button>
         </div>
@@ -43,17 +43,17 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
             <li><span>3</span> Réservez votre date</li>
           </ol>
 
-          <div class="grid grid-3 types" appReveal>
+          <ul class="plist types" appReveal>
             @for (t of eventTypes; track t.id) {
-              <button type="button" class="type" [class.sel]="eventType === t.id" (click)="selectType(t.id)">
-                <span class="tick"><app-icon name="check" size="1.5rem" /></span>
-                <span class="pic"><app-icon [name]="icons[t.id]" size="2rem" /></span>
-                <strong class="tl">{{ t.label }}</strong>
-                <span class="td">{{ info[t.id] }}</span>
-                <span class="from">À partir de <b>{{ pricing.base }} DT</b></span>
-              </button>
+              <li>
+                <button type="button" class="type" [class.sel]="eventType === t.id" (click)="selectType(t.id)">
+                  <span class="pic"><app-icon [name]="icons[t.id]" size="1.5rem" /></span>
+                  <span class="txt"><strong class="tl">{{ t.label }}</strong><span class="td">{{ info[t.id] }}</span></span>
+                  <span class="from">À partir de <b>{{ pricing.base }} DT</b></span>
+                </button>
+              </li>
             }
-          </div>
+          </ul>
 
           @if (eventType) {
             <div class="conf" id="conf">
@@ -135,16 +135,18 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
           <div class="grid two" appReveal>
             @for (t of shootingTypes; track t.id) {
               <div class="prop">
-                <h3><span class="pic sm"><app-icon [name]="t.id === 'mariage' ? 'rings' : 'camera'" size="1.5rem" /></span> {{ t.name }}</h3>
+                <h3 class="stl"><span>{{ t.name }}</span></h3>
                 <p class="sub">{{ t.desc }}</p>
-                <div class="rows">
+                <ul class="plist rows">
                   @for (o of shootingOptions; track o.id) {
-                    <button type="button" class="opt" [class.sel]="shootingType === t.id && shootingOption === o.id" (click)="chooseShoot(t.id, o.id)">
-                      <span class="nm"><strong>{{ o.name }}</strong><small>{{ o.desc }}</small></span>
-                      <b>{{ o.price }} DT</b>
-                    </button>
+                    <li>
+                      <button type="button" class="opt" [class.sel]="shootingType === t.id && shootingOption === o.id" (click)="chooseShoot(t.id, o.id)">
+                        <span class="nm"><strong>{{ o.name }}</strong><small>{{ o.desc }}</small></span>
+                        <b>{{ o.price }} DT</b>
+                      </button>
+                    </li>
                   }
-                </div>
+                </ul>
               </div>
             }
           </div>
@@ -185,7 +187,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .main { padding: 44px 0 90px; }
 
     /* choix Mariage & soirées / Shooting */
-    .parts { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 0 auto 38px; }
+    .parts { scroll-margin-top: 84px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 0 auto 38px; }
     .parts button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 28px; background: transparent; color: var(--wine);
       border: 1px solid var(--rose); border-radius: 999px; cursor: pointer; font: 400 .76rem 'Jost', sans-serif; letter-spacing: .22em; text-transform: uppercase; transition: background .25s, color .25s; }
     .parts button:hover { background: var(--cream-2); }
@@ -199,40 +201,46 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .steps li.cur1 span, .steps li.cur span { background: var(--gold-soft); color: var(--wine); }
     .steps li.done span { background: var(--rose); border-color: var(--rose); color: #fff; }
 
-    /* cartes de soirée */
-    .types { margin-bottom: 34px; }
-    .type { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 36px 26px 28px; cursor: pointer;
-      font: inherit; color: var(--wine); background: var(--card); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); transition: .3s; }
-    .type:hover { transform: translateY(-4px); border-color: var(--rose); box-shadow: 0 20px 44px rgba(74,22,34,.14); }
-    .pic { width: 66px; height: 66px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); display: grid; place-items: center; flex: none; transition: .3s; }
-    .pic.sm { width: 48px; height: 48px; display: inline-grid; }
-    .tl { font: 500 .86rem 'Jost', sans-serif; letter-spacing: .26em; text-transform: uppercase; }
-    .td { color: var(--muted); font-size: .98rem; line-height: 1.5; }
-    .from { margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line); width: 100%; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .from b { color: var(--rose); font: 400 1.4rem 'Italiana', Georgia, serif; letter-spacing: .02em; margin-left: 4px; }
-    .tick { position: absolute; top: 16px; right: 16px; color: var(--rose-2); opacity: 0; transform: scale(.6); transition: .2s; }
-    .type.sel { background: var(--wine); color: var(--cream); border-color: var(--wine); }
-    .type.sel .pic { border-color: var(--rose-2); color: var(--rose-2); }
-    .type.sel .td, .type.sel .from { color: rgba(247,235,227,.75); }
-    .type.sel .from { border-top-color: rgba(217,164,140,.35); }
-    .type.sel .from b { color: var(--rose-2); }
-    .type.sel .tick { opacity: 1; transform: none; }
+    /* ===== Même style « pilule » que l'accueil ===== */
+    .plist { list-style: none; }
+    .plist li { position: relative; }
+    .plist li + li { margin-top: 18px; }
+    .plist li::before { content: ''; position: absolute; left: 7%; right: 7%; top: -7px; height: 60%; border-radius: 999px; background: var(--rose-soft); opacity: .28; z-index: 0; }
+    .type, .opt, .grp { background: linear-gradient(180deg, #fcf3ec, #f2e1d6); border: 1px solid rgba(185,121,95,.35);
+      box-shadow: 0 10px 22px rgba(74,22,34,.10), inset 0 1px 0 rgba(255,255,255,.8); }
+    .type, .opt { position: relative; z-index: 1; width: 100%; text-align: left; cursor: pointer; font: inherit; color: var(--wine); border-radius: 999px;
+      transition: background .3s, box-shadow .3s, transform .3s, border-color .3s; }
+    .type:hover, .opt:hover, .type.sel, .opt.sel { background: var(--wine); border-color: var(--wine); box-shadow: 0 16px 30px rgba(74,22,34,.28); }
+    .type:hover, .opt:hover { transform: translateY(-3px); }
+
+    .types { margin-bottom: 38px; }
+    .type { display: flex; align-items: center; gap: 18px; padding: 16px 34px 16px 16px; }
+    .pic { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); display: grid; place-items: center; flex: none; transition: .3s; }
+    .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+    .tl { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
+    .td { color: #6d4a4d; font-size: .95rem; line-height: 1.45; }
+    .from { flex: none; text-align: right; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .from b { display: block; color: var(--rose); font: 400 1.4rem 'Italiana', Georgia, serif; letter-spacing: .02em; margin-top: 2px; }
+    .type:hover .tl, .type.sel .tl, .opt:hover strong, .opt.sel strong { color: var(--cream); }
+    .type:hover .td, .type.sel .td, .type:hover .from, .type.sel .from, .opt:hover small, .opt.sel small { color: #ead3c8; }
+    .type:hover .pic, .type.sel .pic { border-color: var(--rose-soft); color: var(--rose-2); }
+    .type:hover .from b, .type.sel .from b, .opt:hover b, .opt.sel b { color: var(--rose-2); }
 
     /* composition de la formule */
     .conf { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: start; animation: up .45s ease both; scroll-margin-top: 90px; margin-top: 8px; }
     @keyframes up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-    .opts { background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 42px 40px 26px; }
+    .opts { padding: 8px 0 6px; }
     .opts h3 { font: 400 clamp(2.2rem, 4.2vw, 3.1rem)/1.1 'Italiana', Georgia, serif; text-transform: uppercase; letter-spacing: .02em; color: var(--wine); margin-bottom: 14px; }
     .opts h3 .it { font: 400 1.2em/1 'Pinyon Script', cursive; text-transform: none; letter-spacing: 0; color: var(--rose); }
     .sub { color: var(--muted); font-size: 1.05rem; margin-bottom: 26px; }
-    .grp { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 20px; padding: 22px 0; border-top: 1px solid var(--line); }
+    .grp { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 20px; padding: 16px 20px 16px 22px; margin-top: 16px; border-radius: 999px; }
     .gi { color: var(--rose); display: grid; place-items: center; }
     .gh { display: flex; flex-direction: column; gap: 4px; }
     .gh strong { font: 500 .84rem 'Jost', sans-serif; letter-spacing: .24em; text-transform: uppercase; color: var(--wine); }
     .gh strong small { margin-left: 12px; font: 400 1.1rem 'Italiana', Georgia, serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
     .gh span { color: var(--muted); font-size: .96rem; line-height: 1.45; max-width: 400px; }
     .gh span b { color: var(--rose); font-weight: 500; }
-    .seg { display: flex; flex: none; padding: 4px; gap: 2px; background: var(--cream-2); border: 1px solid var(--line); border-radius: 999px; }
+    .seg { display: flex; flex: none; padding: 4px; gap: 2px; background: rgba(255,255,255,.55); border: 1px solid var(--line); border-radius: 999px; }
     .seg button { min-width: 58px; padding: 10px 20px; background: transparent; border: 0; border-radius: 999px; cursor: pointer;
       font: 400 .9rem 'Jost', sans-serif; letter-spacing: .08em; color: var(--muted); transition: .18s; }
     .seg button:hover { color: var(--wine); }
@@ -271,17 +279,14 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     /* shooting */
     .incl { text-align: center; color: var(--muted); margin-bottom: 30px; font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; }
     .two { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-    .prop { background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 34px 30px; }
-    .prop h3 { font: 400 1.7rem/1.1 'Italiana', Georgia, serif; text-transform: uppercase; letter-spacing: .04em; color: var(--wine); margin-bottom: 8px; display: flex; align-items: center; gap: 14px; }
-    .rows { display: grid; gap: 10px; margin-top: 18px; }
-    .opt { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left;
-      padding: 15px 18px; background: var(--cream-2); border: 1px solid transparent; border-radius: 14px; cursor: pointer;
-      font: inherit; color: var(--wine); transition: .2s; }
-    .opt:hover { border-color: var(--rose); }
-    .opt.sel { border-color: var(--rose); background: var(--gold-soft); box-shadow: 0 0 0 1px var(--rose) inset; }
-    .nm { display: flex; flex-direction: column; }
-    .nm strong { font: 500 .82rem 'Jost', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
-    .nm small { color: var(--muted); font-size: .9rem; line-height: 1.35; margin-top: 2px; }
+    .prop { min-width: 0; }
+    .stl { display: flex; align-items: center; gap: 18px; font: 400 .86rem 'Jost', sans-serif; letter-spacing: .36em; text-transform: uppercase; color: var(--wine); margin-bottom: 10px; line-height: 1.5; }
+    .stl::before, .stl::after { content: ''; flex: 1; height: 1px; background: var(--rose); opacity: .6; }
+    .prop .sub { text-align: center; margin-bottom: 22px; }
+    .opt { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 16px 30px 16px 26px; }
+    .nm { display: flex; flex-direction: column; min-width: 0; }
+    .nm strong { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--wine); }
+    .nm small { color: #6d4a4d; font-size: .92rem; line-height: 1.35; margin-top: 2px; }
     .opt b { font: 400 1.35rem 'Italiana', Georgia, serif; color: var(--rose); white-space: nowrap; }
 
     .mbar { display: none; }
@@ -310,10 +315,14 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     @media (max-width: 560px) {
       .steps { gap: 8px 16px; font-size: .68rem; letter-spacing: .12em; }
       .parts button { padding: 12px 20px; font-size: .7rem; letter-spacing: .16em; }
-      .opts { padding: 28px 18px 6px; border-radius: 20px; }
+      .opts { padding: 4px 0 0; }
+      .type { flex-wrap: wrap; gap: 6px 14px; padding: 14px 18px 14px 14px; border-radius: 30px; }
+      .from { flex-basis: 100%; text-align: left; padding-left: 66px; }
+      .from b { display: inline; margin-left: 6px; }
+      .opt { border-radius: 30px; padding: 14px 20px 14px 22px; }
       .opts h3 { font-size: 2.1rem; }
       .sub { font-size: 1rem; margin-bottom: 14px; }
-      .grp { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 20px 0; align-items: start; }
+      .grp { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 18px 16px; border-radius: 30px; align-items: start; }
       .gi { padding-top: 2px; }
       .gh strong { font-size: .8rem; letter-spacing: .18em; }
       .gh strong small { display: block; margin: 3px 0 0; font-size: 1.05rem; }
@@ -329,7 +338,6 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
       .go { gap: 10px; padding: 16px 14px; }
       .go app-icon:first-child { display: none; }
       .go span { letter-spacing: .1em; font-size: .7rem; }
-      .prop { padding: 26px 18px; }
     }
   `],
 })
@@ -358,7 +366,21 @@ export class ServicesComponent implements OnInit {
     this.route.queryParamMap.subscribe((q) => {
       const p = q.get('partie');
       if (p === 'mariage' || p === 'shooting') this.partie = p;
+
+      // Arrivée depuis l'accueil : on saute l'en-tête et on va directement au choix / à la formule
+      const t = q.get('type');
+      if (t && EVENT_TYPES.some((e) => e.id === t)) {
+        this.partie = 'mariage';
+        this.eventType = t;
+        this.scrollTo('conf');
+      } else if (q.get('go')) {
+        this.scrollTo('choix');
+      }
     });
+  }
+
+  private scrollTo(id: string) {
+    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
   }
 
   // Affiche les options et fait défiler l'écran jusqu'à elles
