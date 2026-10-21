@@ -24,7 +24,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
 
         <div class="hero-grid">
           <div class="hero-text">
-            <p class="role" (click)="photoClick()">Photographes &amp; vidéastes d'événements</p>
+            <p class="role">Photographes &amp; vidéastes d'événements</p>
             <blockquote class="pitch">
               Nous capturons les moments qui vous coupent le souffle, avec discrétion, élégance et sensibilité.
             </blockquote>
@@ -37,7 +37,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
           </div>
 
           <div class="hero-photo">
-            <div class="arch" (click)="openMonteur()">
+            <div class="arch" (click)="photoClick()">
               <img src="assets/photos/photo-1.jpg" alt="Mariée souriante tenant son bouquet" />
             </div>
           </div>
@@ -131,6 +131,14 @@ import { RevealDirective } from '../../directives/reveal.directive';
                 </svg>
               </span>
               <a [href]="s.facebook" target="_blank" rel="noopener">{{ s.facebookName }}</a>
+            </li>
+            <li>
+              <span class="ico">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M30 6v22a8 8 0 1 1-8-8" /><path d="M30 6c0 5 4 9 10 9" />
+                </svg>
+              </span>
+              <a [href]="s.tiktok" target="_blank" rel="noopener">TikTok {{ s.tiktokHandle }}</a>
             </li>
           </ul>
 
@@ -244,27 +252,29 @@ import { RevealDirective } from '../../directives/reveal.directive';
     /* ---------- tablette / mobile : même composition que sur ordinateur, en plus petit ---------- */
     @media (max-width: 980px) {
       .hero-photo { margin-top: -70px; }
-      .c-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
-      .c-photo { order: -1; }
-      .c-list, .c-quote { padding-left: 0; border-left: 0; }
-      .c-quote { text-align: center; }
+      .c-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px 14px; }
+      .c-list { grid-column: 1 / -1; order: 3; padding-left: 0; border-left: 0; border-top: 1px solid rgba(217,164,140,.35); padding-top: 14px; }
+      .c-quote { padding-left: 14px; }
     }
     @media (max-width: 780px) {
-      .hero { padding-top: 16px; }
+      /* Accueil mobile = même composition que sur ordinateur (titre pleine largeur qui chevauche la photo en arche) */
+      .wrap { width: 92%; }
+      .hero { padding-top: 14px; }
       .hero-top { font-size: 9px; letter-spacing: .14em; gap: 10px; }
       .hero-top .tr { letter-spacing: .14em; line-height: 1.5; }
-      .giant { font-size: 9vw; margin: 14px 0 4px; letter-spacing: .015em; }
-      .rule { margin-bottom: 16px; }
-      .hero-grid { gap: 12px; }
-      .hero-photo { margin-top: -34px; }
-      .arch { border-width: 2px; }
-      .hero-text { padding-bottom: 20px; }
-      .role { font-size: 8.5px; letter-spacing: .16em; margin-bottom: 12px; }
-      .pitch { font-size: 12.5px; padding-left: 10px; line-height: 1.45; }
-      .sign { font-size: 26px; margin: 14px 0 6px; }
-      .based { font-size: 8.5px; letter-spacing: .14em; }
+      .giant { font-size: 12.6vw; margin: 12px 0 4px; letter-spacing: .02em; }
+      .giant span + span { margin-left: .22em; }
+      .rule { width: 46%; margin-bottom: 16px; }
+      .hero-grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 10px; align-items: end; }
+      .hero-photo { margin-top: -12vw; }
+      .arch { width: 100%; aspect-ratio: 1 / 1.62; border-width: 2px; }
+      .hero-text { padding-bottom: 14px; align-self: center; }
+      .role { font-size: 8px; letter-spacing: .18em; margin-bottom: 12px; }
+      .pitch { font-size: 11.5px; padding-left: 9px; line-height: 1.45; }
+      .sign { font-size: 24px; margin: 14px 0 6px; }
+      .based { font-size: 8px; letter-spacing: .14em; }
       .hero-actions { flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 14px; }
-      .pill { padding: 8px 14px; font-size: 8.5px; letter-spacing: .14em; }
+      .pill { padding: 8px 12px; font-size: 8px; letter-spacing: .12em; }
 
       .stitle { font-size: 9px; letter-spacing: .22em; gap: 10px; margin-bottom: 16px; }
       .stitle.big { font-size: 10px; }
@@ -286,7 +296,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
       .price { flex-basis: 100%; padding-left: 34px; font-size: 13px; }
 
       .contact { padding-top: 30px; }
-      .c-grid { gap: 18px; padding-bottom: 28px; }
+      .c-grid { padding-bottom: 28px; }
       .arch.small { max-width: 150px; }
       .c-photo .script { font-size: 1.9rem; left: 14%; }
       .c-list li { font-size: .85rem; padding: 6px 0; gap: 10px; }
@@ -320,7 +330,7 @@ export class HomeComponent implements OnDestroy {
   private photos = [2, 3, 4, 6, 7, 8, 1, 5].map((n) => `assets/photos/photo-${n}.jpg`);
   loop = [...this.photos, ...this.photos];
 
-  // 3 clics rapides sur la ligne « Photographes & vidéastes » = espace monteur
+  // 3 clics rapides sur la photo de la mariée = espace monteur (1 ou 2 clics : rien ne se passe)
   photoClick() {
     this.photoClicks++;
     clearTimeout(this.photoTimer);
@@ -330,11 +340,6 @@ export class HomeComponent implements OnDestroy {
       return;
     }
     this.photoTimer = setTimeout(() => (this.photoClicks = 0), 1000);
-  }
-
-  // un clic sur la photo de la mariée (haut de l'accueil) = espace monteur
-  openMonteur() {
-    this.router.navigateByUrl('/monteur');
   }
 
   go(event: Event, id: string) {

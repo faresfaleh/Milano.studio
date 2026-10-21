@@ -193,8 +193,13 @@ router.post('/', async (req, res) => {
     }
 
     const created = await Reservation.create(data);
-    sendReservationEmail(created); // email au studio (sans attendre, n'empêche jamais la réservation)
-    sendReceivedSms(created);      // SMS au client : « réservation bien reçue » (idem)
+    // IMPORTANT sur Vercel (serverless) : la fonction est gelée dès que la réponse part.
+    // Il faut donc ATTENDRE l'envoi de l'email avant de répondre, sinon il n'est jamais envoyé.
+    // Ces fonctions ne lèvent jamais d'erreur : la réservation n'est jamais bloquée.
+    await Promise.allSettled([
+      sendReservationEmail(created), // email au studio (faresfaleh47@gmail.com)
+      sendReceivedSms(created),      // SMS au client : « réservation bien reçue »
+    ]);
     res.status(201).json({ message: 'Réservation enregistrée', id: created._id });
   } catch (err) {
     console.error(err);
