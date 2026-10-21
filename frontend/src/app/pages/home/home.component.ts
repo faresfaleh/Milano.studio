@@ -55,9 +55,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
           @for (c of cards; track c.title) {
             <a class="card" routerLink="/services" [queryParams]="{ partie: c.partie }">
               <app-icon [name]="c.icon" class="card-ico" />
-              <img class="card-img" [src]="c.img" [alt]="c.title" loading="lazy"
-                   (error)="$any($event.target).style.display = 'none'" />
-              <span class="shade"></span>
               <span class="card-body">
                 <h3>{{ c.title }}</h3>
                 <p>{{ c.text }}</p>
@@ -113,9 +110,6 @@ import { ContactTrioComponent } from '../../components/contact-trio/contact-trio
       overflow: hidden; color: #fff; box-shadow: var(--shadow);
       background: radial-gradient(ellipse at 50% 30%, #4a3b27, #14110f 75%); }
     .card-ico { display: block; position: absolute; top: 28%; left: 50%; width: 72px; height: 72px; margin-left: -36px; color: var(--gold); opacity: .55; }
-    .card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .9s ease; }
-    .card:hover .card-img { transform: scale(1.06); }
-    .shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(12,9,6,.92) 0%, rgba(12,9,6,.55) 42%, rgba(12,9,6,0) 72%); }
     .card-body { position: relative; padding: 0 26px 26px; display: flex; flex-direction: column; }
     .card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 10px; color: #fff; }
     .card p { color: rgba(255,255,255,.82); font-size: .98rem; line-height: 1.5; margin-bottom: 16px; }
@@ -157,15 +151,15 @@ export class HomeComponent implements OnDestroy {
   fromSoiree = SOIREE_PRICING.base;
   fromShooting = Math.min(...SHOOTING_OPTIONS.map((o) => o.price));
 
-  // Cartes des services. Les photos sont dans src/assets/services (même nom de fichier = remplacement)
+  // Cartes des services. Cartes sans photo : fond sombre + icône
   cards = [
-    { title: 'Soirée homme', icon: 'man', partie: 'mariage', price: SOIREE_PRICING.base, img: 'assets/services/soiree-homme.jpg',
+    { title: 'Soirée homme', icon: 'man', partie: 'mariage', price: SOIREE_PRICING.base,
       text: 'Une couverture complète de votre soirée, en photo et en vidéo, pour en garder chaque instant.' },
-    { title: 'Soirée femme', icon: 'woman', partie: 'mariage', price: SOIREE_PRICING.base, img: 'assets/services/soiree-femme.jpg',
+    { title: 'Soirée femme', icon: 'woman', partie: 'mariage', price: SOIREE_PRICING.base,
       text: 'Une couverture raffinée et attentive au moindre détail, des tenues aux plus beaux sourires.' },
-    { title: 'Mariage', icon: 'rings', partie: 'mariage', price: SOIREE_PRICING.base, img: 'assets/services/mariage.jpg',
+    { title: 'Mariage', icon: 'rings', partie: 'mariage', price: SOIREE_PRICING.base,
       text: "Le plus beau jour de votre vie, raconté avec émotion et élégance, de l'arrivée des mariés à la dernière danse." },
-    { title: 'Shooting', icon: 'camera', partie: 'shooting', price: Math.min(...SHOOTING_OPTIONS.map((o) => o.price)), img: 'assets/services/shooting.jpg',
+    { title: 'Shooting', icon: 'camera', partie: 'shooting', price: Math.min(...SHOOTING_OPTIONS.map((o) => o.price)),
       text: 'Une séance rien que pour vous : portrait, couple, famille ou séance de mariage, avec ou sans vidéo.' },
   ];
 
