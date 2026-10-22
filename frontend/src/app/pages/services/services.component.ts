@@ -5,25 +5,26 @@ import { IconComponent } from '../../components/icon/icon.component';
 import { RevealDirective } from '../../directives/reveal.directive';
 import { ReservationFormComponent } from '../../components/reservation-form/reservation-form.component';
 
+import { TPipe } from '../../i18n/t.pipe';
+
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [ReservationFormComponent, RevealDirective, IconComponent],
+  imports: [ReservationFormComponent, RevealDirective, IconComponent, TPipe],
   template: `
     <!-- ===== Haut de page ===== -->
     <section class="head">
       <div class="wrap">
         <div class="htop">
-          <span class="htl">Nos prestations</span>
+          <span class="htl">{{ 'Nos prestations' | t }}</span>
           <span class="line"></span>
           <span class="star">✦</span>
-          <span class="htr">Mariages<br />Soirées<br />Shootings</span>
+          <span class="htr">{{ 'Mariages' | t }}<br />{{ 'Soirées' | t }}<br />{{ 'Shootings' | t }}</span>
         </div>
-        <h1 class="giant">Nos services</h1>
+        <h1 class="giant">{{ 'Nos services' | t }}</h1>
         <div class="rule"><i></i><b>◆</b><i></i></div>
         <p class="lede">
-          Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances.
-          Composez votre formule, découvrez le prix en direct et réservez en quelques clics.
+          {{ 'Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances. Composez votre formule, découvrez le prix en direct et réservez en quelques clics.' | t }}
         </p>
       </div>
     </section>
@@ -31,16 +32,16 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     <section class="main">
       <div class="wrap">
         <div class="parts" id="choix">
-          <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
-          <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> Shooting</button>
+          <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> {{ 'Mariage & soirées' | t }}</button>
+          <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> {{ 'Shooting' | t }}</button>
         </div>
 
         @if (partie === 'mariage') {
           <!-- ============ MARIAGE & SOIRÉES : 1) soirée, 2) options, 3) réservation ============ -->
           <ol class="steps">
-            <li [class.done]="!!eventType" class="cur1"><span>1</span> Choisissez votre soirée</li>
-            <li [class.cur]="!!eventType"><span>2</span> Composez votre formule</li>
-            <li><span>3</span> Réservez votre date</li>
+            <li [class.done]="!!eventType" class="cur1"><span>1</span> {{ 'Choisissez votre soirée' | t }}</li>
+            <li [class.cur]="!!eventType"><span>2</span> {{ 'Composez votre formule' | t }}</li>
+            <li><span>3</span> {{ 'Réservez votre date' | t }}</li>
           </ol>
 
           <ul class="plist types" appReveal>
@@ -48,8 +49,8 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
               <li>
                 <button type="button" class="type" [class.sel]="eventType === t.id" (click)="selectType(t.id)">
                   <span class="pic"><app-icon [name]="icons[t.id]" size="1.5rem" /></span>
-                  <span class="txt"><strong class="tl">{{ t.label }}</strong><span class="td">{{ info[t.id] }}</span></span>
-                  <span class="from">À partir de <b>{{ pricing.base }} DT</b></span>
+                  <span class="txt"><strong class="tl">{{ t.label | t }}</strong><span class="td">{{ info[t.id] | t }}</span></span>
+                  <span class="from">{{ 'À partir de' | t }} <b>{{ pricing.base }} {{ 'DT' | t }}</b></span>
                 </button>
               </li>
             }
@@ -58,14 +59,14 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
           @if (eventType) {
             <div class="conf" id="conf">
               <div class="opts">
-                <h3>Composez votre <em class="it">formule</em></h3>
-                <p class="sub">Personnalisez la couverture de votre soirée : le prix se met à jour à chaque choix.</p>
+                <h3>{{ 'Composez votre' | t }} <em class="it">{{ 'formule' | t }}</em></h3>
+                <p class="sub">{{ 'Personnalisez la couverture de votre soirée : le prix se met à jour à chaque choix.' | t }}</p>
 
                 <div class="grp">
                   <span class="gi"><app-icon name="video" size="2.1rem" /></span>
                   <div class="gh">
-                    <strong>Caméras vidéo</strong>
-                    <span>La première caméra est incluse, chaque caméra en plus : <b>+{{ pricing.camera }} DT</b>.</span>
+                    <strong>{{ 'Caméras vidéo' | t }}</strong>
+                    <span>{{ 'La première caméra est incluse, chaque caméra en plus :' | t }} <b>+{{ pricing.camera }} {{ 'DT' | t }}</b>.</span>
                   </div>
                   <div class="seg gold">
                     @for (n of cameraChoices; track n) {
@@ -78,71 +79,71 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
                   <div class="grp">
                     <span class="gi"><app-icon [name]="extraIcons[x.key]" size="2.1rem" /></span>
                     <div class="gh">
-                      <strong>{{ x.name }} <small>+{{ x.price }} DT</small></strong>
-                      <span>{{ x.desc }}</span>
+                      <strong>{{ x.name | t }} <small>+{{ x.price }} {{ 'DT' | t }}</small></strong>
+                      <span>{{ x.desc | t }}</span>
                     </div>
                     <div class="seg">
-                      <button type="button" [class.on]="options[x.key] === 0" (click)="options[x.key] = 0">Non</button>
-                      <button type="button" [class.on]="options[x.key] === 1" (click)="options[x.key] = 1">Oui</button>
+                      <button type="button" [class.on]="options[x.key] === 0" (click)="options[x.key] = 0">{{ 'Non' | t }}</button>
+                      <button type="button" [class.on]="options[x.key] === 1" (click)="options[x.key] = 1">{{ 'Oui' | t }}</button>
                     </div>
                   </div>
                 }
               </div>
 
               <div class="mbar">
-                <div class="mt"><span>Total</span><strong>{{ total }} <small>DT</small></strong></div>
-                <button type="button" (click)="modal = 'soiree'">Réserver <app-icon name="arrow" size="1.1rem" /></button>
+                <div class="mt"><span>{{ 'Total' | t }}</span><strong>{{ total }} <small>{{ 'DT' | t }}</small></strong></div>
+                <button type="button" (click)="modal = 'soiree'">{{ 'Réserver' | t }} <app-icon name="arrow" size="1.1rem" /></button>
               </div>
 
               <aside class="recap">
-                <span class="kick">Votre formule</span>
-                <h4>{{ typeLabel }}</h4>
+                <span class="kick">{{ 'Votre formule' | t }}</span>
+                <h4>{{ typeLabel | t }}</h4>
 
                 <ul class="incl-list">
-                  <li><app-icon name="camera" size="1.7rem" /> 1 appareil photo</li>
-                  <li><app-icon name="video" size="1.7rem" /> {{ options.cameras }} caméra{{ options.cameras > 1 ? 's' : '' }} vidéo</li>
-                  <li><app-icon name="sun" size="1.7rem" /> {{ included.join(' & ') }}</li>
+                  <li><app-icon name="camera" size="1.7rem" /> {{ '1 appareil photo' | t }}</li>
+                  <li><app-icon name="video" size="1.7rem" /> {{ (options.cameras + (options.cameras > 1 ? ' caméras vidéo' : ' caméra vidéo')) | t }}</li>
+                  <li><app-icon name="sun" size="1.7rem" /> {{ included.join(' & ') | t }}</li>
                   @for (x of extras; track x.key) {
-                    @if (options[x.key]) { <li><app-icon [name]="extraIcons[x.key]" size="1.7rem" /> {{ x.name }}</li> }
+                    @if (options[x.key]) { <li><app-icon [name]="extraIcons[x.key]" size="1.7rem" /> {{ x.name | t }}</li> }
                   }
                 </ul>
 
                 <div class="lines">
                   @for (l of lines; track l.label) {
-                    <div><span>{{ l.label }}</span><b>{{ l.price }} DT</b></div>
+                    <div><span>{{ l.label | t }}</span><b>{{ l.price }} {{ 'DT' | t }}</b></div>
                   }
                 </div>
 
-                <div class="tot"><span>Total</span><strong>{{ total }} <small>DT</small></strong></div>
-                <p class="nt">Prix sans transport</p>
+                <div class="tot"><span>{{ 'Total' | t }}</span><strong>{{ total }} <small>{{ 'DT' | t }}</small></strong></div>
+                <p class="nt">{{ 'Prix sans transport' | t }}</p>
                 <button type="button" class="go" (click)="modal = 'soiree'">
-                  <app-icon name="calendar" size="1.4rem" /> <span>Réserver cette formule</span> <app-icon name="arrow" size="1.2rem" />
+                  <app-icon name="calendar" size="1.4rem" /> <span>{{ 'Réserver cette formule' | t }}</span> <app-icon name="arrow" size="1.2rem" />
                 </button>
-                <p class="soon"><app-icon name="shield" size="1.1rem" /><span>Réservation confirmée par notre équipe sous peu.</span></p>
+                <p class="soon"><app-icon name="shield" size="1.1rem" /><span>{{ 'Réservation confirmée par notre équipe sous peu.' | t }}</span></p>
               </aside>
             </div>
           } @else {
-            <p class="hint">Sélectionnez un type de soirée pour composer votre formule.</p>
+            <p class="hint">{{ 'Sélectionnez un type de soirée pour composer votre formule.' | t }}</p>
           }
-          <p class="note"><app-icon name="calendar" size="1.1em" /> Un nombre maximum de soirées est accepté par jour : une date complète n'est plus disponible.</p>
+          <p class="note"><app-icon name="calendar" size="1.1em" /> {{ 'Un nombre maximum de soirées est accepté par jour : une date complète n’est plus disponible.' | t }}</p>
 
           @if (modal === 'soiree') {
             <app-reservation-form [category]="'soiree'" [eventType]="eventType" [options]="options" (closed)="modal = null" />
           }
         } @else {
           <!-- ============ SHOOTING : individuel et mariage ============ -->
-          <p class="incl">Mêmes choix et mêmes prix pour les deux types de shooting</p>
+          <p class="incl">{{ 'Mêmes choix et mêmes prix pour les deux types de shooting' | t }}</p>
           <div class="grid two" appReveal>
             @for (t of shootingTypes; track t.id) {
               <div class="prop">
-                <h3 class="stl"><span>{{ t.name }}</span></h3>
-                <p class="sub">{{ t.desc }}</p>
+                <h3 class="stl"><span>{{ t.name | t }}</span></h3>
+                <p class="sub">{{ t.desc | t }}</p>
                 <ul class="plist rows">
                   @for (o of shootingOptions; track o.id) {
                     <li>
                       <button type="button" class="opt" [class.sel]="shootingType === t.id && shootingOption === o.id" (click)="chooseShoot(t.id, o.id)">
-                        <span class="nm"><strong>{{ o.name }}</strong><small>{{ o.desc }}</small></span>
-                        <b>{{ o.price }} DT</b>
+                        <span class="nm"><strong>{{ o.name | t }}</strong><small>{{ o.desc | t }}</small></span>
+                        <b>{{ o.price }} {{ 'DT' | t }}</b>
                       </button>
                     </li>
                   }
@@ -177,12 +178,12 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .htop { display: flex; align-items: flex-start; gap: 18px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .htop .line { flex: 1; height: 1px; background: var(--rose); opacity: .6; margin-top: .7em; }
     .htop .star { color: var(--rose); margin-top: -.1em; }
-    .htr { text-align: right; line-height: 1.55; letter-spacing: .22em; }
+    .htr { text-align: end; line-height: 1.55; letter-spacing: .22em; }
     .giant { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase; color: var(--wine);
       font-size: clamp(3.1rem, 10.4vw, 9.4rem); line-height: .98; letter-spacing: .02em; margin: 22px 0 6px; }
     .rule { display: flex; align-items: center; gap: 10px; width: min(46%, 520px); color: var(--rose); font-size: .6rem; margin-bottom: 26px; }
     .rule i { flex: 1; height: 1px; background: var(--rose); opacity: .7; }
-    .lede { border-left: 1px solid var(--rose); padding-left: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
+    .lede { border-inline-start: 1px solid var(--rose); padding-inline-start: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
 
     .main { padding: 44px 0 90px; }
 
@@ -208,18 +209,18 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .plist li::before { content: ''; position: absolute; left: 7%; right: 7%; top: -7px; height: 60%; border-radius: 999px; background: var(--rose-soft); opacity: .28; z-index: 0; }
     .type, .opt, .grp { background: linear-gradient(180deg, #fcf3ec, #f2e1d6); border: 1px solid rgba(185,121,95,.35);
       box-shadow: 0 10px 22px rgba(74,22,34,.10), inset 0 1px 0 rgba(255,255,255,.8); }
-    .type, .opt { position: relative; z-index: 1; width: 100%; text-align: left; cursor: pointer; font: inherit; color: var(--wine); border-radius: 999px;
+    .type, .opt { position: relative; z-index: 1; width: 100%; text-align: start; cursor: pointer; font: inherit; color: var(--wine); border-radius: 999px;
       transition: background .3s, box-shadow .3s, transform .3s, border-color .3s; }
     .type:hover, .opt:hover, .type.sel, .opt.sel { background: var(--wine); border-color: var(--wine); box-shadow: 0 16px 30px rgba(74,22,34,.28); }
     .type:hover, .opt:hover { transform: translateY(-3px); }
 
     .types { margin-bottom: 38px; }
-    .type { display: flex; align-items: center; gap: 18px; padding: 16px 34px 16px 16px; }
+    .type { display: flex; align-items: center; gap: 18px; padding-block: 16px 16px; padding-inline: 16px 34px; }
     .pic { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); display: grid; place-items: center; flex: none; transition: .3s; }
     .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
     .tl { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .td { color: #6d4a4d; font-size: .95rem; line-height: 1.45; }
-    .from { flex: none; text-align: right; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .from { flex: none; text-align: end; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
     .from b { display: block; color: var(--rose); font: 500 1.4rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; margin-top: 2px; }
     .type:hover .tl, .type.sel .tl, .opt:hover strong, .opt.sel strong { color: var(--cream); }
     .type:hover .td, .type.sel .td, .type:hover .from, .type.sel .from, .opt:hover small, .opt.sel small { color: #ead3c8; }
@@ -233,11 +234,11 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .opts h3 { font: 400 clamp(2.2rem, 4.2vw, 3.1rem)/1.1 'Italiana', Georgia, serif; text-transform: uppercase; letter-spacing: .02em; color: var(--wine); margin-bottom: 14px; }
     .opts h3 .it { font: 400 1.2em/1 'Pinyon Script', cursive; text-transform: none; letter-spacing: 0; color: var(--rose); }
     .sub { color: var(--muted); font-size: 1.05rem; margin-bottom: 26px; }
-    .grp { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 20px; padding: 16px 20px 16px 22px; margin-top: 16px; border-radius: 999px; }
+    .grp { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 20px; padding-block: 16px 16px; padding-inline: 22px 20px; margin-top: 16px; border-radius: 999px; }
     .gi { color: var(--rose); display: grid; place-items: center; }
     .gh { display: flex; flex-direction: column; gap: 4px; }
     .gh strong { font: 500 .84rem 'Jost', sans-serif; letter-spacing: .24em; text-transform: uppercase; color: var(--wine); }
-    .gh strong small { margin-left: 12px; font: 500 1.1rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
+    .gh strong small { margin-inline-start: 12px; font: 500 1.1rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
     .gh span { color: var(--muted); font-size: .96rem; line-height: 1.45; max-width: 400px; }
     .gh span b { color: var(--rose); font-weight: 500; }
     .seg { display: flex; flex: none; padding: 4px; gap: 2px; background: rgba(255,255,255,.55); border: 1px solid var(--line); border-radius: 999px; }
@@ -264,7 +265,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .tot span { letter-spacing: .28em; text-transform: uppercase; font-size: .78rem; color: var(--rose-2); }
     .tot strong { font: 500 3.3rem/1 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--cream); }
     .tot small { font-size: 1.15rem; color: var(--rose-2); letter-spacing: .06em; }
-    .nt { text-align: right; font-size: .85rem; color: rgba(247,235,227,.6); margin: 4px 0 22px; }
+    .nt { text-align: end; font-size: .85rem; color: rgba(247,235,227,.6); margin: 4px 0 22px; }
     .go { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; padding: 16px 20px; border: 1px solid var(--rose); border-radius: 999px; cursor: pointer;
       background: var(--rose); color: #fff; font: 400 .76rem 'Jost', sans-serif; letter-spacing: .22em; text-transform: uppercase; transition: background .25s, color .25s; }
     .go:hover { background: var(--cream); border-color: var(--cream); color: var(--wine); }
@@ -283,7 +284,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .stl { display: flex; align-items: center; gap: 18px; font: 400 .86rem 'Jost', sans-serif; letter-spacing: .36em; text-transform: uppercase; color: var(--wine); margin-bottom: 10px; line-height: 1.5; }
     .stl::before, .stl::after { content: ''; flex: 1; height: 1px; background: var(--rose); opacity: .6; }
     .prop .sub { text-align: center; margin-bottom: 22px; }
-    .opt { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 16px 30px 16px 26px; }
+    .opt { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding-block: 16px 16px; padding-inline: 26px 30px; }
     .nm { display: flex; flex-direction: column; min-width: 0; }
     .nm strong { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--wine); }
     .nm small { color: #6d4a4d; font-size: .92rem; line-height: 1.35; margin-top: 2px; }
@@ -295,7 +296,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
       .conf > * { min-width: 0; }
       .recap { position: static; }
       .mbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; position: sticky; z-index: 30;
-        bottom: calc(10px + env(safe-area-inset-bottom, 0px)); padding: 10px 10px 10px 22px; border-radius: 999px; color: var(--cream);
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px)); padding-block: 10px 10px; padding-inline: 22px 10px; border-radius: 999px; color: var(--cream);
         background: var(--wine-2); border: 1px solid rgba(217,164,140,.55); box-shadow: 0 14px 34px rgba(58,15,25,.4); }
       .mbar .mt { display: flex; flex-direction: column; line-height: 1.1; }
       .mbar .mt span { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: var(--rose-2); margin-bottom: 3px; }
@@ -309,17 +310,17 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
       .htr { letter-spacing: .14em; line-height: 1.5; }
       .giant { font-size: 12vw; margin: 14px 0 4px; }
       .rule { width: 46%; margin-bottom: 18px; }
-      .lede { font-size: .95rem; padding-left: 14px; }
+      .lede { font-size: .95rem; padding-inline-start: 14px; }
       .main { padding: 30px 0 70px; }
     }
     @media (max-width: 560px) {
       .steps { gap: 8px 16px; font-size: .68rem; letter-spacing: .12em; }
       .parts button { padding: 12px 20px; font-size: .7rem; letter-spacing: .16em; }
       .opts { padding: 4px 0 0; }
-      .type { flex-wrap: wrap; gap: 6px 14px; padding: 14px 18px 14px 14px; border-radius: 30px; }
-      .from { flex-basis: 100%; text-align: left; padding-left: 66px; }
-      .from b { display: inline; margin-left: 6px; }
-      .opt { border-radius: 30px; padding: 14px 20px 14px 22px; }
+      .type { flex-wrap: wrap; gap: 6px 14px; padding-block: 14px 14px; padding-inline: 14px 18px; border-radius: 30px; }
+      .from { flex-basis: 100%; text-align: start; padding-inline-start: 66px; }
+      .from b { display: inline; margin-inline-start: 6px; }
+      .opt { border-radius: 30px; padding-block: 14px 14px; padding-inline: 22px 20px; }
       .opts h3 { font-size: 2.1rem; }
       .sub { font-size: 1rem; margin-bottom: 14px; }
       .grp { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 18px 16px; border-radius: 30px; align-items: start; }

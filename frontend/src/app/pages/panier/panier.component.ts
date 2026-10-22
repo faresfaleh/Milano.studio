@@ -6,61 +6,63 @@ import { CartService } from '../../services/cart.service';
 import { ReservationService } from '../../services/reservation.service';
 import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.config';
 
+import { TPipe } from '../../i18n/t.pipe';
+
 @Component({
   selector: 'app-panier',
   standalone: true,
-  imports: [RouterLink, IconComponent],
+  imports: [RouterLink, IconComponent, TPipe],
   template: `
     <!-- ===== Haut de page (comme Services) ===== -->
     <section class="head">
       <div class="wrap">
         <div class="htop">
-          <span class="htl">Mes réservations</span>
+          <span class="htl">{{ 'Mes réservations' | t }}</span>
           <span class="line"></span>
           <span class="star">✦</span>
-          <span class="htr">Soirées<br />Mariages<br />Shootings</span>
+          <span class="htr">{{ 'Soirées' | t }}<br />{{ 'Mariages' | t }}<br />{{ 'Shootings' | t }}</span>
         </div>
-        <h1 class="giant">Mon panier</h1>
+        <h1 class="giant">{{ 'Mon panier' | t }}</h1>
         <div class="rule"><i></i><b>◆</b><i></i></div>
-        <p class="lede">Les réservations faites depuis cet appareil.</p>
+        <p class="lede">{{ 'Les réservations faites depuis cet appareil.' | t }}</p>
       </div>
     </section>
 
     <section class="main">
       <div class="wrap narrow">
-        @if (error) { <div class="alert err">{{ error }}</div> }
+        @if (error) { <div class="alert err">{{ error | t }}</div> }
 
         @if (loading) {
-          <p class="hint">Chargement...</p>
+          <p class="hint">{{ 'Chargement...' | t }}</p>
         } @else if (items.length === 0) {
           <div class="empty">
             <span class="pic big"><app-icon name="cart" size="2.2rem" /></span>
-            <h3>Votre panier est vide</h3>
-            <p>Choisissez une formule de soirée ou un shooting pour réserver votre date.</p>
-            <a routerLink="/services" class="go">Faire une réservation</a>
+            <h3>{{ 'Votre panier est vide' | t }}</h3>
+            <p>{{ 'Choisissez une formule de soirée ou un shooting pour réserver votre date.' | t }}</p>
+            <a routerLink="/services" class="go">{{ 'Faire une réservation' | t }}</a>
           </div>
         } @else {
-          <div class="alert ok"><app-icon name="check" size="1.3em" /><span>Votre réservation est enregistrée. Nous vous contacterons très bientôt pour la confirmer.</span></div>
+          <div class="alert ok"><app-icon name="check" size="1.3em" /><span>{{ 'Votre réservation est enregistrée. Nous vous contacterons très bientôt pour la confirmer.' | t }}</span></div>
 
-          <h2 class="stl"><span>Vos réservations</span></h2>
+          <h2 class="stl"><span>{{ 'Vos réservations' | t }}</span></h2>
           <ul class="plist">
             @for (i of items; track i._id) {
               <li>
                 <div class="item">
                   <span class="pic"><app-icon [name]="icon(i)" size="1.5rem" /></span>
                   <div class="info">
-                    <strong class="tt">{{ title(i) }}</strong>
-                    @if (detail(i)) { <p class="dt">{{ detail(i) }}</p> }
+                    <strong class="tt">{{ title(i) | t }}</strong>
+                    @if (detail(i)) { <p class="dt">{{ detail(i) | t }}</p> }
                     <p class="meta">
                       <span><app-icon name="calendar" size="1.05em" /> {{ fmt(i.day) }}</span>
                       <span><app-icon name="pin" size="1.05em" /> {{ i.lieu }}</span>
                     </p>
                     <p class="who">{{ i.nom }} {{ i.prenom }}</p>
-                    <span class="st {{ i.status }}">{{ L(i.status) }}</span>
+                    <span class="st {{ i.status }}">{{ L(i.status) | t }}</span>
                   </div>
                   <div class="side">
-                    <b>{{ i.price ? i.price + ' DT' : 'Sur devis' }}</b>
-                    <button type="button" class="rm" (click)="remove(i._id)">Retirer</button>
+                    <b>{{ i.price ? i.price + ' ' + ('DT' | t) : ('Sur devis' | t) }}</b>
+                    <button type="button" class="rm" (click)="remove(i._id)">{{ 'Retirer' | t }}</button>
                   </div>
                 </div>
               </li>
@@ -68,11 +70,11 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
           </ul>
 
           <div class="total">
-            <div class="tl"><span>Total</span><small>Prix sans transport</small></div>
-            <strong>{{ total }} <small>DT</small></strong>
+            <div class="tl"><span>{{ 'Total' | t }}</span><small>{{ 'Prix sans transport' | t }}</small></div>
+            <strong>{{ total }} <small>{{ 'DT' | t }}</small></strong>
           </div>
 
-          <h2 class="stl"><span>Une question ?</span></h2>
+          <h2 class="stl"><span>{{ 'Une question ?' | t }}</span></h2>
           <div class="contact">
             @for (p of s.phones; track p) {
               <a [href]="'tel:' + p.replaceAll(' ', '')"><span class="ci"><app-icon name="phone" size="1.1rem" /></span>{{ p }}</a>
@@ -81,7 +83,7 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
           </div>
 
           <div class="more">
-            <a routerLink="/services" class="again">+ Ajouter une autre réservation</a>
+            <a routerLink="/services" class="again">{{ '+ Ajouter une autre réservation' | t }}</a>
           </div>
         }
       </div>
@@ -102,12 +104,12 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
     .htop { display: flex; align-items: flex-start; gap: 18px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .htop .line { flex: 1; height: 1px; background: var(--rose); opacity: .6; margin-top: .7em; }
     .htop .star { color: var(--rose); margin-top: -.1em; }
-    .htr { text-align: right; line-height: 1.55; letter-spacing: .22em; }
+    .htr { text-align: end; line-height: 1.55; letter-spacing: .22em; }
     .giant { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase; color: var(--wine);
       font-size: clamp(3.1rem, 10.4vw, 9.4rem); line-height: .98; letter-spacing: .02em; margin: 22px 0 6px; }
     .rule { display: flex; align-items: center; gap: 10px; width: min(46%, 520px); color: var(--rose); font-size: .6rem; margin-bottom: 26px; }
     .rule i { flex: 1; height: 1px; background: var(--rose); opacity: .7; }
-    .lede { border-left: 1px solid var(--rose); padding-left: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
+    .lede { border-inline-start: 1px solid var(--rose); padding-inline-start: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
     .main { padding: 44px 0 90px; }
 
     .stl { display: flex; align-items: center; gap: 18px; font: 400 .86rem 'Jost', sans-serif; letter-spacing: .36em; text-transform: uppercase; color: var(--wine); margin: 0 0 26px; line-height: 1.5; }
@@ -127,7 +129,7 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
     .plist li { position: relative; }
     .plist li + li { margin-top: 20px; }
     .plist li::before { content: ''; position: absolute; left: 7%; right: 7%; top: -7px; height: 60%; border-radius: 40px; background: var(--rose-soft); opacity: .28; z-index: 0; }
-    .item { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 20px; padding: 24px 34px 24px 22px; border-radius: 44px;
+    .item { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 20px; padding-block: 24px 24px; padding-inline: 22px 34px; border-radius: 44px;
       background: linear-gradient(180deg, #fcf3ec, #f2e1d6); border: 1px solid rgba(185,121,95,.35);
       box-shadow: 0 10px 22px rgba(74,22,34,.10), inset 0 1px 0 rgba(255,255,255,.8); }
     .pic { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); display: grid; place-items: center; flex: none; }
@@ -160,7 +162,7 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
 
     /* ---------- contact ---------- */
     .contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-bottom: 44px; }
-    .contact a { display: inline-flex; align-items: center; gap: 12px; padding: 8px 26px 8px 8px; border-radius: 999px; color: var(--wine); font-size: 1rem;
+    .contact a { display: inline-flex; align-items: center; gap: 12px; padding-block: 8px 8px; padding-inline: 8px 26px; border-radius: 999px; color: var(--wine); font-size: 1rem;
       background: linear-gradient(180deg, #fcf3ec, #f2e1d6); border: 1px solid rgba(185,121,95,.35); box-shadow: 0 8px 18px rgba(74,22,34,.08); transition: background .3s, color .3s, transform .3s; }
     .contact a:hover { background: var(--wine); color: var(--cream); transform: translateY(-2px); }
     .ci { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); }
@@ -184,12 +186,12 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
       .htr { letter-spacing: .14em; line-height: 1.5; }
       .giant { font-size: 12.6vw; margin: 14px 0 4px; }
       .rule { width: 46%; margin-bottom: 18px; }
-      .lede { font-size: .95rem; padding-left: 14px; }
+      .lede { font-size: .95rem; padding-inline-start: 14px; }
       .main { padding: 30px 0 70px; }
     }
     @media (max-width: 560px) {
       .alert { border-radius: 28px; padding: 14px 20px; }
-      .item { flex-wrap: wrap; gap: 14px; padding: 20px 20px 18px 16px; border-radius: 30px; }
+      .item { flex-wrap: wrap; gap: 14px; padding-block: 20px 18px; padding-inline: 16px 20px; border-radius: 30px; }
       .info { flex-basis: calc(100% - 70px); }
       .side { flex-direction: row; align-items: center; justify-content: space-between; align-self: auto; flex-basis: 100%; padding-top: 12px; border-top: 1px solid rgba(185,121,95,.3); }
       .plist li::before { border-radius: 30px; }

@@ -35,3 +35,10 @@ Chaque nouvelle réservation envoie un email à `NOTIFY_EMAIL` (par défaut `far
   Si plusieurs soirées du même type ont lieu le même jour, on lui demande son nom pour identifier la sienne. Aucune donnée personnelle n'est affichée.
 - **Monteur** : **3 clics rapides** sur la **photo de la mariée** en haut de la page d’accueil (1 ou 2 clics ne font rien) → `/monteur` → mot de passe `MONTEUR_KEY` (à définir dans `backend/.env`, par ex. `MONTEUR_KEY=monteur-2026` — changez-le). Il ne voit que le suivi des flashs (bouton « Pas prêt » / « Prêt » par soirée).
 - **Admin** : 3 clics rapides sur le **logo** (en haut ou en bas de page) → `/admin` → clé `ADMIN_KEY` : tableau de bord des réservations (sans le suivi des flashs).
+
+## Langues (français / arabe)
+
+- Le bouton « العربية / Français » en haut du site change la langue ; le choix est mémorisé.
+- En arabe, le site se lit de droite à gauche (RTL). Les pages `/admin` et `/monteur` restent en français.
+- Tous les textes arabes sont dans `frontend/src/app/i18n/translations.ts` (clé = texte français → traduction arabe).
+  Pour corriger une phrase ou en ajouter une, modifiez ce fichier ; dans un modèle HTML on écrit `{{ 'Texte français' | t }}`.
