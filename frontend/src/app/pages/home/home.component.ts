@@ -238,7 +238,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
     .txt { flex: 1; min-width: 0; }
     .txt b { display: block; font-weight: 500; font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .txt small { display: block; font-size: .92rem; line-height: 1.45; color: #6d4a4d; margin-top: 3px; }
-    .price { flex: none; font-family: 'Italiana', Georgia, serif; font-size: 1.3rem; color: var(--rose); white-space: nowrap; }
+    .price { flex: none; font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif; font-size: 1.3rem; color: var(--rose); white-space: nowrap; }
 
     /* ---------- contact ---------- */
     .contact { background: var(--wine-2); background-image: radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.07), transparent 60%); color: var(--cream); padding: 52px 0 0; }

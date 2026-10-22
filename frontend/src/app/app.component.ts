@@ -12,8 +12,7 @@ import { CartService } from './services/cart.service';
     <header class="header">
       <div class="container nav">
         <a href="/" class="brand" (click)="logoClick($event)">
-          <img src="assets/logo-icon.png" alt="Logo Milano Studio" />
-          <span class="brand-text"><strong>{{ s.name }}</strong><small>{{ s.tagline }}</small></span>
+          <img src="assets/logo-header.png" alt="Milano Studio Photography" />
         </a>
         <nav [class.open]="open" (click)="open = false">
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
@@ -35,7 +34,7 @@ import { CartService } from './services/cart.service';
     <footer class="footer">
       <div class="container footer-grid">
         <div>
-          <a href="/" (click)="logoClick($event)"><img src="assets/logo.jpg" alt="Milano Studio Photography" class="flogo" /></a>
+          <a href="/" (click)="logoClick($event)"><img src="assets/logo-header.png" alt="Milano Studio Photography" class="flogo" /></a>
         </div>
         <div>
           <h4>Contact</h4>
@@ -63,12 +62,9 @@ import { CartService } from './services/cart.service';
     /* ===== En-tête : même style que l'accueil (crème, bordeaux, rose) ===== */
     .header { position: sticky; top: 0; z-index: 50; background: rgba(247,235,227,.93); backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(185,121,95,.4); box-shadow: 0 6px 22px rgba(74,22,34,.06); }
-    .nav { display: flex; align-items: center; justify-content: space-between; height: 78px; }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 86px; }
     .brand { display: flex; align-items: center; gap: 14px; }
-    .brand img { height: 42px; width: auto; border-radius: 8px; }
-    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-    .brand-text strong { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; color: #4a1622; }
-    .brand-text small { font-family: 'Jost', sans-serif; font-size: .58rem; letter-spacing: .38em; text-transform: uppercase; color: #b9795f; font-weight: 400; margin-top: 4px; }
+    .brand img { height: 70px; width: auto; display: block; }
     nav { display: flex; align-items: center; gap: 32px; }
     nav a:not(.cart) { font-family: 'Jost', sans-serif; font-size: .74rem; font-weight: 400; text-transform: uppercase; letter-spacing: .24em; color: #4a1622; transition: color .2s; position: relative; padding: 6px 0; }
     nav a:not(.cart):hover, nav a.active { color: #b9795f; }
@@ -81,28 +77,28 @@ import { CartService } from './services/cart.service';
     .burger { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; background: none; border: 1px solid rgba(185,121,95,.55); border-radius: 50%; cursor: pointer; color: #4a1622; }
     .burger svg { width: 22px; height: 22px; }
 
-    .footer { background: #070605; color: #cdc6ba; padding-top: 64px; border-top: 1px solid var(--line); }
+    /* ===== Pied de page : bordeaux, crème et rose (comme l'accueil) ===== */
+    .footer { background: radial-gradient(ellipse at 15% 0%, rgba(255,255,255,.07), transparent 55%), #3a0f19; color: #f1e0d5; padding-top: 64px;
+      border-top: 1px solid rgba(217,164,140,.5); font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; }
     .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 40px; align-items: start; }
-    .flogo { width: 150px; border-radius: 14px; }
-    .footer h4 { color: var(--gold-light); font-size: 1rem; margin-bottom: 14px; }
-    .footer h4.mt { margin-top: 24px; }
-    .footer p { font-size: .92rem; margin-bottom: 8px; }
-    .footer .ln { display: flex; align-items: center; gap: 10px; }
-    .footer .ln app-icon { color: var(--gold-light); }
-    .footer a:hover { color: #fff; }
+    .flogo { height: 150px; width: auto; display: block; background: #f7ebe3; border-radius: 26px; padding: 14px 18px; box-shadow: 0 14px 30px rgba(0,0,0,.28); }
+    .footer h4 { color: #d9a48c; font: 500 .8rem 'Jost', sans-serif; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 18px; }
+    .footer h4.mt { margin-top: 28px; }
+    .footer p { font-size: 1rem; margin-bottom: 10px; }
+    .footer a { transition: color .2s; }
+    .footer .ln { display: flex; align-items: center; gap: 12px; }
+    .footer .ln app-icon { color: #d9a48c; }
+    .footer a:hover { color: #d9a48c; }
     .copy { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 48px; padding: 22px 0;
-      border-top: 1px solid #2c2823; font-size: .82rem; color: #9a9286; }
+      border-top: 1px solid rgba(217,164,140,.3); font-size: .78rem; letter-spacing: .08em; color: #d9b8a8; }
     @media (max-width: 800px) {
       .footer-grid { grid-template-columns: 1fr; }
       /* Téléphone : menu à gauche, « Milano Studio » au centre */
-      .nav { display: grid; grid-template-columns: 44px 1fr 44px; height: 68px; gap: 8px; }
+      .nav { display: grid; grid-template-columns: 44px 1fr 44px; height: 72px; gap: 8px; }
       .burger { display: inline-flex; grid-column: 1; grid-row: 1; }
-      .brand { grid-column: 2; grid-row: 1; justify-self: center; gap: 10px; }
-      .brand img { height: 34px; }
-      .brand-text { align-items: center; }
-      .brand-text strong { font-size: 1.12rem; letter-spacing: .16em; }
-      .brand-text small { font-size: .5rem; letter-spacing: .34em; margin-top: 3px; }
-      nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; text-align: center;
+      .brand { grid-column: 2; grid-row: 1; justify-self: center; }
+      .brand img { height: 52px; }
+            nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; text-align: center;
         background: #f7ebe3; padding: 8px 6% 20px; border-bottom: 1px solid rgba(185,121,95,.4); box-shadow: 0 18px 30px rgba(74,22,34,.12); }
       nav a:not(.cart) { padding: 16px 0; border-bottom: 1px solid rgba(185,121,95,.25); font-size: .78rem; }
       .cart { justify-content: center; margin-top: 16px; }

@@ -144,7 +144,7 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
     .st.confirmee { background: #dff0e5; color: #2a6a47; border: 1px solid #b7dcc4; }
     .st.annulee { background: #f6dcd8; color: #8f1d17; border: 1px solid #e3b4ad; }
     .side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; align-self: stretch; gap: 14px; }
-    .side b { font: 400 1.7rem 'Italiana', Georgia, serif; color: var(--rose); white-space: nowrap; }
+    .side b { font: 500 1.7rem 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--rose); white-space: nowrap; }
     .rm { padding: 7px 18px; background: transparent; border: 1px solid var(--rose); border-radius: 999px; color: var(--wine); cursor: pointer;
       font: 400 .66rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; transition: background .25s, color .25s, border-color .25s; }
     .rm:hover { background: var(--wine); border-color: var(--wine); color: var(--cream); }
@@ -155,7 +155,7 @@ import { LABELS, SHOOTING_TYPES, STUDIO, soireeSummary } from '../../studio.conf
     .tl { display: flex; flex-direction: column; line-height: 1.3; }
     .tl span { font-size: .78rem; letter-spacing: .3em; text-transform: uppercase; color: var(--rose-2); }
     .tl small { font-size: .8rem; color: rgba(247,235,227,.6); margin-top: 2px; }
-    .total strong { font: 400 3rem/1 'Italiana', Georgia, serif; color: var(--cream); }
+    .total strong { font: 500 3rem/1 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--cream); }
     .total strong small { font-size: 1.1rem; color: var(--rose-2); letter-spacing: .06em; }
 
     /* ---------- contact ---------- */

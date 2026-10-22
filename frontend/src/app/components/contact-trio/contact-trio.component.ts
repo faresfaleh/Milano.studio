@@ -50,7 +50,7 @@ import { RevealDirective } from '../../directives/reveal.directive';
     .ico { width: 34px; height: 34px; display: block; }
     h4 { font-family: 'Jost', sans-serif; font-size: .84rem; font-weight: 500; letter-spacing: .28em; text-transform: uppercase; margin-bottom: 14px; color: #4a1622; }
     p { color: #6d4a4d; font-size: .98rem; line-height: 1.55; margin-bottom: 20px; }
-    .val { display: block; font-family: 'Italiana', Georgia, serif; font-weight: 400; color: #b9795f; font-size: 1.45rem; padding: 3px 0; word-break: break-word; }
+    .val { display: block; font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; color: #b9795f; font-size: 1.45rem; padding: 3px 0; word-break: break-word; }
     .val:hover { color: #4a1622; }
     @media (max-width: 860px) { .trio { grid-template-columns: minmax(0, 1fr); max-width: 460px; margin: 0 auto; } }
   `],

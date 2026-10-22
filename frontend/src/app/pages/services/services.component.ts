@@ -220,7 +220,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .tl { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .td { color: #6d4a4d; font-size: .95rem; line-height: 1.45; }
     .from { flex: none; text-align: right; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-    .from b { display: block; color: var(--rose); font: 400 1.4rem 'Italiana', Georgia, serif; letter-spacing: .02em; margin-top: 2px; }
+    .from b { display: block; color: var(--rose); font: 500 1.4rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; margin-top: 2px; }
     .type:hover .tl, .type.sel .tl, .opt:hover strong, .opt.sel strong { color: var(--cream); }
     .type:hover .td, .type.sel .td, .type:hover .from, .type.sel .from, .opt:hover small, .opt.sel small { color: #ead3c8; }
     .type:hover .pic, .type.sel .pic { border-color: var(--rose-soft); color: var(--rose-2); }
@@ -237,7 +237,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .gi { color: var(--rose); display: grid; place-items: center; }
     .gh { display: flex; flex-direction: column; gap: 4px; }
     .gh strong { font: 500 .84rem 'Jost', sans-serif; letter-spacing: .24em; text-transform: uppercase; color: var(--wine); }
-    .gh strong small { margin-left: 12px; font: 400 1.1rem 'Italiana', Georgia, serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
+    .gh strong small { margin-left: 12px; font: 500 1.1rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
     .gh span { color: var(--muted); font-size: .96rem; line-height: 1.45; max-width: 400px; }
     .gh span b { color: var(--rose); font-weight: 500; }
     .seg { display: flex; flex: none; padding: 4px; gap: 2px; background: rgba(255,255,255,.55); border: 1px solid var(--line); border-radius: 999px; }
@@ -262,7 +262,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .lines b { color: var(--cream); font-weight: 400; white-space: nowrap; }
     .tot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 18px; border-top: 1px solid rgba(217,164,140,.3); }
     .tot span { letter-spacing: .28em; text-transform: uppercase; font-size: .78rem; color: var(--rose-2); }
-    .tot strong { font: 400 3.3rem/1 'Italiana', Georgia, serif; color: var(--cream); }
+    .tot strong { font: 500 3.3rem/1 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--cream); }
     .tot small { font-size: 1.15rem; color: var(--rose-2); letter-spacing: .06em; }
     .nt { text-align: right; font-size: .85rem; color: rgba(247,235,227,.6); margin: 4px 0 22px; }
     .go { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; padding: 16px 20px; border: 1px solid var(--rose); border-radius: 999px; cursor: pointer;
@@ -287,7 +287,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     .nm { display: flex; flex-direction: column; min-width: 0; }
     .nm strong { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--wine); }
     .nm small { color: #6d4a4d; font-size: .92rem; line-height: 1.35; margin-top: 2px; }
-    .opt b { font: 400 1.35rem 'Italiana', Georgia, serif; color: var(--rose); white-space: nowrap; }
+    .opt b { font: 500 1.35rem 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--rose); white-space: nowrap; }
 
     .mbar { display: none; }
     @media (max-width: 900px) {
@@ -299,7 +299,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
         background: var(--wine-2); border: 1px solid rgba(217,164,140,.55); box-shadow: 0 14px 34px rgba(58,15,25,.4); }
       .mbar .mt { display: flex; flex-direction: column; line-height: 1.1; }
       .mbar .mt span { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: var(--rose-2); margin-bottom: 3px; }
-      .mbar .mt strong { font: 400 2rem/1 'Italiana', Georgia, serif; }
+      .mbar .mt strong { font: 500 2rem/1 'Jost', 'Helvetica Neue', Arial, sans-serif; }
       .mbar .mt small { font-size: .95rem; color: var(--rose-2); letter-spacing: .06em; }
       .mbar button { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border: 0; border-radius: 999px; cursor: pointer;
         font: 400 .72rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: var(--rose); }
