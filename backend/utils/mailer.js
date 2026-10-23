@@ -1,7 +1,12 @@
 const nodemailer = require('nodemailer');
 
-// Destinataire des notifications (modifiable dans .env avec NOTIFY_EMAIL)
-const notifyTo = () => process.env.NOTIFY_EMAIL || 'faresfaleh47@gmail.com';
+// Destinataires des notifications : faresfaleh47@gmail.com reçoit toujours le message ;
+// on peut en ajouter d'autres dans NOTIFY_EMAIL (séparés par des virgules)
+const MAIN_NOTIFY = 'faresfaleh47@gmail.com';
+const notifyTo = () => {
+  const extra = String(process.env.NOTIFY_EMAIL || '').split(',').map((e) => e.trim()).filter(Boolean);
+  return [...new Set([MAIN_NOTIFY, ...extra])].join(', ');
+};
 
 let transporter = null;
 function getTransporter() {

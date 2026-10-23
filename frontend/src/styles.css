@@ -89,39 +89,3 @@ select option { background: #fff; color: #14110f; }
 
 /* Téléphone : écriture plus petite, pour se rapprocher de l'affichage sur ordinateur */
 @media (max-width: 780px) { html { font-size: 15px; } }
-
-/* =====================================================================
-   Version arabe (RTL) : polices arabes, pas d'espacement entre les lettres,
-   numéros de téléphone / emails toujours lisibles de gauche à droite
-   ===================================================================== */
-html[dir='rtl'] body,
-html[dir='rtl'] body * {
-  font-family: 'Tajawal', 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
-  letter-spacing: normal !important;
-  text-transform: none !important;
-}
-html[dir='rtl'] h1, html[dir='rtl'] h2, html[dir='rtl'] h3, html[dir='rtl'] h4,
-html[dir='rtl'] .giant, html[dir='rtl'] .stl, html[dir='rtl'] .stitle, html[dir='rtl'] .c-quote p,
-html[dir='rtl'] .opts h3, html[dir='rtl'] .recap h4, html[dir='rtl'] .res h3, html[dir='rtl'] .empty h3 {
-  font-family: 'Amiri', 'Tajawal', serif !important;
-  font-weight: 700;
-  line-height: 1.25;
-}
-html[dir='rtl'] .giant { line-height: 1.15; }
-/* le logo-signature « Milano Studio » reste en écriture manuscrite latine */
-html[dir='rtl'] .sign { font-family: 'Pinyon Script', cursive !important; }
-/* numéros et emails : sens normal même dans une page arabe */
-html[dir='rtl'] a[href^='tel:'],
-html[dir='rtl'] a[href^='mailto:'] {
-  direction: ltr;
-  unicode-bidi: isolate;
-  display: inline-block;
-}
-/* flèches : tournées vers la gauche en arabe */
-html[dir='rtl'] app-icon[name='arrow'] { display: inline-flex; transform: scaleX(-1); }
-
-/* grands titres arabes : un peu plus petits et moins gras que les titres latins */
-html[dir='rtl'] .giant { font-weight: 400 !important; font-size: clamp(2.8rem, 8.4vw, 7.6rem) !important; }
-@media (max-width: 780px) { html[dir='rtl'] .giant { font-size: 11.5vw !important; } }
-html[dir='rtl'] .footer h4 { font-size: 1.05rem !important; font-weight: 700; }
-html[dir='rtl'] .htl, html[dir='rtl'] .htr, html[dir='rtl'] .hero-top { font-size: 1.02em; }

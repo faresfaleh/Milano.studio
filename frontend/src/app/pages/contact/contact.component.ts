@@ -5,27 +5,25 @@ import { STUDIO } from '../../studio.config';
 import { RevealDirective } from '../../directives/reveal.directive';
 import { ContactTrioComponent } from '../../components/contact-trio/contact-trio.component';
 
-import { TPipe } from '../../i18n/t.pipe';
-
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [RevealDirective, ContactTrioComponent, RouterLink, TPipe],
+  imports: [RevealDirective, ContactTrioComponent, RouterLink],
   template: `
     <!-- ===== Haut de page ===== -->
     <section class="head">
       <div class="wrap">
         <div class="htop">
-          <span class="htl">{{ 'Nous joindre' | t }}</span>
+          <span class="htl">Nous joindre</span>
           <span class="line"></span>
           <span class="star">✦</span>
-          <span class="htr">{{ 'Appelez-nous' | t }}<br />{{ 'Écrivez-nous' | t }}<br />{{ 'Rendez-nous visite' | t }}</span>
+          <span class="htr">Appelez-nous<br />Écrivez-nous<br />Rendez-nous visite</span>
         </div>
-        <h1 class="giant">{{ 'Contact' | t }}</h1>
+        <h1 class="giant">Contact</h1>
         <div class="rule"><i></i><b>◆</b><i></i></div>
         <p class="lede">
-          {{ 'Une date à réserver, une question sur nos formules ou un projet sur mesure ?' | t }}
-          {{ 'L’équipe de' | t }} {{ s.name | t }}, {{ 'dirigée par' | t }} {{ s.president | t }}, {{ 'vous répond avec plaisir.' | t }}
+          Une date à réserver, une question sur nos formules ou un projet sur mesure ? L'équipe de {{ s.name }},
+          dirigée par {{ s.president }}, vous répond avec plaisir.
         </p>
       </div>
     </section>
@@ -38,19 +36,19 @@ import { TPipe } from '../../i18n/t.pipe';
     <!-- ===== Réseaux sociaux ===== -->
     <section class="band">
       <div class="wrap" appReveal>
-        <h2 class="stitle light"><span>{{ 'Suivez-nous' | t }}</span></h2>
+        <h2 class="stitle light"><span>Suivez-nous</span></h2>
         <div class="social">
           <a [href]="s.instagram" target="_blank" rel="noopener">
             <span class="si"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="9" /><circle cx="24" cy="24" r="8" /><circle cx="34" cy="14" r="1.2" /></svg></span>
-            <span class="st"><small>{{ 'Instagram' | t }}</small><b>{{ s.instagramHandle }}</b></span>
+            <span class="st"><small>Instagram</small><b>{{ s.instagramHandle }}</b></span>
           </a>
           <a [href]="s.facebook" target="_blank" rel="noopener">
             <span class="si"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M28 42V26h5l1-6h-6v-4c0-2 1-3 3-3h3V8h-5c-5 0-8 3-8 8v4h-5v6h5v16z" /></svg></span>
-            <span class="st"><small>{{ 'Facebook' | t }}</small><b>{{ s.facebookName }}</b></span>
+            <span class="st"><small>Facebook</small><b>{{ s.facebookName }}</b></span>
           </a>
           <a [href]="s.tiktok" target="_blank" rel="noopener">
             <span class="si"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 6v22a8 8 0 1 1-8-8" /><path d="M30 6c0 5 4 9 10 9" /></svg></span>
-            <span class="st"><small>{{ 'TikTok' | t }}</small><b>{{ s.tiktokHandle }}</b></span>
+            <span class="st"><small>TikTok</small><b>{{ s.tiktokHandle }}</b></span>
           </a>
         </div>
       </div>
@@ -59,13 +57,13 @@ import { TPipe } from '../../i18n/t.pipe';
     <!-- ===== Carte ===== -->
     <section class="map-sec">
       <div class="wrap" appReveal>
-        <h2 class="stitle"><span>{{ 'Le studio' | t }}</span></h2>
+        <h2 class="stitle"><span>Le studio</span></h2>
         <div class="map">
-          <iframe [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade" [title]="'Localisation de Milano Studio' | t"></iframe>
+          <iframe [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localisation de Milano Studio"></iframe>
           <div class="place">
-            <span class="kick">{{ 'Le studio' | t }}</span>
-            <strong>{{ s.name | t }} {{ s.tagline | t }}</strong>
-            <a [href]="s.maps" target="_blank" rel="noopener" class="pill pill-fill">{{ 'Itinéraire Google Maps' | t }}</a>
+            <span class="kick">Le studio</span>
+            <strong>{{ s.name }} {{ s.tagline }}</strong>
+            <a [href]="s.maps" target="_blank" rel="noopener" class="pill pill-fill">Itinéraire Google Maps</a>
           </div>
         </div>
       </div>
@@ -75,12 +73,12 @@ import { TPipe } from '../../i18n/t.pipe';
     <section class="book">
       <div class="wrap book-in" appReveal>
         <div>
-          <span class="script">{{ 'Prêt à réserver ?' | t }}</span>
-          <p>{{ 'Composez votre formule et découvrez le prix en direct.' | t }}</p>
+          <span class="script">Prêt à réserver ?</span>
+          <p>Composez votre formule et découvrez le prix en direct.</p>
         </div>
-        <a routerLink="/services" class="pill pill-fill">{{ 'Voir nos services' | t }}</a>
+        <a routerLink="/services" class="pill pill-fill">Voir nos services</a>
       </div>
-      <p class="motto">{{ 'Élégance · Émotion · Souvenirs' | t }}</p>
+      <p class="motto">Élégance &nbsp;·&nbsp; Émotion &nbsp;·&nbsp; Souvenirs</p>
     </section>
   `,
   styles: [`
@@ -100,12 +98,12 @@ import { TPipe } from '../../i18n/t.pipe';
     .htop { display: flex; align-items: flex-start; gap: 18px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .htop .line { flex: 1; height: 1px; background: var(--rose); opacity: .6; margin-top: .7em; }
     .htop .star { color: var(--rose); margin-top: -.1em; }
-    .htr { text-align: end; line-height: 1.55; letter-spacing: .22em; }
+    .htr { text-align: right; line-height: 1.55; letter-spacing: .22em; }
     .giant { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase; color: var(--wine);
       font-size: clamp(3.1rem, 10.4vw, 9.4rem); line-height: .98; letter-spacing: .02em; margin: 22px 0 6px; }
     .rule { display: flex; align-items: center; gap: 10px; width: min(46%, 520px); color: var(--rose); font-size: .6rem; margin-bottom: 26px; }
     .rule i { flex: 1; height: 1px; background: var(--rose); opacity: .7; }
-    .lede { border-inline-start: 1px solid var(--rose); padding-inline-start: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
+    .lede { border-left: 1px solid var(--rose); padding-left: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
 
     .trio-sec { padding: 54px 0 70px; }
 
@@ -137,7 +135,7 @@ import { TPipe } from '../../i18n/t.pipe';
     .map-sec { padding: 64px 0 70px; }
     .map { position: relative; border: 1px solid var(--rose); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); background: var(--card); }
     iframe { display: block; width: 100%; height: 440px; border: 0; }
-    .place { position: absolute; inset-inline-start: 22px; bottom: 22px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+    .place { position: absolute; left: 22px; bottom: 22px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
       background: rgba(255,250,246,.96); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; box-shadow: var(--shadow); max-width: calc(100% - 44px); }
     .kick { font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: var(--rose); }
     .place strong { font: 400 1.4rem 'Italiana', Georgia, serif; color: var(--wine); margin-bottom: 4px; }
@@ -156,13 +154,13 @@ import { TPipe } from '../../i18n/t.pipe';
       .htr { letter-spacing: .14em; line-height: 1.5; }
       .giant { font-size: 12vw; margin: 14px 0 4px; }
       .rule { width: 46%; margin-bottom: 18px; }
-      .lede { font-size: .95rem; padding-inline-start: 14px; }
+      .lede { font-size: .95rem; padding-left: 14px; }
       .trio-sec { padding: 40px 0 52px; }
       .stitle { letter-spacing: .24em; gap: 12px; }
       .book-in { flex-direction: column; align-items: flex-start; }
     }
     @media (max-width: 900px) { .social { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin: 0 auto; }
-      .social a { flex-direction: row; text-align: start; gap: 18px; padding: 22px 24px; }
+      .social a { flex-direction: row; text-align: left; gap: 18px; padding: 22px 24px; }
       .st { align-items: flex-start; } .st b { font-size: 1.1rem; } .si { width: 58px; height: 58px; } .si svg { width: 28px; height: 28px; } }
     @media (max-width: 560px) { iframe { height: 340px; } .place { position: static; max-width: none; border-radius: 0; border-width: 1px 0 0; box-shadow: none; } }
   `],

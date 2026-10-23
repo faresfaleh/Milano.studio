@@ -5,68 +5,67 @@ import { IconComponent } from '../../components/icon/icon.component';
 import { RevealDirective } from '../../directives/reveal.directive';
 import { ReservationFormComponent } from '../../components/reservation-form/reservation-form.component';
 
-import { TPipe } from '../../i18n/t.pipe';
-
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [ReservationFormComponent, RevealDirective, IconComponent, TPipe],
+  imports: [ReservationFormComponent, RevealDirective, IconComponent],
   template: `
     <!-- ===== Haut de page ===== -->
     <section class="head">
       <div class="wrap">
         <div class="htop">
-          <span class="htl">{{ 'Nos prestations' | t }}</span>
+          <span class="htl">Nos prestations</span>
           <span class="line"></span>
           <span class="star">✦</span>
-          <span class="htr">{{ 'Mariages' | t }}<br />{{ 'Soirées' | t }}<br />{{ 'Shootings' | t }}</span>
+          <span class="htr">Mariages<br />Soirées<br />Shootings</span>
         </div>
-        <h1 class="giant">{{ 'Nos services' | t }}</h1>
+        <h1 class="giant">Nos services</h1>
         <div class="rule"><i></i><b>◆</b><i></i></div>
         <p class="lede">
-          {{ 'Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances. Composez votre formule, découvrez le prix en direct et réservez en quelques clics.' | t }}
+          Photographie et vidéo professionnelles pour vos mariages, vos soirées et vos séances.
+          Composez votre formule, découvrez le prix en direct et réservez en quelques clics.
         </p>
       </div>
     </section>
 
     <section class="main">
       <div class="wrap">
-        <div class="parts" id="choix">
-          <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> {{ 'Mariage & soirées' | t }}</button>
-          <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> {{ 'Shooting' | t }}</button>
+        <div class="parts">
+          <button type="button" [class.on]="partie === 'mariage'" (click)="partie = 'mariage'"><app-icon name="rings" size="1.35em" /> Mariage &amp; soirées</button>
+          <button type="button" [class.on]="partie === 'shooting'" (click)="partie = 'shooting'"><app-icon name="camera" size="1.35em" /> Shooting</button>
         </div>
 
         @if (partie === 'mariage') {
           <!-- ============ MARIAGE & SOIRÉES : 1) soirée, 2) options, 3) réservation ============ -->
           <ol class="steps">
-            <li [class.done]="!!eventType" class="cur1"><span>1</span> {{ 'Choisissez votre soirée' | t }}</li>
-            <li [class.cur]="!!eventType"><span>2</span> {{ 'Composez votre formule' | t }}</li>
-            <li><span>3</span> {{ 'Réservez votre date' | t }}</li>
+            <li [class.done]="!!eventType" class="cur1"><span>1</span> Choisissez votre soirée</li>
+            <li [class.cur]="!!eventType"><span>2</span> Composez votre formule</li>
+            <li><span>3</span> Réservez votre date</li>
           </ol>
 
-          <ul class="plist types" appReveal>
+          <div class="grid grid-3 types" appReveal>
             @for (t of eventTypes; track t.id) {
-              <li>
-                <button type="button" class="type" [class.sel]="eventType === t.id" (click)="selectType(t.id)">
-                  <span class="pic"><app-icon [name]="icons[t.id]" size="1.5rem" /></span>
-                  <span class="txt"><strong class="tl">{{ t.label | t }}</strong><span class="td">{{ info[t.id] | t }}</span></span>
-                  <span class="from">{{ 'À partir de' | t }} <b>{{ pricing.base }} {{ 'DT' | t }}</b></span>
-                </button>
-              </li>
+              <button type="button" class="type" [class.sel]="eventType === t.id" (click)="selectType(t.id)">
+                <span class="tick"><app-icon name="check" size="1.5rem" /></span>
+                <span class="pic"><app-icon [name]="icons[t.id]" size="2rem" /></span>
+                <strong class="tl">{{ t.label }}</strong>
+                <span class="td">{{ info[t.id] }}</span>
+                <span class="from">À partir de <b>{{ pricing.base }} DT</b></span>
+              </button>
             }
-          </ul>
+          </div>
 
           @if (eventType) {
             <div class="conf" id="conf">
               <div class="opts">
-                <h3>{{ 'Composez votre' | t }} <em class="it">{{ 'formule' | t }}</em></h3>
-                <p class="sub">{{ 'Personnalisez la couverture de votre soirée : le prix se met à jour à chaque choix.' | t }}</p>
+                <h3>Composez votre <em class="it">formule</em></h3>
+                <p class="sub">Personnalisez la couverture de votre soirée : le prix se met à jour à chaque choix.</p>
 
                 <div class="grp">
                   <span class="gi"><app-icon name="video" size="2.1rem" /></span>
                   <div class="gh">
-                    <strong>{{ 'Caméras vidéo' | t }}</strong>
-                    <span>{{ 'La première caméra est incluse, chaque caméra en plus :' | t }} <b>+{{ pricing.camera }} {{ 'DT' | t }}</b>.</span>
+                    <strong>Caméras vidéo</strong>
+                    <span>La première caméra est incluse, chaque caméra en plus : <b>+{{ pricing.camera }} DT</b>.</span>
                   </div>
                   <div class="seg gold">
                     @for (n of cameraChoices; track n) {
@@ -79,75 +78,73 @@ import { TPipe } from '../../i18n/t.pipe';
                   <div class="grp">
                     <span class="gi"><app-icon [name]="extraIcons[x.key]" size="2.1rem" /></span>
                     <div class="gh">
-                      <strong>{{ x.name | t }} <small>+{{ x.price }} {{ 'DT' | t }}</small></strong>
-                      <span>{{ x.desc | t }}</span>
+                      <strong>{{ x.name }} <small>+{{ x.price }} DT</small></strong>
+                      <span>{{ x.desc }}</span>
                     </div>
                     <div class="seg">
-                      <button type="button" [class.on]="options[x.key] === 0" (click)="options[x.key] = 0">{{ 'Non' | t }}</button>
-                      <button type="button" [class.on]="options[x.key] === 1" (click)="options[x.key] = 1">{{ 'Oui' | t }}</button>
+                      <button type="button" [class.on]="options[x.key] === 0" (click)="options[x.key] = 0">Non</button>
+                      <button type="button" [class.on]="options[x.key] === 1" (click)="options[x.key] = 1">Oui</button>
                     </div>
                   </div>
                 }
               </div>
 
               <div class="mbar">
-                <div class="mt"><span>{{ 'Total' | t }}</span><strong>{{ total }} <small>{{ 'DT' | t }}</small></strong></div>
-                <button type="button" (click)="modal = 'soiree'">{{ 'Réserver' | t }} <app-icon name="arrow" size="1.1rem" /></button>
+                <div class="mt"><span>Total</span><strong>{{ total }} <small>DT</small></strong></div>
+                <button type="button" (click)="modal = 'soiree'">Réserver <app-icon name="arrow" size="1.1rem" /></button>
               </div>
 
               <aside class="recap">
-                <span class="kick">{{ 'Votre formule' | t }}</span>
-                <h4>{{ typeLabel | t }}</h4>
+                <span class="kick">Votre formule</span>
+                <h4>{{ typeLabel }}</h4>
 
                 <ul class="incl-list">
-                  <li><app-icon name="camera" size="1.7rem" /> {{ '1 appareil photo' | t }}</li>
-                  <li><app-icon name="video" size="1.7rem" /> {{ (options.cameras + (options.cameras > 1 ? ' caméras vidéo' : ' caméra vidéo')) | t }}</li>
-                  <li><app-icon name="sun" size="1.7rem" /> {{ included.join(' & ') | t }}</li>
+                  <li><app-icon name="camera" size="1.7rem" /> 1 appareil photo</li>
+                  <li><app-icon name="video" size="1.7rem" /> {{ options.cameras }} caméra{{ options.cameras > 1 ? 's' : '' }} vidéo</li>
+                  <li><app-icon name="sun" size="1.7rem" /> {{ included.join(' & ') }}</li>
                   @for (x of extras; track x.key) {
-                    @if (options[x.key]) { <li><app-icon [name]="extraIcons[x.key]" size="1.7rem" /> {{ x.name | t }}</li> }
+                    @if (options[x.key]) { <li><app-icon [name]="extraIcons[x.key]" size="1.7rem" /> {{ x.name }}</li> }
                   }
                 </ul>
 
                 <div class="lines">
                   @for (l of lines; track l.label) {
-                    <div><span>{{ l.label | t }}</span><b>{{ l.price }} {{ 'DT' | t }}</b></div>
+                    <div><span>{{ l.label }}</span><b>{{ l.price }} DT</b></div>
                   }
                 </div>
 
-                <div class="tot"><span>{{ 'Total' | t }}</span><strong>{{ total }} <small>{{ 'DT' | t }}</small></strong></div>
-                <p class="nt">{{ 'Prix sans transport' | t }}</p>
+                <div class="tot"><span>Total</span><strong>{{ total }} <small>DT</small></strong></div>
+                <p class="nt">Prix sans transport</p>
                 <button type="button" class="go" (click)="modal = 'soiree'">
-                  <app-icon name="calendar" size="1.4rem" /> <span>{{ 'Réserver cette formule' | t }}</span> <app-icon name="arrow" size="1.2rem" />
+                  <app-icon name="calendar" size="1.4rem" /> <span>Réserver cette formule</span> <app-icon name="arrow" size="1.2rem" />
                 </button>
-                <p class="soon"><app-icon name="shield" size="1.1rem" /><span>{{ 'Réservation confirmée par notre équipe sous peu.' | t }}</span></p>
+                <p class="soon"><app-icon name="shield" size="1.1rem" /><span>Réservation confirmée par notre équipe sous peu.</span></p>
               </aside>
             </div>
           } @else {
-            <p class="hint">{{ 'Sélectionnez un type de soirée pour composer votre formule.' | t }}</p>
+            <p class="hint">Sélectionnez un type de soirée pour composer votre formule.</p>
           }
-          <p class="note"><app-icon name="calendar" size="1.1em" /> {{ 'Un nombre maximum de soirées est accepté par jour : une date complète n’est plus disponible.' | t }}</p>
+          <p class="note"><app-icon name="calendar" size="1.1em" /> Un nombre maximum de soirées est accepté par jour : une date complète n'est plus disponible.</p>
 
           @if (modal === 'soiree') {
             <app-reservation-form [category]="'soiree'" [eventType]="eventType" [options]="options" (closed)="modal = null" />
           }
         } @else {
           <!-- ============ SHOOTING : individuel et mariage ============ -->
-          <p class="incl">{{ 'Mêmes choix et mêmes prix pour les deux types de shooting' | t }}</p>
+          <p class="incl">Mêmes choix et mêmes prix pour les deux types de shooting</p>
           <div class="grid two" appReveal>
             @for (t of shootingTypes; track t.id) {
               <div class="prop">
-                <h3 class="stl"><span>{{ t.name | t }}</span></h3>
-                <p class="sub">{{ t.desc | t }}</p>
-                <ul class="plist rows">
+                <h3><span class="pic sm"><app-icon [name]="t.id === 'mariage' ? 'rings' : 'camera'" size="1.5rem" /></span> {{ t.name }}</h3>
+                <p class="sub">{{ t.desc }}</p>
+                <div class="rows">
                   @for (o of shootingOptions; track o.id) {
-                    <li>
-                      <button type="button" class="opt" [class.sel]="shootingType === t.id && shootingOption === o.id" (click)="chooseShoot(t.id, o.id)">
-                        <span class="nm"><strong>{{ o.name | t }}</strong><small>{{ o.desc | t }}</small></span>
-                        <b>{{ o.price }} {{ 'DT' | t }}</b>
-                      </button>
-                    </li>
+                    <button type="button" class="opt" [class.sel]="shootingType === t.id && shootingOption === o.id" (click)="chooseShoot(t.id, o.id)">
+                      <span class="nm"><strong>{{ o.name }}</strong><small>{{ o.desc }}</small></span>
+                      <b>{{ o.price }} DT</b>
+                    </button>
                   }
-                </ul>
+                </div>
               </div>
             }
           </div>
@@ -178,17 +175,17 @@ import { TPipe } from '../../i18n/t.pipe';
     .htop { display: flex; align-items: flex-start; gap: 18px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
     .htop .line { flex: 1; height: 1px; background: var(--rose); opacity: .6; margin-top: .7em; }
     .htop .star { color: var(--rose); margin-top: -.1em; }
-    .htr { text-align: end; line-height: 1.55; letter-spacing: .22em; }
+    .htr { text-align: right; line-height: 1.55; letter-spacing: .22em; }
     .giant { font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif; font-weight: 400; text-transform: uppercase; color: var(--wine);
       font-size: clamp(3.1rem, 10.4vw, 9.4rem); line-height: .98; letter-spacing: .02em; margin: 22px 0 6px; }
     .rule { display: flex; align-items: center; gap: 10px; width: min(46%, 520px); color: var(--rose); font-size: .6rem; margin-bottom: 26px; }
     .rule i { flex: 1; height: 1px; background: var(--rose); opacity: .7; }
-    .lede { border-inline-start: 1px solid var(--rose); padding-inline-start: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
+    .lede { border-left: 1px solid var(--rose); padding-left: 22px; max-width: 560px; font-size: 1.2rem; line-height: 1.55; font-weight: 300; color: var(--wine); }
 
     .main { padding: 44px 0 90px; }
 
     /* choix Mariage & soirées / Shooting */
-    .parts { scroll-margin-top: 84px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 0 auto 38px; }
+    .parts { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 0 auto 38px; }
     .parts button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 28px; background: transparent; color: var(--wine);
       border: 1px solid var(--rose); border-radius: 999px; cursor: pointer; font: 400 .76rem 'Jost', sans-serif; letter-spacing: .22em; text-transform: uppercase; transition: background .25s, color .25s; }
     .parts button:hover { background: var(--cream-2); }
@@ -202,46 +199,40 @@ import { TPipe } from '../../i18n/t.pipe';
     .steps li.cur1 span, .steps li.cur span { background: var(--gold-soft); color: var(--wine); }
     .steps li.done span { background: var(--rose); border-color: var(--rose); color: #fff; }
 
-    /* ===== Même style « pilule » que l'accueil ===== */
-    .plist { list-style: none; }
-    .plist li { position: relative; }
-    .plist li + li { margin-top: 18px; }
-    .plist li::before { content: ''; position: absolute; left: 7%; right: 7%; top: -7px; height: 60%; border-radius: 999px; background: var(--rose-soft); opacity: .28; z-index: 0; }
-    .type, .opt, .grp { background: linear-gradient(180deg, #fcf3ec, #f2e1d6); border: 1px solid rgba(185,121,95,.35);
-      box-shadow: 0 10px 22px rgba(74,22,34,.10), inset 0 1px 0 rgba(255,255,255,.8); }
-    .type, .opt { position: relative; z-index: 1; width: 100%; text-align: start; cursor: pointer; font: inherit; color: var(--wine); border-radius: 999px;
-      transition: background .3s, box-shadow .3s, transform .3s, border-color .3s; }
-    .type:hover, .opt:hover, .type.sel, .opt.sel { background: var(--wine); border-color: var(--wine); box-shadow: 0 16px 30px rgba(74,22,34,.28); }
-    .type:hover, .opt:hover { transform: translateY(-3px); }
-
-    .types { margin-bottom: 38px; }
-    .type { display: flex; align-items: center; gap: 18px; padding-block: 16px 16px; padding-inline: 16px 34px; }
-    .pic { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); display: grid; place-items: center; flex: none; transition: .3s; }
-    .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-    .tl { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
-    .td { color: #6d4a4d; font-size: .95rem; line-height: 1.45; }
-    .from { flex: none; text-align: end; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-    .from b { display: block; color: var(--rose); font: 500 1.4rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; margin-top: 2px; }
-    .type:hover .tl, .type.sel .tl, .opt:hover strong, .opt.sel strong { color: var(--cream); }
-    .type:hover .td, .type.sel .td, .type:hover .from, .type.sel .from, .opt:hover small, .opt.sel small { color: #ead3c8; }
-    .type:hover .pic, .type.sel .pic { border-color: var(--rose-soft); color: var(--rose-2); }
-    .type:hover .from b, .type.sel .from b, .opt:hover b, .opt.sel b { color: var(--rose-2); }
+    /* cartes de soirée */
+    .types { margin-bottom: 34px; }
+    .type { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 36px 26px 28px; cursor: pointer;
+      font: inherit; color: var(--wine); background: var(--card); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); transition: .3s; }
+    .type:hover { transform: translateY(-4px); border-color: var(--rose); box-shadow: 0 20px 44px rgba(74,22,34,.14); }
+    .pic { width: 66px; height: 66px; border-radius: 50%; border: 1px solid var(--rose); color: var(--rose); display: grid; place-items: center; flex: none; transition: .3s; }
+    .pic.sm { width: 48px; height: 48px; display: inline-grid; }
+    .tl { font: 500 .86rem 'Jost', sans-serif; letter-spacing: .26em; text-transform: uppercase; }
+    .td { color: var(--muted); font-size: .98rem; line-height: 1.5; }
+    .from { margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line); width: 100%; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .from b { color: var(--rose); font: 400 1.4rem 'Italiana', Georgia, serif; letter-spacing: .02em; margin-left: 4px; }
+    .tick { position: absolute; top: 16px; right: 16px; color: var(--rose-2); opacity: 0; transform: scale(.6); transition: .2s; }
+    .type.sel { background: var(--wine); color: var(--cream); border-color: var(--wine); }
+    .type.sel .pic { border-color: var(--rose-2); color: var(--rose-2); }
+    .type.sel .td, .type.sel .from { color: rgba(247,235,227,.75); }
+    .type.sel .from { border-top-color: rgba(217,164,140,.35); }
+    .type.sel .from b { color: var(--rose-2); }
+    .type.sel .tick { opacity: 1; transform: none; }
 
     /* composition de la formule */
     .conf { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: start; animation: up .45s ease both; scroll-margin-top: 90px; margin-top: 8px; }
     @keyframes up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-    .opts { padding: 8px 0 6px; }
+    .opts { background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 42px 40px 26px; }
     .opts h3 { font: 400 clamp(2.2rem, 4.2vw, 3.1rem)/1.1 'Italiana', Georgia, serif; text-transform: uppercase; letter-spacing: .02em; color: var(--wine); margin-bottom: 14px; }
     .opts h3 .it { font: 400 1.2em/1 'Pinyon Script', cursive; text-transform: none; letter-spacing: 0; color: var(--rose); }
     .sub { color: var(--muted); font-size: 1.05rem; margin-bottom: 26px; }
-    .grp { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 20px; padding-block: 16px 16px; padding-inline: 22px 20px; margin-top: 16px; border-radius: 999px; }
+    .grp { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 20px; padding: 22px 0; border-top: 1px solid var(--line); }
     .gi { color: var(--rose); display: grid; place-items: center; }
     .gh { display: flex; flex-direction: column; gap: 4px; }
     .gh strong { font: 500 .84rem 'Jost', sans-serif; letter-spacing: .24em; text-transform: uppercase; color: var(--wine); }
-    .gh strong small { margin-inline-start: 12px; font: 500 1.1rem 'Jost', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
+    .gh strong small { margin-left: 12px; font: 400 1.1rem 'Italiana', Georgia, serif; letter-spacing: .02em; color: var(--rose); text-transform: none; }
     .gh span { color: var(--muted); font-size: .96rem; line-height: 1.45; max-width: 400px; }
     .gh span b { color: var(--rose); font-weight: 500; }
-    .seg { display: flex; flex: none; padding: 4px; gap: 2px; background: rgba(255,255,255,.55); border: 1px solid var(--line); border-radius: 999px; }
+    .seg { display: flex; flex: none; padding: 4px; gap: 2px; background: var(--cream-2); border: 1px solid var(--line); border-radius: 999px; }
     .seg button { min-width: 58px; padding: 10px 20px; background: transparent; border: 0; border-radius: 999px; cursor: pointer;
       font: 400 .9rem 'Jost', sans-serif; letter-spacing: .08em; color: var(--muted); transition: .18s; }
     .seg button:hover { color: var(--wine); }
@@ -263,9 +254,9 @@ import { TPipe } from '../../i18n/t.pipe';
     .lines b { color: var(--cream); font-weight: 400; white-space: nowrap; }
     .tot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 18px; border-top: 1px solid rgba(217,164,140,.3); }
     .tot span { letter-spacing: .28em; text-transform: uppercase; font-size: .78rem; color: var(--rose-2); }
-    .tot strong { font: 500 3.3rem/1 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--cream); }
+    .tot strong { font: 400 3.3rem/1 'Italiana', Georgia, serif; color: var(--cream); }
     .tot small { font-size: 1.15rem; color: var(--rose-2); letter-spacing: .06em; }
-    .nt { text-align: end; font-size: .85rem; color: rgba(247,235,227,.6); margin: 4px 0 22px; }
+    .nt { text-align: right; font-size: .85rem; color: rgba(247,235,227,.6); margin: 4px 0 22px; }
     .go { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; padding: 16px 20px; border: 1px solid var(--rose); border-radius: 999px; cursor: pointer;
       background: var(--rose); color: #fff; font: 400 .76rem 'Jost', sans-serif; letter-spacing: .22em; text-transform: uppercase; transition: background .25s, color .25s; }
     .go:hover { background: var(--cream); border-color: var(--cream); color: var(--wine); }
@@ -280,15 +271,18 @@ import { TPipe } from '../../i18n/t.pipe';
     /* shooting */
     .incl { text-align: center; color: var(--muted); margin-bottom: 30px; font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; }
     .two { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-    .prop { min-width: 0; }
-    .stl { display: flex; align-items: center; gap: 18px; font: 400 .86rem 'Jost', sans-serif; letter-spacing: .36em; text-transform: uppercase; color: var(--wine); margin-bottom: 10px; line-height: 1.5; }
-    .stl::before, .stl::after { content: ''; flex: 1; height: 1px; background: var(--rose); opacity: .6; }
-    .prop .sub { text-align: center; margin-bottom: 22px; }
-    .opt { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding-block: 16px 16px; padding-inline: 26px 30px; }
-    .nm { display: flex; flex-direction: column; min-width: 0; }
-    .nm strong { font: 500 .8rem 'Jost', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--wine); }
-    .nm small { color: #6d4a4d; font-size: .92rem; line-height: 1.35; margin-top: 2px; }
-    .opt b { font: 500 1.35rem 'Jost', 'Helvetica Neue', Arial, sans-serif; color: var(--rose); white-space: nowrap; }
+    .prop { background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 34px 30px; }
+    .prop h3 { font: 400 1.7rem/1.1 'Italiana', Georgia, serif; text-transform: uppercase; letter-spacing: .04em; color: var(--wine); margin-bottom: 8px; display: flex; align-items: center; gap: 14px; }
+    .rows { display: grid; gap: 10px; margin-top: 18px; }
+    .opt { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left;
+      padding: 15px 18px; background: var(--cream-2); border: 1px solid transparent; border-radius: 14px; cursor: pointer;
+      font: inherit; color: var(--wine); transition: .2s; }
+    .opt:hover { border-color: var(--rose); }
+    .opt.sel { border-color: var(--rose); background: var(--gold-soft); box-shadow: 0 0 0 1px var(--rose) inset; }
+    .nm { display: flex; flex-direction: column; }
+    .nm strong { font: 500 .82rem 'Jost', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+    .nm small { color: var(--muted); font-size: .9rem; line-height: 1.35; margin-top: 2px; }
+    .opt b { font: 400 1.35rem 'Italiana', Georgia, serif; color: var(--rose); white-space: nowrap; }
 
     .mbar { display: none; }
     @media (max-width: 900px) {
@@ -296,11 +290,11 @@ import { TPipe } from '../../i18n/t.pipe';
       .conf > * { min-width: 0; }
       .recap { position: static; }
       .mbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; position: sticky; z-index: 30;
-        bottom: calc(10px + env(safe-area-inset-bottom, 0px)); padding-block: 10px 10px; padding-inline: 22px 10px; border-radius: 999px; color: var(--cream);
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px)); padding: 10px 10px 10px 22px; border-radius: 999px; color: var(--cream);
         background: var(--wine-2); border: 1px solid rgba(217,164,140,.55); box-shadow: 0 14px 34px rgba(58,15,25,.4); }
       .mbar .mt { display: flex; flex-direction: column; line-height: 1.1; }
       .mbar .mt span { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: var(--rose-2); margin-bottom: 3px; }
-      .mbar .mt strong { font: 500 2rem/1 'Jost', 'Helvetica Neue', Arial, sans-serif; }
+      .mbar .mt strong { font: 400 2rem/1 'Italiana', Georgia, serif; }
       .mbar .mt small { font-size: .95rem; color: var(--rose-2); letter-spacing: .06em; }
       .mbar button { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border: 0; border-radius: 999px; cursor: pointer;
         font: 400 .72rem 'Jost', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: var(--rose); }
@@ -310,20 +304,16 @@ import { TPipe } from '../../i18n/t.pipe';
       .htr { letter-spacing: .14em; line-height: 1.5; }
       .giant { font-size: 12vw; margin: 14px 0 4px; }
       .rule { width: 46%; margin-bottom: 18px; }
-      .lede { font-size: .95rem; padding-inline-start: 14px; }
+      .lede { font-size: .95rem; padding-left: 14px; }
       .main { padding: 30px 0 70px; }
     }
     @media (max-width: 560px) {
       .steps { gap: 8px 16px; font-size: .68rem; letter-spacing: .12em; }
       .parts button { padding: 12px 20px; font-size: .7rem; letter-spacing: .16em; }
-      .opts { padding: 4px 0 0; }
-      .type { flex-wrap: wrap; gap: 6px 14px; padding-block: 14px 14px; padding-inline: 14px 18px; border-radius: 30px; }
-      .from { flex-basis: 100%; text-align: start; padding-inline-start: 66px; }
-      .from b { display: inline; margin-inline-start: 6px; }
-      .opt { border-radius: 30px; padding-block: 14px 14px; padding-inline: 22px 20px; }
+      .opts { padding: 28px 18px 6px; border-radius: 20px; }
       .opts h3 { font-size: 2.1rem; }
       .sub { font-size: 1rem; margin-bottom: 14px; }
-      .grp { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 18px 16px; border-radius: 30px; align-items: start; }
+      .grp { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 20px 0; align-items: start; }
       .gi { padding-top: 2px; }
       .gh strong { font-size: .8rem; letter-spacing: .18em; }
       .gh strong small { display: block; margin: 3px 0 0; font-size: 1.05rem; }
@@ -339,6 +329,7 @@ import { TPipe } from '../../i18n/t.pipe';
       .go { gap: 10px; padding: 16px 14px; }
       .go app-icon:first-child { display: none; }
       .go span { letter-spacing: .1em; font-size: .7rem; }
+      .prop { padding: 26px 18px; }
     }
   `],
 })
@@ -367,21 +358,7 @@ export class ServicesComponent implements OnInit {
     this.route.queryParamMap.subscribe((q) => {
       const p = q.get('partie');
       if (p === 'mariage' || p === 'shooting') this.partie = p;
-
-      // Arrivée depuis l'accueil : on saute l'en-tête et on va directement au choix / à la formule
-      const t = q.get('type');
-      if (t && EVENT_TYPES.some((e) => e.id === t)) {
-        this.partie = 'mariage';
-        this.eventType = t;
-        this.scrollTo('conf');
-      } else if (q.get('go')) {
-        this.scrollTo('choix');
-      }
     });
-  }
-
-  private scrollTo(id: string) {
-    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
   }
 
   // Affiche les options et fait défiler l'écran jusqu'à elles

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /monteur
+
+Sitemap: https://milanostudio.vercel.app/sitemap.xml
