@@ -8,10 +8,12 @@ import { CartService } from '../../services/cart.service';
 import { Availability } from '../../models/reservation.model';
 
 // Fenêtre de réservation : s'ouvre quand le client clique sur un choix de prix
+import { TPipe } from '../../i18n/t.pipe';
+
 @Component({
   selector: 'app-reservation-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TPipe],
   template: `
     <div class="backdrop" (click)="close()">
       <form class="modal" [formGroup]="form" (ngSubmit)="submit()" (click)="$event.stopPropagation()"
@@ -19,95 +21,95 @@ import { Availability } from '../../models/reservation.model';
 
         <!-- Formulaire -->
         <div class="panel">
-          <button type="button" class="x" (click)="close()" aria-label="Fermer">✕</button>
+          <button type="button" class="x" (click)="close()" [attr.aria-label]="'Fermer' | t">✕</button>
 
-          <h3 id="rtitle" class="big">Réservation</h3>
-          <p class="intro">Renseignez vos coordonnées pour finaliser votre réservation. Notre équipe vous contactera pour la confirmer.</p>
+          <h3 id="rtitle" class="big">{{ 'Réservation' | t }}</h3>
+          <p class="intro">{{ 'Renseignez vos coordonnées pour finaliser votre réservation. Notre équipe vous contactera pour la confirmer.' | t }}</p>
 
           <div class="recap">
             <div>
-              <span class="lbl">Votre formule</span>
-              <strong>{{ summary?.title }}</strong>
-              @if (summary?.detail) { <small>{{ summary?.detail }}</small> }
+              <span class="lbl">{{ 'Votre formule' | t }}</span>
+              <strong>{{ summary?.title | t }}</strong>
+              @if (summary?.detail) { <small>{{ summary?.detail | t }}</small> }
             </div>
-            <div class="price">{{ summary?.price }} <small>DT</small><span class="nt">sans transport</span></div>
+            <div class="price">{{ summary?.price }} <small>{{ 'DT' | t }}</small><span class="nt">{{ 'sans transport' | t }}</span></div>
           </div>
 
-          @if (error) { <div class="alert alert-err">{{ error }}</div> }
+          @if (error) { <div class="alert alert-err">{{ error | t }}</div> }
 
           <div class="row">
             <div class="field">
-              <label>Nom <i>*</i></label>
+              <label>{{ 'Nom' | t }} <i>*</i></label>
               <input formControlName="nom" autocomplete="family-name" />
-              @if (bad('nom')) { <p class="error">Nom obligatoire</p> }
+              @if (bad('nom')) { <p class="error">{{ 'Nom obligatoire' | t }}</p> }
             </div>
             <div class="field">
-              <label>Prénom <i>*</i></label>
+              <label>{{ 'Prénom' | t }} <i>*</i></label>
               <input formControlName="prenom" autocomplete="given-name" />
-              @if (bad('prenom')) { <p class="error">Prénom obligatoire</p> }
+              @if (bad('prenom')) { <p class="error">{{ 'Prénom obligatoire' | t }}</p> }
             </div>
           </div>
 
           @if (category === 'soiree' && eventType === 'mariage') {
             <div class="row">
               <div class="field">
-                <label>Prénom du marié (homme) <i>*</i></label>
+                <label>{{ 'Prénom du marié (homme)' | t }} <i>*</i></label>
                 <input formControlName="mariePrenomHomme" />
-                @if (bad('mariePrenomHomme')) { <p class="error">Prénom du marié obligatoire</p> }
+                @if (bad('mariePrenomHomme')) { <p class="error">{{ 'Prénom du marié obligatoire' | t }}</p> }
               </div>
               <div class="field">
-                <label>Prénom de la mariée (femme) <i>*</i></label>
+                <label>{{ 'Prénom de la mariée (femme)' | t }} <i>*</i></label>
                 <input formControlName="mariePrenomFemme" />
-                @if (bad('mariePrenomFemme')) { <p class="error">Prénom de la mariée obligatoire</p> }
+                @if (bad('mariePrenomFemme')) { <p class="error">{{ 'Prénom de la mariée obligatoire' | t }}</p> }
               </div>
             </div>
           }
 
           <div class="row">
             <div class="field">
-              <label>CIN <i>*</i></label>
-              <input formControlName="cin" inputmode="numeric" maxlength="8" placeholder="8 chiffres" />
-              @if (bad('cin')) { <p class="error">CIN invalide (8 chiffres)</p> }
+              <label>{{ 'CIN' | t }} <i>*</i></label>
+              <input formControlName="cin" inputmode="numeric" maxlength="8" [placeholder]="'8 chiffres' | t" />
+              @if (bad('cin')) { <p class="error">{{ 'CIN invalide (8 chiffres)' | t }}</p> }
             </div>
             <div class="field">
-              <label>Téléphone <i>*</i></label>
+              <label>{{ 'Téléphone' | t }} <i>*</i></label>
               <div class="phone">
                 <span>+216</span>
-                <input formControlName="telephone" inputmode="numeric" maxlength="8" placeholder="8 chiffres" autocomplete="tel-national" />
+                <input formControlName="telephone" inputmode="numeric" maxlength="8" [placeholder]="'8 chiffres' | t" autocomplete="tel-national" />
               </div>
-              @if (bad('telephone')) { <p class="error">Téléphone invalide (8 chiffres)</p> }
+              @if (bad('telephone')) { <p class="error">{{ 'Téléphone invalide (8 chiffres)' | t }}</p> }
             </div>
           </div>
 
           <div class="row">
             <div class="field">
-              <label>Date <i>*</i></label>
+              <label>{{ 'Date' | t }} <i>*</i></label>
               <input type="date" formControlName="date" [min]="today" />
-              @if (bad('date')) { <p class="error">Date obligatoire</p> }
+              @if (bad('date')) { <p class="error">{{ 'Date obligatoire' | t }}</p> }
               @if (category === 'soiree' && availability) {
                 @if (availability.available) {
-                  <p class="avail ok">✔ Date disponible ({{ availability.max - availability.count }} place(s) restante(s))</p>
+                  <p class="avail ok">{{ '✔ Date disponible' | t }} ({{ availability.max - availability.count }} {{ 'place(s) restante(s)' | t }})</p>
                 } @else {
-                  <p class="avail no">✖ Date complète, choisissez une autre date</p>
+                  <p class="avail no">{{ '✖ Date complète, choisissez une autre date' | t }}</p>
                 }
               }
             </div>
             <div class="field">
-              <label>Lieu <i>*</i></label>
-              <input formControlName="lieu" placeholder="Salle / ville" />
-              @if (bad('lieu')) { <p class="error">Lieu obligatoire</p> }
+              <label>{{ 'Lieu' | t }} <i>*</i></label>
+              <input formControlName="lieu" [placeholder]="'Salle / ville' | t" />
+              @if (bad('lieu')) { <p class="error">{{ 'Lieu obligatoire' | t }}</p> }
             </div>
           </div>
 
           <div class="field">
-            <label>Message <span class="opt">(optionnel)</span></label>
+            <label>{{ 'Message' | t }} <span class="opt">{{ '(optionnel)' | t }}</span></label>
             <textarea rows="2" formControlName="message"></textarea>
           </div>
 
           <div class="actions">
-            <button type="button" class="cancel" (click)="close()">Annuler</button>
+            <button type="button" class="cancel" (click)="close()">{{ 'Annuler' | t }}</button>
             <button class="go" [disabled]="loading || dateFull">
-              {{ loading ? 'Envoi en cours...' : 'Confirmer la réservation' }}
+              {{ (loading ? 'Envoi en cours...' : 'Confirmer la réservation') | t }}
             </button>
           </div>
         </div>
@@ -123,7 +125,7 @@ import { Availability } from '../../models/reservation.model';
     @keyframes up { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
 
     .panel { position: relative; overflow-y: auto; padding: 56px 52px 40px; color: var(--ink); }
-    .x { position: absolute; top: 14px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: 0; cursor: pointer;
+    .x { position: absolute; top: 14px; inset-inline-end: 16px; width: 36px; height: 36px; border-radius: 50%; border: 0; cursor: pointer;
       background: transparent; color: var(--ink); font-size: 1.05rem; transition: .15s; }
     .x:hover { background: var(--bg-soft); }
 
@@ -135,7 +137,7 @@ import { Availability } from '../../models/reservation.model';
     .lbl { display: block; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
     .recap strong { display: block; font-size: 1.15rem; line-height: 1.25; }
     .recap small { display: block; color: var(--muted); font-size: .88rem; margin-top: 2px; }
-    .price { text-align: right; white-space: nowrap; font: 700 1.9rem 'Playfair Display', Georgia, serif; }
+    .price { text-align: end; white-space: nowrap; font: 700 1.9rem 'Playfair Display', Georgia, serif; }
     .price small { display: inline; font-size: .9rem; margin: 0; }
     .nt { display: block; font: 600 .7rem sans-serif; color: var(--muted); letter-spacing: .03em; }
 
@@ -148,9 +150,9 @@ import { Availability } from '../../models/reservation.model';
     .field textarea { border-radius: 24px; resize: none; }
     .field input:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
     .phone { display: flex; }
-    .phone span { display: grid; place-items: center; padding: 0 14px 0 18px; background: #fff; border: 1px solid var(--ink);
-      border-right: 0; border-radius: 999px 0 0 999px; color: var(--muted); font-weight: 700; }
-    .field .phone input { border-radius: 0 999px 999px 0; padding-left: 10px; }
+    .phone span { display: grid; place-items: center; padding-block: 0 0; padding-inline: 18px 14px; background: #fff; border: 1px solid var(--ink);
+      border-inline-end: 0; border-start-start-radius: 999px; border-end-start-radius: 999px; border-start-end-radius: 0; border-end-end-radius: 0; color: var(--muted); font-weight: 700; }
+    .field .phone input { border-start-start-radius: 0; border-end-start-radius: 0; border-start-end-radius: 999px; border-end-end-radius: 999px; padding-inline-start: 10px; }
     .avail { font-size: .85rem; margin-top: 6px; font-weight: 700; }
     .avail.ok { color: var(--ok); } .avail.no { color: var(--red); }
 
@@ -170,7 +172,7 @@ import { Availability } from '../../models/reservation.model';
       .x { background: rgba(255,255,255,.85); }
       .row { grid-template-columns: 1fr; gap: 0; }
       .recap { flex-direction: column; align-items: flex-start; }
-      .price { text-align: left; }
+      .price { text-align: start; }
       .actions { justify-content: space-between; }
     }
   `],

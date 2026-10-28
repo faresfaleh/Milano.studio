@@ -193,14 +193,13 @@ router.post('/', async (req, res) => {
     }
 
     const created = await Reservation.create(data);
-    // Email au studio + SMS au client. On attend la fin de l'envoi avant de répondre :
-    // sur Vercel (serverless), la fonction est arrêtée dès la réponse, donc un envoi « sans attendre » n'aboutirait jamais.
-    // Une erreur ou un délai de 8 s n'empêche jamais la réservation.
-    const safely = (job) => Promise.race([
-      Promise.resolve().then(() => job).catch((e) => console.error('Notification :', e.message)),
-      new Promise((resolve) => setTimeout(resolve, 8000)),
+    // IMPORTANT sur Vercel (serverless) : la fonction est gelée dès que la réponse part.
+    // Il faut donc ATTENDRE l'envoi de l'email avant de répondre, sinon il n'est jamais envoyé.
+    // Ces fonctions ne lèvent jamais d'erreur : la réservation n'est jamais bloquée.
+    await Promise.allSettled([
+      sendReservationEmail(created), // email au studio (faresfaleh47@gmail.com)
+      sendReceivedSms(created),      // SMS au client : « réservation bien reçue »
     ]);
-    await Promise.all([safely(sendReservationEmail(created)), safely(sendReceivedSms(created))]);
     res.status(201).json({ message: 'Réservation enregistrée', id: created._id });
   } catch (err) {
     console.error(err);
